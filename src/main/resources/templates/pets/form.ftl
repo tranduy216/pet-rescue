@@ -7,6 +7,7 @@
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">${error}</div>
         </#if>
         <form method="POST" action="/pets/<#if pet??>${pet.id}/edit<#else>new</#if>" enctype="multipart/form-data" class="space-y-4">
+            <#if pet??><input type="hidden" name="version" value="${pet.version}"></#if>
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_name']!'Name'} *</label>

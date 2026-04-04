@@ -14,6 +14,7 @@ object Pets : IntIdTable("m_tbl_pets") {
     val youtubeUrl = varchar("youtube_url", 500).nullable()
     val status = varchar("status", 50).default("AVAILABLE")
     val createdBy = integer("created_by").references(Users.id)
+    val version = integer("version").default(0)
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
     val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
 }

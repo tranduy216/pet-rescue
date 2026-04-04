@@ -49,16 +49,24 @@ fun Route.adoptionRoutes() {
                 return@post
             }
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@post
+            val pet = petService.getById(petId) ?: return@post
             val params = call.receiveParameters()
-            val adoption = service.create(
-                Adoption(
-                    petId = petId,
-                    userId = session.userId,
-                    phone = params["phone"] ?: "",
-                    facebookLink = params["facebookLink"] ?: "",
-                    notes = params["notes"]
+            val adoption = try {
+                service.create(
+                    Adoption(
+                        petId = petId,
+                        userId = session.userId,
+                        phone = params["phone"] ?: "",
+                        facebookLink = params["facebookLink"] ?: "",
+                        notes = params["notes"]
+                    )
                 )
-            )
+            } catch (e: IllegalStateException) {
+                val msg = call.messages()
+                val error = msg[e.message] ?: e.message
+                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                return@post
+            }
             AuditLogService.log("CREATE", "Adoption", adoption.id, session.userId, session.username, "petId=$petId")
             call.respondRedirect("/adoptions")
         }

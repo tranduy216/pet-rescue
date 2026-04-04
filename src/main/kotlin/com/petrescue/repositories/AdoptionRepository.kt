@@ -42,13 +42,23 @@ class AdoptionRepository {
     }
 
     fun updateStatus(id: Int, status: String, byUserId: Int, reason: String? = null): Boolean = transaction {
-        Adoptions.update({ Adoptions.id eq id }) {
+        val current = Adoptions.select { Adoptions.id eq id }.singleOrNull() ?: return@transaction false
+        val currentVersion = current[Adoptions.version]
+        Adoptions.update({ (Adoptions.id eq id) and (Adoptions.version eq currentVersion) }) {
             it[Adoptions.status] = status
             if (status == "CONFIRMED") it[approvedBy] = byUserId
             if (status == "CANCELLED") it[cancelledBy] = byUserId
             it[Adoptions.reason] = reason
+            it[Adoptions.version] = currentVersion + 1
             it[updatedAt] = LocalDateTime.now()
         } > 0
+    }
+
+    fun hasActiveAdoption(petId: Int): Boolean = transaction {
+        Adoptions.select {
+            (Adoptions.petId eq petId) and
+                (Adoptions.status inList listOf("REGISTERED", "CONFIRMED"))
+        }.count() > 0
     }
 
     private fun ResultRow.toAdoption() = Adoption(
@@ -62,6 +72,7 @@ class AdoptionRepository {
         phone = this[Adoptions.phone],
         facebookLink = this[Adoptions.facebookLink],
         notes = this[Adoptions.notes],
+        version = this[Adoptions.version],
         createdAt = this[Adoptions.createdAt],
         updatedAt = this[Adoptions.updatedAt],
         petName = runCatching { this[Pets.name] }.getOrNull()

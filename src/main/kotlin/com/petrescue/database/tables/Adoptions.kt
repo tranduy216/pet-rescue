@@ -14,6 +14,7 @@ object Adoptions : IntIdTable("t_tbl_adoptions") {
     val phone = varchar("phone", 50)
     val facebookLink = varchar("facebook_link", 500)
     val notes = text("notes").nullable()
+    val version = integer("version").default(0)
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
     val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
 }
