@@ -236,22 +236,6 @@
 </section>
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
-<#-- LATEST BLOG NEWS                                                -->
-<#-- ═══════════════════════════════════════════════════════════════ -->
-<#if blogs?has_content>
-<section class="px-2 sm:px-4 mb-8 sm:mb-12">
-    <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-4 sm:mb-6">📝 ${(lang!'vi') == 'en'?then('Latest Posts', 'Tâm Tình Mới Nhất')}</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        <#list blogs as blog>
-        <div class="bg-white rounded-xl shadow-md p-5 sm:p-6 hover:shadow-lg transition-shadow flex flex-col">
-            <h3 class="text-base sm:text-lg font-bold text-green-800 mb-2">${blog.title}</h3>
-            <p class="text-gray-600 text-xs sm:text-sm line-clamp-3 flex-1">${blog.excerpt}</p>
-            <a href="/blog/${blog.id}" class="mt-3 sm:mt-4 inline-block text-green-600 hover:text-green-800 text-sm font-semibold">Đọc thêm →</a>
-        </div>
-        </#list>
-    </div>
-</section>
-</#if>
 
 <#-- Slider JS with touch support -->
 <script>
