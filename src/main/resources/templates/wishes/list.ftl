@@ -33,7 +33,7 @@
                             <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">${msg['wish_status_pending']!'Chờ Duyệt'}</span>
                         </#if>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">${wish.createdAt?string('yyyy-MM-dd')}</td>
+                    <td class="px-4 py-3 text-sm text-gray-500">${wish.createdAt?string?substring(0, 10)}</td>
                     <td class="px-4 py-3 text-sm">
                         <div class="flex flex-wrap gap-2">
                             <#if wish.status != "APPROVED" && wish.status != "DELETED">
