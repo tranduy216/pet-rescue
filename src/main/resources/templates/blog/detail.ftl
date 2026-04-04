@@ -11,7 +11,7 @@
         </div>
         <div class="flex items-center space-x-4 text-sm text-gray-500 mb-6">
             <span>📅 ${blog.createdAt?string('yyyy-MM-dd')}</span>
-            <span>👁 ${blog.viewCount}</span>
+            <span>👁 ${blog.viewCount} ${msg['blog_views']!'views'}</span>
             <#if blog.tags??><span class="text-green-600">🏷 ${blog.tags}</span></#if>
         </div>
         <div class="prose max-w-none text-gray-700 leading-relaxed whitespace-pre-line">${blog.content}</div>

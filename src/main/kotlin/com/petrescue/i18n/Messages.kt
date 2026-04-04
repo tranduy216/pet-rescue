@@ -153,6 +153,7 @@ object Messages {
         "pet_request_adoption" to "🏠 Yêu Cầu Nhận Nuôi",
         "pet_empty" to "Không có thú cưng nào.",
         "pet_delete_confirm" to "Xóa thú cưng này?",
+        "pet_detail_about" to "Giới Thiệu Về",
 
         // Blog
         "blog_form_new" to "Bài Viết Mới",
@@ -443,6 +444,7 @@ object Messages {
         "pet_request_adoption" to "🏠 Request Adoption",
         "pet_empty" to "No pets found.",
         "pet_delete_confirm" to "Delete this pet?",
+        "pet_detail_about" to "About",
 
         // Blog
         "blog_form_new" to "New Post",

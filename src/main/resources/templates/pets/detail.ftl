@@ -38,7 +38,7 @@
 
             <#if pet.description??>
             <div class="mb-6">
-                <h2 class="text-lg font-semibold text-green-700 mb-2">${pet.name}</h2>
+                <h2 class="text-lg font-semibold text-green-700 mb-2">${msg['pet_detail_about']!'About'} ${pet.name}</h2>
                 <p class="text-gray-700">${pet.description}</p>
             </div>
             </#if>
