@@ -8,13 +8,13 @@
 
     <div class="bg-white rounded-xl shadow-md p-4 mb-6">
         <form method="get" action="/rescues" class="flex flex-wrap gap-3">
-            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
                 <option value="NEW" <#if (status)! == 'NEW'>selected</#if>>${msg['rescue_status_new']!'New'}</option>
                 <option value="RECEIVED" <#if (status)! == 'RECEIVED'>selected</#if>>${msg['rescue_status_received']!'Received'}</option>
                 <option value="PROCESSING" <#if (status)! == 'PROCESSING'>selected</#if>>${msg['rescue_status_processing']!'Processing'}</option>
                 <option value="SUCCESS" <#if (status)! == 'SUCCESS'>selected</#if>>${msg['rescue_status_success']!'Success'}</option>
-                <option value="FAILED" <#if (status)! == 'FAILED'>selected</#if>>${msg['rescue_status_failed']!'Failed'}</option>
+                <option value="CANCELLED" <#if (status)! == 'CANCELLED'>selected</#if>>${msg['rescue_status_cancelled']!'Cancelled'}</option>
             </select>
         </form>
     </div>
@@ -32,13 +32,14 @@
                     <#if r.status == 'SUCCESS'>bg-green-100 text-green-800
                     <#elseif r.status == 'PROCESSING'>bg-blue-100 text-blue-800
                     <#elseif r.status == 'RECEIVED'>bg-indigo-100 text-indigo-800
-                    <#elseif r.status == 'FAILED'>bg-red-100 text-red-800
+                    <#elseif r.status == 'CANCELLED'>bg-red-100 text-red-800
                     <#else>bg-yellow-100 text-yellow-800</#if>">
                     <#if r.status == 'NEW'>${msg['rescue_status_new']!'New'}
                     <#elseif r.status == 'RECEIVED'>${msg['rescue_status_received']!'Received'}
                     <#elseif r.status == 'PROCESSING'>${msg['rescue_status_processing']!'Processing'}
                     <#elseif r.status == 'SUCCESS'>${msg['rescue_status_success']!'Success'}
-                    <#else>${msg['rescue_status_failed']!'Failed'}</#if>
+                    <#elseif r.status == 'CANCELLED'>${msg['rescue_status_cancelled']!'Cancelled'}
+                    <#else>${r.status}</#if>
                 </span>
             </div>
             <div class="flex justify-between items-center">
@@ -51,16 +52,10 @@
                             <option value="RECEIVED" <#if r.status == 'RECEIVED'>selected</#if>>${msg['rescue_status_received']!'Received'}</option>
                             <option value="PROCESSING" <#if r.status == 'PROCESSING'>selected</#if>>${msg['rescue_status_processing']!'Processing'}</option>
                             <option value="SUCCESS" <#if r.status == 'SUCCESS'>selected</#if>>${msg['rescue_status_success']!'Success'}</option>
-                            <option value="FAILED" <#if r.status == 'FAILED'>selected</#if>>${msg['rescue_status_failed']!'Failed'}</option>
+                            <option value="CANCELLED" <#if r.status == 'CANCELLED'>selected</#if>>${msg['rescue_status_cancelled']!'Cancelled'}</option>
                         </select>
                         <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">${msg['btn_update']!'Update'}</button>
                     </form>
-                    <#if session.role == "ADMIN">
-                    <form method="POST" action="/rescues/${r.id}/delete" class="inline">
-                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm"
-                            onclick="return confirm('${msg['rescue_delete_confirm']!'Delete this rescue report?'}')">${msg['btn_delete']!'Delete'}</button>
-                    </form>
-                    </#if>
                 </div>
                 </#if>
             </div>

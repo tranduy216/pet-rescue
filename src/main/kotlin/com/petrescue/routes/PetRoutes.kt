@@ -5,6 +5,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.PetService
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -118,6 +119,7 @@ fun Route.petRoutes() {
             mediaFiles.forEach { url ->
                 service.addMedia(PetMedia(petId = pet.id, fileUrl = url, mediaType = "IMAGE"))
             }
+            AuditLogService.log("CREATE", "Pet", pet.id, session.userId, session.username)
             call.respondRedirect("/pets/${pet.id}")
         }
 
@@ -178,6 +180,7 @@ fun Route.petRoutes() {
             mediaFiles.forEach { url ->
                 service.addMedia(PetMedia(petId = id, fileUrl = url, mediaType = "IMAGE"))
             }
+            AuditLogService.log("UPDATE", "Pet", id, session?.userId, session?.username)
             call.respondRedirect("/pets/$id")
         }
 

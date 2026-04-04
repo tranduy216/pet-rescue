@@ -7,7 +7,7 @@
 
     <div class="bg-white rounded-xl shadow-md p-4 mb-6">
         <form method="get" action="/adoptions" class="flex flex-wrap gap-3">
-            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
                 <option value="REGISTERED" <#if (status)! == 'REGISTERED'>selected</#if>>${msg['adoption_status_registered']!'Registered'}</option>
                 <option value="CONFIRMED" <#if (status)! == 'CONFIRMED'>selected</#if>>${msg['adoption_status_confirmed']!'Confirmed'}</option>

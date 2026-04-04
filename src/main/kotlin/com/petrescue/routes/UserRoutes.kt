@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -17,8 +18,9 @@ fun Route.userRoutes() {
     route("/users") {
         get {
             val session = call.sessions.get<UserSession>()
-            val users = service.getAll()
-            call.respond(FreeMarkerContent("users/list.ftl", mapOf("users" to users, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            val role = call.request.queryParameters["role"]
+            val users = service.getAll(role)
+            call.respond(FreeMarkerContent("users/list.ftl", mapOf("users" to users, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "role" to role), ""))
         }
 
         get("/new") {
@@ -37,6 +39,7 @@ fun Route.userRoutes() {
             val user = service.register(username, email, password, fullName)
             if (user != null) {
                 service.update(user.copy(role = role))
+                AuditLogService.log("CREATE", "User", user.id, session?.userId, session?.username, "username=$username")
                 call.respondRedirect("/users")
             } else {
                 call.respond(FreeMarkerContent("users/form.ftl", mapOf("user" to null, "session" to session, "error" to "Username or email already exists", "msg" to call.messages(), "lang" to call.lang()), ""))
@@ -65,6 +68,7 @@ fun Route.userRoutes() {
                     active = params["isActive"] == "true"
                 )
             )
+            AuditLogService.log("UPDATE", "User", id, session?.userId, session?.username)
             call.respondRedirect("/users")
         }
 

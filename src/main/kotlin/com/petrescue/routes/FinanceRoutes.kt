@@ -4,6 +4,7 @@ import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Finance
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.FinanceService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -64,7 +65,7 @@ fun Route.financeRoutes() {
         post("/new") {
             val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
-            service.create(
+            val finance = service.create(
                 Finance(
                     type = params["type"] ?: "INCOME",
                     amount = params["amount"]?.toBigDecimalOrNull() ?: BigDecimal.ZERO,
@@ -74,6 +75,7 @@ fun Route.financeRoutes() {
                     date = params["date"]?.let { LocalDate.parse(it) } ?: LocalDate.now()
                 )
             )
+            AuditLogService.log("CREATE", "Finance", finance.id, session.userId, session.username)
             call.respondRedirect("/finances")
         }
 

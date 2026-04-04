@@ -5,6 +5,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Adoption
 import com.petrescue.services.AdoptionService
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.PetService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -49,7 +50,7 @@ fun Route.adoptionRoutes() {
             }
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
-            service.create(
+            val adoption = service.create(
                 Adoption(
                     petId = petId,
                     userId = session.userId,
@@ -58,6 +59,7 @@ fun Route.adoptionRoutes() {
                     notes = params["notes"]
                 )
             )
+            AuditLogService.log("CREATE", "Adoption", adoption.id, session.userId, session.username, "petId=$petId")
             call.respondRedirect("/adoptions")
         }
 
@@ -66,6 +68,7 @@ fun Route.adoptionRoutes() {
             if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.confirm(id, session.userId)
+            AuditLogService.log("UPDATE", "Adoption", id, session.userId, session.username, "status=CONFIRMED")
             call.respondRedirect("/adoptions")
         }
 
@@ -74,6 +77,7 @@ fun Route.adoptionRoutes() {
             if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.finish(id, session.userId)
+            AuditLogService.log("UPDATE", "Adoption", id, session.userId, session.username, "status=FINISHED")
             call.respondRedirect("/adoptions")
         }
 
@@ -83,6 +87,7 @@ fun Route.adoptionRoutes() {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
             service.cancel(id, session.userId, params["reason"])
+            AuditLogService.log("UPDATE", "Adoption", id, session.userId, session.username, "status=CANCELLED")
             call.respondRedirect("/adoptions")
         }
     }

@@ -122,5 +122,6 @@ fun Application.module() {
         configRoutes()
         profileRoutes()
         wishRoutes()
+        auditRoutes()
     }
 }

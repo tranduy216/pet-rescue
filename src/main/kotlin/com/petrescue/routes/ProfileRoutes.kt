@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -78,6 +79,7 @@ fun Route.profileRoutes() {
             fullName = newFullName ?: existing.fullName
         )
         userService.update(updated)
+        AuditLogService.log("UPDATE", "User", session.userId, session.userId, session.username, "profile update")
 
         call.respond(
             FreeMarkerContent(

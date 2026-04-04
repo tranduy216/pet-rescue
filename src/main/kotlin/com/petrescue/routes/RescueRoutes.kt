@@ -4,6 +4,7 @@ import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Rescue
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.RescueService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -31,7 +32,7 @@ fun Route.rescueRoutes() {
         post("/new") {
             val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
             val params = call.receiveParameters()
-            service.create(
+            val rescue = service.create(
                 Rescue(
                     userId = session.userId,
                     location = params["location"] ?: "",
@@ -39,6 +40,7 @@ fun Route.rescueRoutes() {
                     contactInfo = params["contactInfo"] ?: ""
                 )
             )
+            AuditLogService.log("CREATE", "Rescue", rescue.id, session.userId, session.username)
             call.respondRedirect("/rescues")
         }
 
@@ -47,7 +49,9 @@ fun Route.rescueRoutes() {
             if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/rescues"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
-            service.updateStatus(id, params["status"] ?: "NEW")
+            val newStatus = params["status"] ?: "NEW"
+            service.updateStatus(id, newStatus)
+            AuditLogService.log("UPDATE", "Rescue", id, session.userId, session.username, "status=$newStatus")
             call.respondRedirect("/rescues")
         }
 
