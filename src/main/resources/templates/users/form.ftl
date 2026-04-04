@@ -46,8 +46,8 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Active</label>
                 <select name="isActive" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option value="true" <#if user.isActive>selected</#if>>Active</option>
-                    <option value="false" <#if !user.isActive>selected</#if>>Inactive</option>
+                    <option value="true" <#if user.active>selected</#if>>Active</option>
+                    <option value="false" <#if !user.active>selected</#if>>Inactive</option>
                 </select>
             </div>
             </#if>

@@ -14,7 +14,7 @@
                 <h2 class="text-xl font-bold text-green-800">
                     <a href="/blog/${blog.id}" class="hover:text-green-600">${blog.title}</a>
                 </h2>
-                <#if !blog.isPublished>
+                <#if !blog.published>
                 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Draft</span>
                 </#if>
             </div>

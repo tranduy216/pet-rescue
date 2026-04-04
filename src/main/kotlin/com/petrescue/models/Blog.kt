@@ -8,7 +8,7 @@ data class Blog(
     val content: String,
     val authorId: Int,
     val tags: String? = null,
-    val isPublished: Boolean = false,
+    val published: Boolean = false,
     val viewCount: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),

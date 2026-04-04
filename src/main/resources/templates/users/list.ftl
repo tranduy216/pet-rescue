@@ -32,8 +32,8 @@
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        <span class="px-2 py-1 rounded text-xs <#if user.isActive>bg-green-100 text-green-800<#else>bg-red-100 text-red-800</#if>">
-                            <#if user.isActive>Active<#else>Inactive</#if>
+                        <span class="px-2 py-1 rounded text-xs <#if user.active>bg-green-100 text-green-800<#else>bg-red-100 text-red-800</#if>">
+                            <#if user.active>Active<#else>Inactive</#if>
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm space-x-2">

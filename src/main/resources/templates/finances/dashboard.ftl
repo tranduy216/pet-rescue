@@ -15,9 +15,9 @@
             <h3 class="text-sm font-medium text-red-600">Total Expense</h3>
             <p class="text-3xl font-bold text-red-800 mt-2">$${totalExpense}</p>
         </div>
-        <div class="<#if balance?number >= 0>bg-blue-100<#else>bg-orange-100</#if> rounded-xl p-6">
-            <h3 class="text-sm font-medium <#if balance?number >= 0>text-blue-600<#else>text-orange-600</#if>">Balance</h3>
-            <p class="text-3xl font-bold <#if balance?number >= 0>text-blue-800<#else>text-orange-800</#if> mt-2">$${balance}</p>
+        <div class="<#if balance gte 0>bg-blue-100<#else>bg-orange-100</#if> rounded-xl p-6">
+            <h3 class="text-sm font-medium <#if balance gte 0>text-blue-600<#else>text-orange-600</#if>">Balance</h3>
+            <p class="text-3xl font-bold <#if balance gte 0>text-blue-800<#else>text-orange-800</#if> mt-2">$${balanceStr}</p>
         </div>
     </div>
 

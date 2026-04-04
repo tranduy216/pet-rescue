@@ -27,7 +27,7 @@ class BlogRepository {
             it[content] = blog.content
             it[authorId] = blog.authorId
             it[tags] = blog.tags
-            it[isPublished] = blog.isPublished
+            it[isPublished] = blog.published
         } get Blogs.id
         blog.copy(id = id.value)
     }
@@ -37,7 +37,7 @@ class BlogRepository {
             it[title] = blog.title
             it[content] = blog.content
             it[tags] = blog.tags
-            it[isPublished] = blog.isPublished
+            it[isPublished] = blog.published
             it[updatedAt] = LocalDateTime.now()
         } > 0
     }
@@ -60,7 +60,7 @@ class BlogRepository {
         content = this[Blogs.content],
         authorId = this[Blogs.authorId],
         tags = this[Blogs.tags],
-        isPublished = this[Blogs.isPublished],
+        published = this[Blogs.isPublished],
         viewCount = this[Blogs.viewCount],
         createdAt = this[Blogs.createdAt],
         updatedAt = this[Blogs.updatedAt]

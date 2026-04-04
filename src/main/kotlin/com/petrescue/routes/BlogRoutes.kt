@@ -37,7 +37,7 @@ fun Route.blogRoutes() {
                     content = params["content"] ?: "",
                     authorId = session.userId,
                     tags = params["tags"],
-                    isPublished = params["isPublished"] == "true"
+                    published = params["isPublished"] == "true"
                 )
             )
             call.respondRedirect("/blog")
@@ -70,7 +70,7 @@ fun Route.blogRoutes() {
                     title = params["title"] ?: existing.title,
                     content = params["content"] ?: existing.content,
                     tags = params["tags"],
-                    isPublished = params["isPublished"] == "true"
+                    published = params["isPublished"] == "true"
                 )
             )
             call.respondRedirect("/blog/$id")

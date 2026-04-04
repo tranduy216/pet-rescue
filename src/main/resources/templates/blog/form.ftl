@@ -24,7 +24,7 @@
             </div>
             <div class="flex items-center space-x-3">
                 <input type="checkbox" name="isPublished" value="true" id="published"
-                    <#if (blog.isPublished)!false>checked</#if>
+                    <#if (blog.published)!false>checked</#if>
                     class="rounded border-gray-300 text-green-600">
                 <label for="published" class="text-sm font-medium text-gray-700">Publish immediately</label>
             </div>

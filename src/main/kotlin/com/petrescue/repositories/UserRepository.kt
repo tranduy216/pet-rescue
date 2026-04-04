@@ -34,7 +34,7 @@ class UserRepository {
             it[phone] = user.phone
             it[facebookLink] = user.facebookLink
             it[role] = user.role
-            it[isActive] = user.isActive
+            it[isActive] = user.active
             it[avatarUrl] = user.avatarUrl
         } get Users.id
         user.copy(id = id.value)
@@ -47,7 +47,7 @@ class UserRepository {
             it[phone] = user.phone
             it[facebookLink] = user.facebookLink
             it[role] = user.role
-            it[isActive] = user.isActive
+            it[isActive] = user.active
             it[avatarUrl] = user.avatarUrl
             it[updatedAt] = LocalDateTime.now()
         } > 0
@@ -73,7 +73,7 @@ class UserRepository {
         phone = this[Users.phone],
         facebookLink = this[Users.facebookLink],
         role = this[Users.role],
-        isActive = this[Users.isActive],
+        active = this[Users.isActive],
         avatarUrl = this[Users.avatarUrl],
         createdAt = this[Users.createdAt],
         updatedAt = this[Users.updatedAt]

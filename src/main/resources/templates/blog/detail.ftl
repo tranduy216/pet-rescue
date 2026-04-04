@@ -5,7 +5,7 @@
     <div class="bg-white rounded-xl shadow-md p-8">
         <div class="flex justify-between items-start mb-4">
             <h1 class="text-3xl font-bold text-green-800">${blog.title}</h1>
-            <#if !blog.isPublished>
+            <#if !blog.published>
             <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">Draft</span>
             </#if>
         </div>

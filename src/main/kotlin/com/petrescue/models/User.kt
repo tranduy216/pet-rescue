@@ -11,7 +11,7 @@ data class User(
     val phone: String? = null,
     val facebookLink: String? = null,
     val role: String = "USER",
-    val isActive: Boolean = true,
+    val active: Boolean = true,
     val avatarUrl: String? = null,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now()

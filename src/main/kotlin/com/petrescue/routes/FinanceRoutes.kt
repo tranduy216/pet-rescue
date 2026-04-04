@@ -43,9 +43,10 @@ fun Route.financeRoutes() {
                     "finances/dashboard.ftl", mapOf(
                         "session" to session,
                         "finances" to finances,
-                        "totalIncome" to totalIncome,
-                        "totalExpense" to totalExpense,
-                        "balance" to balance,
+                        "totalIncome" to totalIncome.toPlainString(),
+                        "totalExpense" to totalExpense.toPlainString(),
+                        "balance" to balance.toDouble(),
+                        "balanceStr" to balance.toPlainString(),
                         "chartData" to chartData.toString()
                     ), ""
                 )

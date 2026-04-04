@@ -25,7 +25,7 @@ class UserService {
 
     fun login(username: String, password: String): User? {
         val user = repository.findByUsername(username) ?: return null
-        if (!user.isActive) return null
+        if (!user.active) return null
         val result = BCrypt.verifyer().verify(password.toCharArray(), user.passwordHash)
         return if (result.verified) user else null
     }

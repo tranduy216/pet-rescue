@@ -68,7 +68,7 @@ fun Route.userRoutes() {
                     phone = params["phone"],
                     facebookLink = params["facebookLink"],
                     role = params["role"] ?: existing.role,
-                    isActive = params["isActive"] == "true"
+                    active = params["isActive"] == "true"
                 )
             )
             call.respondRedirect("/users")
