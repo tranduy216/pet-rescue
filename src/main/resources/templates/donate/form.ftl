@@ -84,7 +84,7 @@
         btn.classList.add('opacity-50', 'cursor-not-allowed');
         btn.classList.remove('hover:bg-green-700');
         var remaining = seconds;
-        btn.textContent = '\u23F3 ' + remaining + 's';
+        btn.textContent = 'Bạn có thể gửi lời chúc mới sau ' + remaining + 's';
         var timer = setInterval(function () {
             remaining--;
             if (remaining <= 0) {
@@ -94,7 +94,7 @@
                 btn.classList.add('hover:bg-green-700');
                 btn.textContent = originalText;
             } else {
-                btn.textContent = '\u23F3 ' + remaining + 's';
+                btn.textContent = 'Bạn có thể gửi lời chúc mới sau ' + remaining + 's';
             }
         }, 1000);
     }
