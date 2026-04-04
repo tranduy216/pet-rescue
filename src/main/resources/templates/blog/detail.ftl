@@ -10,7 +10,7 @@
             </#if>
         </div>
         <div class="flex items-center space-x-4 text-sm text-gray-500 mb-6">
-            <span>📅 ${blog.createdAt?string('yyyy-MM-dd')}</span>
+            <span>📅 ${blog.createdAt?string?substring(0, 10)}</span>
             <span>👁 ${blog.viewCount} ${msg['blog_views']!'views'}</span>
             <#if blog.tags??><span class="text-green-600">🏷 ${blog.tags}</span></#if>
         </div>

@@ -33,7 +33,11 @@ class PetRepository {
         if (!status.isNullOrBlank()) {
             query = query.andWhere { Pets.status eq status }
         }
-        query.map { it.toPet() }
+        query.map { row ->
+            val pet = row.toPet()
+            val media = PetMedia.select { PetMedia.petId eq pet.id }.map { it.toMedia() }
+            pet.copy(mediaList = media)
+        }
     }
 
     fun findById(id: Int): Pet? = transaction {

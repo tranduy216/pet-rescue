@@ -7,7 +7,7 @@ data class Rescue(
     val userId: Int? = null,
     val location: String,
     val description: String,
-    val status: String = "REPORTED",
+    val status: String = "NEW",
     val contactInfo: String,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),

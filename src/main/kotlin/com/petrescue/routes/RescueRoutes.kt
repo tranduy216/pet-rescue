@@ -23,16 +23,16 @@ fun Route.rescueRoutes() {
         }
 
         get("/new") {
-            val session = call.sessions.get<UserSession>()
+            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
             call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/new") {
-            val session = call.sessions.get<UserSession>()
+            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
             val params = call.receiveParameters()
             service.create(
                 Rescue(
-                    userId = session?.userId,
+                    userId = session.userId,
                     location = params["location"] ?: "",
                     description = params["description"] ?: "",
                     contactInfo = params["contactInfo"] ?: ""
@@ -42,15 +42,17 @@ fun Route.rescueRoutes() {
         }
 
         post("/{id}/status") {
-            val session = call.sessions.get<UserSession>()
+            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
+            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/rescues"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
-            service.updateStatus(id, params["status"] ?: "REPORTED")
+            service.updateStatus(id, params["status"] ?: "NEW")
             call.respondRedirect("/rescues")
         }
 
         post("/{id}/delete") {
-            val session = call.sessions.get<UserSession>()
+            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
+            if (session.role != "ADMIN") { call.respondRedirect("/rescues"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
             call.respondRedirect("/rescues")

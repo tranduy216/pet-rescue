@@ -8,7 +8,7 @@ object Rescues : IntIdTable("t_tbl_rescues") {
     val userId = integer("user_id").references(Users.id).nullable()
     val location = varchar("location", 500)
     val description = text("description")
-    val status = varchar("status", 50).default("REPORTED")
+    val status = varchar("status", 50).default("NEW")
     val contactInfo = varchar("contact_info", 500)
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
     val updatedAt = datetime("updated_at").clientDefault { LocalDateTime.now() }
