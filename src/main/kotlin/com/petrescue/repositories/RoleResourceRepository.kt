@@ -101,6 +101,18 @@ class RoleResourceRepository {
             RoleResource("ADMIN", "/pets/*/media/*/delete", "POST"),
             RoleResource("VOLUNTEER", "/pets/*/media/*/delete", "POST"),
 
+            // /config – ADMIN only
+            RoleResource("ADMIN", "/config", "GET"),
+            RoleResource("ADMIN", "/config", "POST"),
+
+            // /profile – any authenticated user
+            RoleResource("USER", "/profile", "GET"),
+            RoleResource("USER", "/profile", "POST"),
+            RoleResource("VOLUNTEER", "/profile", "GET"),
+            RoleResource("VOLUNTEER", "/profile", "POST"),
+            RoleResource("ADMIN", "/profile", "GET"),
+            RoleResource("ADMIN", "/profile", "POST"),
+
             // /blog write operations – ADMIN and VOLUNTEER
             RoleResource("ADMIN", "/blog/new", "GET"),
             RoleResource("ADMIN", "/blog/new", "POST"),

@@ -46,6 +46,7 @@ class UserService {
     }
 
     fun getById(id: Int) = repository.findById(id)
+    fun findByEmail(email: String) = repository.findByEmail(email)
     fun getAll() = repository.findAll()
     fun update(user: User) = repository.update(user)
     fun delete(id: Int) = repository.delete(id)

@@ -9,10 +9,10 @@
     <div class="relative z-10 flex flex-col items-center justify-center text-center py-14 sm:py-20 px-4 sm:px-8 lg:px-16">
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
-            ${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}
+            <#if siteConfig?? && siteConfig['homepage_title']??>${siteConfig['homepage_title']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
         </h1>
         <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-8 sm:mb-10 leading-relaxed">
-            ${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}
+            <#if siteConfig?? && siteConfig['homepage_subtitle']??>${siteConfig['homepage_subtitle']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
         </p>
         <div class="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <a href="/register" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">
@@ -119,7 +119,7 @@
             <div class="w-full md:w-1/2 bg-gray-900 flex items-center justify-center" style="min-height:220px;">
                 <div class="w-full" style="aspect-ratio:16/9;">
                     <iframe class="w-full h-full"
-                        src="https://www.youtube.com/embed/videoseries?list=PLbpi6ZahtOH6Ar_3GPy3workNMrCup5Ah"
+                        src="<#if siteConfig?? && siteConfig['homepage_video_url']??>${siteConfig['homepage_video_url']?html}<#else>https://www.youtube.com/embed/videoseries?list=PLbpi6ZahtOH6Ar_3GPy3workNMrCup5Ah</#if>"
                         title="Pet Rescue Stories"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -139,6 +139,39 @@
         </div>
     </div>
 </section>
+
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#-- RECENTLY RESCUED ANIMALS                                        -->
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#if recentPets?has_content>
+<section class="px-2 sm:px-4 mb-8 sm:mb-12">
+    <div class="text-center mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-2">🐾 ${msg['recent_pets_title']!'Các Bé Vừa Được Giải Cứu'}</h2>
+        <p class="text-gray-500 text-sm sm:text-base">${msg['recent_pets_subtitle']!'Những chú thú cưng mới nhất đang cần sự quan tâm của bạn.'}</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <#list recentPets as pet>
+        <a href="/pets/${pet.id}" class="block bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow group">
+            <#if pet.mediaList?has_content>
+                <img src="${pet.mediaList[0].fileUrl}" alt="${pet.name}" class="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+            <#else>
+                <div class="w-full h-48 sm:h-56 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+                    <span class="text-7xl"><#if pet.type == "DOG">🐕<#elseif pet.type == "CAT">🐈<#else>🐾</#if></span>
+                </div>
+            </#if>
+            <div class="p-4 sm:p-5">
+                <h3 class="text-lg font-bold text-green-800 mb-1 truncate">${pet.name}</h3>
+                <p class="text-sm text-green-600 mb-2 truncate">${pet.type}<#if pet.breed??> – ${pet.breed}</#if><#if pet.age??> · ${pet.age} ${msg['pet_years_old']!'tuổi'}</#if></p>
+                <#if pet.description??>
+                <p class="text-xs sm:text-sm text-gray-500 line-clamp-3">${pet.description?substring(0, [pet.description?length, 120]?min)}<#if pet.description?length gt 120>...</#if></p>
+                </#if>
+                <span class="mt-3 inline-block text-green-600 hover:text-green-800 text-sm font-semibold">${msg['recent_pets_view_detail']!'Xem chi tiết →'}</span>
+            </div>
+        </a>
+        </#list>
+    </div>
+</section>
+</#if>
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- STATION INTRODUCTION                                            -->

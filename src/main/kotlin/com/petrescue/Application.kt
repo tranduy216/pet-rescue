@@ -94,5 +94,7 @@ fun Application.module() {
         financeRoutes()
         adoptionRoutes()
         rescueRoutes()
+        configRoutes()
+        profileRoutes()
     }
 }

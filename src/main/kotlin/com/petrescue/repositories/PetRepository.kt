@@ -11,6 +11,17 @@ import java.time.LocalDateTime
 
 class PetRepository {
 
+    fun findRecent(limit: Int): List<Pet> = transaction {
+        Pets.selectAll()
+            .orderBy(Pets.createdAt, SortOrder.DESC)
+            .limit(limit)
+            .map { row ->
+                val pet = row.toPet()
+                val media = PetMedia.select { PetMedia.petId eq pet.id }.map { it.toMedia() }
+                pet.copy(mediaList = media)
+            }
+    }
+
     fun findAll(search: String? = null, type: String? = null, status: String? = null): List<Pet> = transaction {
         var query = Pets.selectAll()
         if (!search.isNullOrBlank()) {
