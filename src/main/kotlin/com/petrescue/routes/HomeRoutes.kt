@@ -1,7 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
-import com.petrescue.i18n.Messages
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.services.BlogService
 import com.petrescue.services.DonationService
 import com.petrescue.services.PetService
@@ -20,8 +21,6 @@ fun Route.homeRoutes() {
 
     get("/") {
         val session = call.sessions.get<UserSession>()
-        val lang = call.request.cookies["lang"] ?: "vi"
-        val msg = Messages.forLang(lang)
 
         val featuredPets = petService.getAll(status = "AVAILABLE").take(6)
         val recentPets = petService.getRecent(3)
@@ -45,8 +44,8 @@ fun Route.homeRoutes() {
                     "statsAdopted" to statsAdopted,
                     "statsTreated" to statsTreated,
                     "statsDonors" to statsDonors,
-                    "msg" to msg,
-                    "lang" to lang,
+                    "msg" to call.messages(),
+                    "lang" to call.lang(),
                     "siteConfig" to siteConfig
                 ), ""
             )

@@ -37,17 +37,17 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
                 <select name="role" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="USER" <#if (user.role)! == 'USER'>selected</#if>>USER</option>
-                    <option value="VOLUNTEER" <#if (user.role)! == 'VOLUNTEER'>selected</#if>>VOLUNTEER</option>
-                    <option value="ADMIN" <#if (user.role)! == 'ADMIN'>selected</#if>>ADMIN</option>
+                    <option value="USER" <#if (user.role)! == 'USER'>selected</#if>>${msg['role_user']!'USER'}</option>
+                    <option value="VOLUNTEER" <#if (user.role)! == 'VOLUNTEER'>selected</#if>>${msg['role_volunteer']!'VOLUNTEER'}</option>
+                    <option value="ADMIN" <#if (user.role)! == 'ADMIN'>selected</#if>>${msg['role_admin']!'ADMIN'}</option>
                 </select>
             </div>
             <#if user??>
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Active</label>
                 <select name="isActive" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                    <option value="true" <#if user.active>selected</#if>>Active</option>
-                    <option value="false" <#if !user.active>selected</#if>>Inactive</option>
+                    <option value="true" <#if user.active>selected</#if>>${msg['status_active']!'Active'}</option>
+                    <option value="false" <#if !user.active>selected</#if>>${msg['status_inactive']!'Inactive'}</option>
                 </select>
             </div>
             </#if>

@@ -16,17 +16,17 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
                     <select name="type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <option value="DOG" <#if (pet.type)! == 'DOG'>selected</#if>>🐕 Dog</option>
-                        <option value="CAT" <#if (pet.type)! == 'CAT'>selected</#if>>🐈 Cat</option>
-                        <option value="OTHER" <#if (pet.type)! == 'OTHER'>selected</#if>>🐾 Other</option>
+                        <option value="DOG" <#if (pet.type)! == 'DOG'>selected</#if>>${msg['pet_type_dog']!'🐕 Dog'}</option>
+                        <option value="CAT" <#if (pet.type)! == 'CAT'>selected</#if>>${msg['pet_type_cat']!'🐈 Cat'}</option>
+                        <option value="OTHER" <#if (pet.type)! == 'OTHER'>selected</#if>>${msg['pet_type_other']!'🐾 Other'}</option>
                     </select>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                     <select name="status" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                        <option value="AVAILABLE" <#if (pet.status)! == 'AVAILABLE'>selected</#if>>Available</option>
-                        <option value="ADOPTED" <#if (pet.status)! == 'ADOPTED'>selected</#if>>Adopted</option>
-                        <option value="RESCUED" <#if (pet.status)! == 'RESCUED'>selected</#if>>Rescued</option>
+                        <option value="AVAILABLE" <#if (pet.status)! == 'AVAILABLE'>selected</#if>>${msg['pet_status_available']!'Available'}</option>
+                        <option value="ADOPTED" <#if (pet.status)! == 'ADOPTED'>selected</#if>>${msg['pet_status_adopted']!'Adopted'}</option>
+                        <option value="RESCUED" <#if (pet.status)! == 'RESCUED'>selected</#if>>${msg['pet_status_rescued']!'Rescued'}</option>
                     </select>
                 </div>
                 <div>
@@ -42,9 +42,9 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
                     <select name="gender" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                        <option value="">Unknown</option>
-                        <option value="Male" <#if (pet.gender)! == 'Male'>selected</#if>>Male</option>
-                        <option value="Female" <#if (pet.gender)! == 'Female'>selected</#if>>Female</option>
+                        <option value="">${msg['pet_gender_unknown']!'Unknown'}</option>
+                        <option value="Male" <#if (pet.gender)! == 'Male'>selected</#if>>${msg['pet_gender_male']!'Male'}</option>
+                        <option value="Female" <#if (pet.gender)! == 'Female'>selected</#if>>${msg['pet_gender_female']!'Female'}</option>
                     </select>
                 </div>
             </div>

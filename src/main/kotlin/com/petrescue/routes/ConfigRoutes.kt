@@ -1,7 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
-import com.petrescue.i18n.Messages
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.services.SiteConfigService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -15,15 +16,13 @@ fun Route.configRoutes() {
 
     get("/config") {
         val session = call.sessions.get<UserSession>()
-        val lang = call.request.cookies["lang"] ?: "vi"
-        val msg = Messages.forLang(lang)
         val config = siteConfigService.getAll()
         call.respond(
             FreeMarkerContent(
                 "config/form.ftl", mapOf(
                     "session" to session,
-                    "msg" to msg,
-                    "lang" to lang,
+                    "msg" to call.messages(),
+                    "lang" to call.lang(),
                     "config" to config,
                     "success" to false
                 ), ""
@@ -34,8 +33,7 @@ fun Route.configRoutes() {
     post("/config") {
         val params = call.receiveParameters()
         val session = call.sessions.get<UserSession>()
-        val lang = call.request.cookies["lang"] ?: "vi"
-        val msg = Messages.forLang(lang)
+        val msg = call.messages()
 
         val title = params["homepage_title"]?.trim() ?: ""
         val subtitle = params["homepage_subtitle"]?.trim() ?: ""
@@ -60,7 +58,7 @@ fun Route.configRoutes() {
                 "config/form.ftl", mapOf(
                     "session" to session,
                     "msg" to msg,
-                    "lang" to lang,
+                    "lang" to call.lang(),
                     "config" to config,
                     "success" to !videoUrlError,
                     "videoUrlError" to videoUrlError

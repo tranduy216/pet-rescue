@@ -1,7 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
-import com.petrescue.i18n.Messages
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -18,15 +19,13 @@ fun Route.profileRoutes() {
             call.respondRedirect("/login")
             return@get
         }
-        val lang = call.request.cookies["lang"] ?: "vi"
-        val msg = Messages.forLang(lang)
         val user = userService.getById(session.userId)
         call.respond(
             FreeMarkerContent(
                 "profile/form.ftl", mapOf(
                     "session" to session,
-                    "msg" to msg,
-                    "lang" to lang,
+                    "msg" to call.messages(),
+                    "lang" to call.lang(),
                     "user" to user,
                     "success" to false,
                     "error" to null
@@ -40,8 +39,7 @@ fun Route.profileRoutes() {
             call.respondRedirect("/login")
             return@post
         }
-        val lang = call.request.cookies["lang"] ?: "vi"
-        val msg = Messages.forLang(lang)
+        val msg = call.messages()
         val params = call.receiveParameters()
 
         val newEmail = params["email"]?.trim() ?: ""
@@ -62,7 +60,7 @@ fun Route.profileRoutes() {
                         "profile/form.ftl", mapOf(
                             "session" to session,
                             "msg" to msg,
-                            "lang" to lang,
+                            "lang" to call.lang(),
                             "user" to existing,
                             "success" to false,
                             "error" to msg["profile_email_taken"]
@@ -84,7 +82,7 @@ fun Route.profileRoutes() {
                 "profile/form.ftl", mapOf(
                     "session" to session,
                     "msg" to msg,
-                    "lang" to lang,
+                    "lang" to call.lang(),
                     "user" to updated,
                     "success" to true,
                     "error" to null

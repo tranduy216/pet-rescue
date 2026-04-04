@@ -10,8 +10,8 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
                 <select name="type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    <option value="INCOME">Income</option>
-                    <option value="EXPENSE">Expense</option>
+                    <option value="INCOME">${msg['finance_type_income']!'Income'}</option>
+                    <option value="EXPENSE">${msg['finance_type_expense']!'Expense'}</option>
                 </select>
             </div>
             <div>

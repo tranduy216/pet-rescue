@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.models.Rescue
 import com.petrescue.services.RescueService
 import io.ktor.server.application.*
@@ -17,12 +19,12 @@ fun Route.rescueRoutes() {
         get {
             val session = call.sessions.get<UserSession>()
             val rescues = service.getAll()
-            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session), ""))
+            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         get("/new") {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "error" to null), ""))
+            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/new") {

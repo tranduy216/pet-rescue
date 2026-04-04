@@ -19,7 +19,10 @@
                     <#elseif r.status == 'IN_PROGRESS'>bg-blue-100 text-blue-800
                     <#elseif r.status == 'FAILED'>bg-red-100 text-red-800
                     <#else>bg-yellow-100 text-yellow-800</#if>">
-                    ${r.status}
+                    <#if r.status == 'REPORTED'>${msg['rescue_status_reported']!'Reported'}
+                    <#elseif r.status == 'IN_PROGRESS'>${msg['rescue_status_in_progress']!'In Progress'}
+                    <#elseif r.status == 'RESCUED'>${msg['rescue_status_rescued']!'Rescued'}
+                    <#else>${msg['rescue_status_failed']!'Failed'}</#if>
                 </span>
             </div>
             <div class="flex justify-between items-center">
@@ -28,10 +31,10 @@
                 <div class="flex items-center space-x-2">
                     <form method="POST" action="/rescues/${r.id}/status" class="flex items-center space-x-2">
                         <select name="status" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                            <option value="REPORTED" <#if r.status == 'REPORTED'>selected</#if>>Reported</option>
-                            <option value="IN_PROGRESS" <#if r.status == 'IN_PROGRESS'>selected</#if>>In Progress</option>
-                            <option value="RESCUED" <#if r.status == 'RESCUED'>selected</#if>>Rescued</option>
-                            <option value="FAILED" <#if r.status == 'FAILED'>selected</#if>>Failed</option>
+                            <option value="REPORTED" <#if r.status == 'REPORTED'>selected</#if>>${msg['rescue_status_reported']!'Reported'}</option>
+                            <option value="IN_PROGRESS" <#if r.status == 'IN_PROGRESS'>selected</#if>>${msg['rescue_status_in_progress']!'In Progress'}</option>
+                            <option value="RESCUED" <#if r.status == 'RESCUED'>selected</#if>>${msg['rescue_status_rescued']!'Rescued'}</option>
+                            <option value="FAILED" <#if r.status == 'FAILED'>selected</#if>>${msg['rescue_status_failed']!'Failed'}</option>
                         </select>
                         <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Update</button>
                     </form>

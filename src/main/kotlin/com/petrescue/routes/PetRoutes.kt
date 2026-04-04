@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
 import com.petrescue.services.PetService
@@ -21,6 +23,8 @@ fun Route.petRoutes() {
     route("/pets") {
         get {
             val session = call.sessions.get<UserSession>()
+            val lang = call.lang()
+            val msg = call.messages()
             val search = call.request.queryParameters["search"]
             val type = call.request.queryParameters["type"]
             val status = call.request.queryParameters["status"]
@@ -36,7 +40,9 @@ fun Route.petRoutes() {
                             "session" to session,
                             "search" to search,
                             "type" to type,
-                            "status" to status
+                            "status" to status,
+                            "msg" to msg,
+                            "lang" to lang
                         ), ""
                     )
                 )
@@ -45,7 +51,7 @@ fun Route.petRoutes() {
 
         get("/new") {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to null), ""))
+            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/new") {
@@ -98,7 +104,7 @@ fun Route.petRoutes() {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get
             val pet = service.getById(id)
-            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null), ""))
+            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/{id}/edit") {

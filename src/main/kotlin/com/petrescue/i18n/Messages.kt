@@ -75,7 +75,48 @@ object Messages {
         "profile_phone" to "Số Điện Thoại",
         "profile_save" to "Lưu Thay Đổi",
         "profile_saved" to "Đã cập nhật hồ sơ thành công!",
-        "profile_email_taken" to "Email này đã được sử dụng bởi tài khoản khác."
+        "profile_email_taken" to "Email này đã được sử dụng bởi tài khoản khác.",
+
+        // User roles
+        "role_user" to "Người Dùng",
+        "role_volunteer" to "Tình Nguyện Viên",
+        "role_admin" to "Quản Trị Viên",
+
+        // User active status
+        "status_active" to "Đang Hoạt Động",
+        "status_inactive" to "Không Hoạt Động",
+
+        // Pet types
+        "pet_type_all" to "Tất Cả Loại",
+        "pet_type_dog" to "🐕 Chó",
+        "pet_type_cat" to "🐈 Mèo",
+        "pet_type_other" to "🐾 Khác",
+
+        // Pet statuses
+        "pet_status_all" to "Tất Cả Trạng Thái",
+        "pet_status_available" to "Sẵn Sàng",
+        "pet_status_adopted" to "Đã Được Nhận",
+        "pet_status_rescued" to "Đã Được Cứu",
+
+        // Pet genders
+        "pet_gender_unknown" to "Không Rõ",
+        "pet_gender_male" to "Đực",
+        "pet_gender_female" to "Cái",
+
+        // Rescue statuses
+        "rescue_status_reported" to "Đã Báo Cáo",
+        "rescue_status_in_progress" to "Đang Xử Lý",
+        "rescue_status_rescued" to "Đã Cứu",
+        "rescue_status_failed" to "Thất Bại",
+
+        // Finance types
+        "finance_type_income" to "Thu Nhập",
+        "finance_type_expense" to "Chi Tiêu",
+
+        // Adoption statuses
+        "adoption_status_requested" to "Đã Yêu Cầu",
+        "adoption_status_approved" to "Đã Duyệt",
+        "adoption_status_cancelled" to "Đã Hủy"
     )
 
     private val en: Map<String, String> = mapOf(
@@ -151,8 +192,55 @@ object Messages {
         "profile_phone" to "Phone Number",
         "profile_save" to "Save Changes",
         "profile_saved" to "Profile updated successfully!",
-        "profile_email_taken" to "This email is already used by another account."
+        "profile_email_taken" to "This email is already used by another account.",
+
+        // User roles
+        "role_user" to "User",
+        "role_volunteer" to "Volunteer",
+        "role_admin" to "Administrator",
+
+        // User active status
+        "status_active" to "Active",
+        "status_inactive" to "Inactive",
+
+        // Pet types
+        "pet_type_all" to "All Types",
+        "pet_type_dog" to "🐕 Dog",
+        "pet_type_cat" to "🐈 Cat",
+        "pet_type_other" to "🐾 Other",
+
+        // Pet statuses
+        "pet_status_all" to "All Status",
+        "pet_status_available" to "Available",
+        "pet_status_adopted" to "Adopted",
+        "pet_status_rescued" to "Rescued",
+
+        // Pet genders
+        "pet_gender_unknown" to "Unknown",
+        "pet_gender_male" to "Male",
+        "pet_gender_female" to "Female",
+
+        // Rescue statuses
+        "rescue_status_reported" to "Reported",
+        "rescue_status_in_progress" to "In Progress",
+        "rescue_status_rescued" to "Rescued",
+        "rescue_status_failed" to "Failed",
+
+        // Finance types
+        "finance_type_income" to "Income",
+        "finance_type_expense" to "Expense",
+
+        // Adoption statuses
+        "adoption_status_requested" to "Requested",
+        "adoption_status_approved" to "Approved",
+        "adoption_status_cancelled" to "Cancelled"
     )
 
     fun forLang(lang: String): Map<String, String> = if (lang == "en") en else vi
 }
+
+fun io.ktor.server.application.ApplicationCall.lang(): String =
+    request.cookies["lang"] ?: "vi"
+
+fun io.ktor.server.application.ApplicationCall.messages(): Map<String, String> =
+    Messages.forLang(lang())

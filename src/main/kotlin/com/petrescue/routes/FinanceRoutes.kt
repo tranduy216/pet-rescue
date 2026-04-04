@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.models.Finance
 import com.petrescue.services.FinanceService
 import io.ktor.server.application.*
@@ -54,7 +56,7 @@ fun Route.financeRoutes() {
 
         get("/new") {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("finances/form.ftl", mapOf("session" to session, "error" to null), ""))
+            call.respond(FreeMarkerContent("finances/form.ftl", mapOf("session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/new") {

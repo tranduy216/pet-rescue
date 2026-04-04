@@ -27,7 +27,9 @@
                             <#if a.status == 'APPROVED'>bg-green-100 text-green-800
                             <#elseif a.status == 'CANCELLED'>bg-red-100 text-red-800
                             <#else>bg-yellow-100 text-yellow-800</#if>">
-                            ${a.status}
+                            <#if a.status == 'REQUESTED'>${msg['adoption_status_requested']!'Requested'}
+                            <#elseif a.status == 'APPROVED'>${msg['adoption_status_approved']!'Approved'}
+                            <#else>${msg['adoption_status_cancelled']!'Cancelled'}</#if>
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm">${a.createdAt?string('yyyy-MM-dd')}</td>

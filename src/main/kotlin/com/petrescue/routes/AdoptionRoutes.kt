@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.models.Adoption
 import com.petrescue.services.AdoptionService
 import com.petrescue.services.PetService
@@ -23,7 +25,7 @@ fun Route.adoptionRoutes() {
             } else {
                 service.getByUser(session!!.userId)
             }
-            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session), ""))
+            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         get("/request/{petId}") {
