@@ -21,32 +21,32 @@
 <body class="min-h-screen bg-green-50">
     <nav class="bg-green-700 shadow-lg">
         <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
-            <div class="flex justify-between h-14 sm:h-16 items-center">
-                <#-- Logo -->
+            <div class="flex h-14 sm:h-16 items-center">
+                <#-- Logo (left) -->
                 <a href="/" class="text-white text-lg sm:text-xl font-bold flex-shrink-0">
                     🌿 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
                 </a>
 
-                <#-- Desktop nav links (hidden on mobile) -->
-                <div class="hidden md:flex items-baseline space-x-1 lg:space-x-2 ml-4">
-                    <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
-                    <a href="/blog" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
-                    <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
+                <#-- Desktop nav links (centered) -->
+                <div class="hidden md:flex flex-1 justify-center items-center space-x-1 lg:space-x-2">
+                    <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
+                    <a href="/blog" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
+                    <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
                     <#if session?? && session.role != "GUEST">
-                        <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
-                        <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
+                        <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
+                        <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                     </#if>
                     <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                        <a href="/finances" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
+                        <a href="/finances" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
                     </#if>
                     <#if session?? && session.role == "ADMIN">
-                        <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
+                        <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
+                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
                     </#if>
                 </div>
 
                 <#-- Right side: lang toggle + auth + hamburger -->
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 ml-auto">
                     <#-- Language toggle -->
                     <#if lang?? && lang == "en">
                         <a href="/lang/vi" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
@@ -60,7 +60,7 @@
                             <span class="text-green-100 text-xs lg:text-sm whitespace-nowrap">👤 ${session.username}</span>
                             <a href="/logout" class="bg-green-900 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-800 whitespace-nowrap"><#if msg??>${msg['nav_logout']!'Logout'}<#else>Logout</#if></a>
                         <#else>
-                            <a href="/login" class="text-green-100 hover:text-white px-2 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
+                            <a href="/login" class="text-green-100 hover:text-white px-2 py-2 rounded-md text-sm font-medium whitespace-nowrap"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
                             <a href="/register" class="bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-500 whitespace-nowrap"><#if msg??>${msg['nav_register']!'Register'}<#else>Register</#if></a>
                         </#if>
                     </div>
