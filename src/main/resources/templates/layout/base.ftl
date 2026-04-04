@@ -37,7 +37,6 @@
                     <#if session?? && session.role == "ADMIN">
                         <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
                     </#if>
-                    <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                 </div>
 
                 <#-- Right side: auth + hamburger -->
@@ -111,7 +110,6 @@
                 <#if session?? && session.role == "ADMIN">
                     <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
                 </#if>
-                <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#if lang?? && lang == "en">
                         <a href="/lang/vi" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>

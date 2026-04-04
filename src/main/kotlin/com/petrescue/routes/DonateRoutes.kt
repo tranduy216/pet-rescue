@@ -5,6 +5,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Donation
 import com.petrescue.services.DonationService
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.request.*
@@ -19,58 +20,27 @@ fun Route.donateRoutes() {
     route("/donate") {
         get {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "success" to false, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post {
             val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
-            val donation = service.create(
+            val donorName = params["donorName"] ?: ""
+            val message = params["message"]
+            if (donorName.isBlank()) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@post
+            }
+            service.create(
                 Donation(
-                    donorName = params["donorName"] ?: "",
-                    donorEmail = params["donorEmail"] ?: "",
-                    amount = params["amount"]?.toBigDecimalOrNull() ?: BigDecimal.ZERO,
-                    message = params["message"]
+                    donorName = donorName,
+                    donorEmail = "",
+                    amount = BigDecimal.ZERO,
+                    message = message
                 )
             )
-            call.respond(
-                FreeMarkerContent(
-                    "donate/form.ftl",
-                    mapOf("session" to session, "success" to true, "error" to null, "donation" to donation, "msg" to call.messages(), "lang" to call.lang()),
-                    ""
-                )
-            )
-        }
-    }
-
-    route("/donations") {
-        get {
-            val session = call.sessions.get<UserSession>()
-            val donations = service.getAll()
-            val total = service.getTotalConfirmed()
-            call.respond(FreeMarkerContent("donate/list.ftl", mapOf("donations" to donations, "total" to total, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
-        }
-
-        post("/{id}/confirm") {
-            val session = call.sessions.get<UserSession>()
-            if (session == null || session.role != "ADMIN") {
-                call.respondRedirect("/donations")
-                return@post
-            }
-            val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.updateStatus(id, "CONFIRMED")
-            call.respondRedirect("/donations")
-        }
-
-        post("/{id}/cancel") {
-            val session = call.sessions.get<UserSession>()
-            if (session == null || session.role != "ADMIN") {
-                call.respondRedirect("/donations")
-                return@post
-            }
-            val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.updateStatus(id, "CANCELLED")
-            call.respondRedirect("/donations")
+            call.respond(HttpStatusCode.OK)
         }
     }
 }

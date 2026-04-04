@@ -76,10 +76,6 @@ class RoleResourceRepository {
             // /rescues/*/delete – ADMIN only
             RoleResource("ADMIN", "/rescues/*/delete", "POST"),
 
-            // /donations/*/confirm and /donations/*/cancel – ADMIN only
-            RoleResource("ADMIN", "/donations/*/confirm", "POST"),
-            RoleResource("ADMIN", "/donations/*/cancel", "POST"),
-
             // /pets write operations – ADMIN and VOLUNTEER
             RoleResource("ADMIN", "/pets/new", "GET"),
             RoleResource("ADMIN", "/pets/new", "POST"),
