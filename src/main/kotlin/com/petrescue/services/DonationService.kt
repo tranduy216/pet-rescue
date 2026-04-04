@@ -7,7 +7,7 @@ import com.petrescue.repositories.DonationRepository
 class DonationService {
     private val repository = DonationRepository()
 
-    fun getAll() = repository.findAll()
+    fun getAll(status: String? = null) = repository.findAll(status)
     fun getApproved() = repository.findApproved()
     fun getById(id: Int) = repository.findById(id)
     fun create(donation: Donation) = repository.create(donation).also { AppCache.invalidateAll() }

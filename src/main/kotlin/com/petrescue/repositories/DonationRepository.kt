@@ -10,8 +10,10 @@ import java.time.LocalDateTime
 
 class DonationRepository {
 
-    fun findAll(): List<Donation> = transaction {
-        Donations.selectAll().orderBy(Donations.createdAt, SortOrder.DESC).map { it.toDonation() }
+    fun findAll(status: String? = null): List<Donation> = transaction {
+        var query = Donations.selectAll()
+        if (!status.isNullOrBlank()) query = query.andWhere { Donations.status eq status }
+        query.orderBy(Donations.createdAt, SortOrder.DESC).map { it.toDonation() }
     }
 
     fun findApproved(): List<Donation> = transaction {

@@ -4,6 +4,19 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-green-800">${msg['wish_page_title']!'💌 Quản Lý Lời Chúc'}</h1>
     </div>
+
+    <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+        <form method="get" action="/wishes" class="flex flex-wrap gap-3">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
+                <option value="PENDING" <#if (status)! == 'PENDING'>selected</#if>>${msg['wish_status_pending']!'Chờ Duyệt'}</option>
+                <option value="APPROVED" <#if (status)! == 'APPROVED'>selected</#if>>${msg['wish_status_approved']!'Đã Duyệt'}</option>
+                <option value="RECEIVED" <#if (status)! == 'RECEIVED'>selected</#if>>${msg['wish_status_received']!'Đã Nhận'}</option>
+                <option value="DELETED" <#if (status)! == 'DELETED'>selected</#if>>${msg['wish_status_deleted']!'Đã Xóa'}</option>
+            </select>
+        </form>
+    </div>
+
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">

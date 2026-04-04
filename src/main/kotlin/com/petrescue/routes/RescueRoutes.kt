@@ -18,8 +18,9 @@ fun Route.rescueRoutes() {
     route("/rescues") {
         get {
             val session = call.sessions.get<UserSession>()
-            val rescues = service.getAll()
-            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            val status = call.request.queryParameters["status"]
+            val rescues = service.getAll(status)
+            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status), ""))
         }
 
         get("/new") {

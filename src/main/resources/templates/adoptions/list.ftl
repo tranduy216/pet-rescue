@@ -4,6 +4,19 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-green-800">${msg['adoption_page_title']!'🏠 Adoptions'}</h1>
     </div>
+
+    <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+        <form method="get" action="/adoptions" class="flex flex-wrap gap-3">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
+                <option value="REGISTERED" <#if (status)! == 'REGISTERED'>selected</#if>>${msg['adoption_status_registered']!'Registered'}</option>
+                <option value="CONFIRMED" <#if (status)! == 'CONFIRMED'>selected</#if>>${msg['adoption_status_confirmed']!'Confirmed'}</option>
+                <option value="FINISHED" <#if (status)! == 'FINISHED'>selected</#if>>${msg['adoption_status_finished']!'Finished'}</option>
+                <option value="CANCELLED" <#if (status)! == 'CANCELLED'>selected</#if>>${msg['adoption_status_cancelled']!'Cancelled'}</option>
+            </select>
+        </form>
+    </div>
+
     <div class="bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
             <thead class="bg-green-700 text-white">

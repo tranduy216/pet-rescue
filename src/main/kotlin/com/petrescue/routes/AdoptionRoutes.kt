@@ -23,12 +23,13 @@ fun Route.adoptionRoutes() {
                 call.respondRedirect("/login")
                 return@get
             }
+            val status = call.request.queryParameters["status"]
             val adoptions = if (session.role in listOf("ADMIN", "VOLUNTEER")) {
-                service.getAll()
+                service.getAll(status)
             } else {
-                service.getByUser(session.userId)
+                service.getByUser(session.userId, status)
             }
-            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status), ""))
         }
 
         get("/request/{petId}") {

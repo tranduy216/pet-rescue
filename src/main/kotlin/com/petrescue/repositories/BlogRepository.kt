@@ -9,10 +9,12 @@ import java.time.LocalDateTime
 
 class BlogRepository {
 
-    fun findAll(publishedOnly: Boolean = false): List<Blog> = transaction {
+    fun findAll(publishedOnly: Boolean = false, filterStatus: String? = null): List<Blog> = transaction {
         var query = Blogs.selectAll()
-        if (publishedOnly) {
+        if (publishedOnly || filterStatus == "published") {
             query = query.andWhere { Blogs.isPublished eq true }
+        } else if (filterStatus == "draft") {
+            query = query.andWhere { Blogs.isPublished eq false }
         }
         query.orderBy(Blogs.createdAt, SortOrder.DESC).map { it.toBlog() }
     }

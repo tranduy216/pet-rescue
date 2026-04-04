@@ -49,11 +49,12 @@ fun Route.blogRoutes() {
         get {
             val session = call.sessions.get<UserSession>()
             val publishedOnly = session?.role !in listOf("ADMIN", "VOLUNTEER")
-            val blogs = service.getAll(publishedOnly)
+            val filterStatus = if (publishedOnly) null else call.request.queryParameters["status"]
+            val blogs = service.getAll(publishedOnly, filterStatus)
             call.respond(
                 FreeMarkerContent(
                     "blog/list.ftl",
-                    mapOf("blogs" to blogs, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("blogs" to blogs, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to filterStatus),
                     ""
                 )
             )

@@ -8,9 +8,9 @@ class AdoptionService {
     private val repository = AdoptionRepository()
     private val petRepository = PetRepository()
 
-    fun getAll() = repository.findAll()
+    fun getAll(status: String? = null) = repository.findAll(status)
     fun getById(id: Int) = repository.findById(id)
-    fun getByUser(userId: Int) = repository.findByUser(userId)
+    fun getByUser(userId: Int, status: String? = null) = repository.findByUser(userId, status)
 
     fun create(adoption: Adoption): Adoption {
         val created = repository.create(adoption)

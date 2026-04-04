@@ -9,8 +9,10 @@ import java.time.LocalDateTime
 
 class RescueRepository {
 
-    fun findAll(): List<Rescue> = transaction {
-        Rescues.selectAll().orderBy(Rescues.createdAt, SortOrder.DESC).map { it.toRescue() }
+    fun findAll(status: String? = null): List<Rescue> = transaction {
+        var query = Rescues.selectAll()
+        if (!status.isNullOrBlank()) query = query.andWhere { Rescues.status eq status }
+        query.orderBy(Rescues.createdAt, SortOrder.DESC).map { it.toRescue() }
     }
 
     fun findById(id: Int): Rescue? = transaction {
