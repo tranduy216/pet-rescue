@@ -18,7 +18,7 @@
                 <span class="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">${msg['blog_draft']!'Draft'}</span>
                 </#if>
             </div>
-            <p class="text-gray-600 line-clamp-3">${blog.content?substring(0, [blog.content?length, 200]?min)}<#if blog.content?length gt 200>...</#if></p>
+            <p class="text-gray-600 line-clamp-3">${blog.excerpt}</p>
             <div class="flex justify-between items-center mt-4">
                 <div class="flex items-center space-x-4 text-xs text-gray-500">
                     <span>👁 ${blog.viewCount} ${msg['blog_views']!'views'}</span>

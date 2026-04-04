@@ -13,4 +13,9 @@ data class Blog(
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     val authorName: String? = null
-)
+) {
+    val excerpt: String get() {
+        val stripped = content.replace(Regex("<[^>]+>"), " ").replace(Regex("\\s+"), " ").trim()
+        return if (stripped.length > 200) stripped.substring(0, 200) + "..." else stripped
+    }
+}

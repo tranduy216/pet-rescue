@@ -14,6 +14,12 @@ class DonationRepository {
         Donations.selectAll().orderBy(Donations.createdAt, SortOrder.DESC).map { it.toDonation() }
     }
 
+    fun findApproved(): List<Donation> = transaction {
+        Donations.select { Donations.status eq "APPROVED" }
+            .orderBy(Donations.createdAt, SortOrder.DESC)
+            .map { it.toDonation() }
+    }
+
     fun findById(id: Int): Donation? = transaction {
         Donations.select { Donations.id eq id }.singleOrNull()?.toDonation()
     }

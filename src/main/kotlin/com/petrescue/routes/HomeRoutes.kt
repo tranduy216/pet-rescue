@@ -25,6 +25,7 @@ fun Route.homeRoutes() {
         val featuredPets = petService.getAll(status = "AVAILABLE").take(6)
         val recentPets = petService.getRecent(3)
         val blogs = blogService.getAll(publishedOnly = true).take(3)
+        val approvedWishes = donationService.getApproved().take(3)
 
         val statsAvailable = petService.countByStatus("AVAILABLE")
         val statsAdopted = petService.countByStatus("ADOPTED")
@@ -40,6 +41,7 @@ fun Route.homeRoutes() {
                     "pets" to featuredPets,
                     "recentPets" to recentPets,
                     "blogs" to blogs,
+                    "approvedWishes" to approvedWishes,
                     "statsAvailable" to statsAvailable,
                     "statsAdopted" to statsAdopted,
                     "statsTreated" to statsTreated,

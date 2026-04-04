@@ -14,7 +14,7 @@
             <span>👁 ${blog.viewCount} ${msg['blog_views']!'views'}</span>
             <#if blog.tags??><span class="text-green-600">🏷 ${blog.tags}</span></#if>
         </div>
-        <div class="prose max-w-none text-gray-700 leading-relaxed whitespace-pre-line">${blog.content}</div>
+        <div class="prose max-w-none text-gray-700 leading-relaxed">${blog.content}</div>
         <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
         <div class="mt-6 flex space-x-3 pt-4 border-t">
             <a href="/blog/${blog.id}/edit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">✏️ ${msg['btn_edit']!'Edit'}</a>
