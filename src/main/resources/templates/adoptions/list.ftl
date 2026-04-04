@@ -37,7 +37,7 @@
                             <#else>${a.status}</#if>
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-sm">${a.createdAt?string('yyyy-MM-dd')}</td>
+                    <td class="px-4 py-3 text-sm">${a.createdAt?string?substring(0, 10)}</td>
                     <td class="px-4 py-3 text-sm space-x-2">
                         <#if session.role == "ADMIN" || session.role == "VOLUNTEER">
                             <#if a.status == 'REGISTERED'>

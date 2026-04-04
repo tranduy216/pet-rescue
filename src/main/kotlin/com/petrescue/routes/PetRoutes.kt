@@ -17,6 +17,28 @@ import io.ktor.server.sessions.*
 import java.io.File
 import java.util.UUID
 
+private const val MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024
+private val ALLOWED_IMAGE_EXTENSIONS = setOf("jpg", "jpeg", "png", "gif", "webp", "bmp")
+
+private data class FileUploadResult(val savedPath: String? = null, val error: String? = null)
+
+private fun processImageUpload(part: PartData.FileItem): FileUploadResult {
+    val originalName = part.originalFileName ?: return FileUploadResult()
+    val ext = originalName.substringAfterLast('.', "").lowercase()
+    if (ext.isEmpty() || ext !in ALLOWED_IMAGE_EXTENSIONS) {
+        return FileUploadResult(error = "Invalid file type '${ext.ifEmpty { "unknown" }}'. Only image files (jpg, jpeg, png, gif, webp, bmp) are allowed.")
+    }
+    val bytes = part.streamProvider().readBytes()
+    if (bytes.size > MAX_IMAGE_SIZE_BYTES) {
+        return FileUploadResult(error = "File '$originalName' exceeds the 5MB size limit.")
+    }
+    val fileName = "${UUID.randomUUID()}_$originalName"
+    val file = File("uploads/$fileName")
+    file.parentFile.mkdirs()
+    file.writeBytes(bytes)
+    return FileUploadResult(savedPath = "/uploads/$fileName")
+}
+
 fun Route.petRoutes() {
     val service = PetService()
 
@@ -59,21 +81,26 @@ fun Route.petRoutes() {
             val multipart = call.receiveMultipart()
             val params = mutableMapOf<String, String>()
             val mediaFiles = mutableListOf<String>()
+            var uploadError: String? = null
             multipart.forEachPart { part ->
                 when (part) {
                     is PartData.FormItem -> params[part.name ?: ""] = part.value
                     is PartData.FileItem -> {
-                        if (part.originalFileName?.isNotBlank() == true) {
-                            val fileName = "${UUID.randomUUID()}_${part.originalFileName}"
-                            val file = File("uploads/$fileName")
-                            file.parentFile.mkdirs()
-                            part.streamProvider().use { input -> file.outputStream().use { input.copyTo(it) } }
-                            mediaFiles.add("/uploads/$fileName")
+                        if (part.originalFileName?.isNotBlank() == true && uploadError == null) {
+                            val result = processImageUpload(part)
+                            when {
+                                result.error != null -> uploadError = result.error
+                                result.savedPath != null -> mediaFiles.add(result.savedPath)
+                            }
                         }
                     }
                     else -> {}
                 }
                 part.dispose()
+            }
+            if (uploadError != null) {
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
+                return@post
             }
             val pet = service.create(
                 Pet(
@@ -115,21 +142,26 @@ fun Route.petRoutes() {
             val multipart = call.receiveMultipart()
             val params = mutableMapOf<String, String>()
             val mediaFiles = mutableListOf<String>()
+            var uploadError: String? = null
             multipart.forEachPart { part ->
                 when (part) {
                     is PartData.FormItem -> params[part.name ?: ""] = part.value
                     is PartData.FileItem -> {
-                        if (part.originalFileName?.isNotBlank() == true) {
-                            val fileName = "${UUID.randomUUID()}_${part.originalFileName}"
-                            val file = File("uploads/$fileName")
-                            file.parentFile.mkdirs()
-                            part.streamProvider().use { input -> file.outputStream().use { input.copyTo(it) } }
-                            mediaFiles.add("/uploads/$fileName")
+                        if (part.originalFileName?.isNotBlank() == true && uploadError == null) {
+                            val result = processImageUpload(part)
+                            when {
+                                result.error != null -> uploadError = result.error
+                                result.savedPath != null -> mediaFiles.add(result.savedPath)
+                            }
                         }
                     }
                     else -> {}
                 }
                 part.dispose()
+            }
+            if (uploadError != null) {
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
+                return@post
             }
             service.update(
                 existing.copy(
