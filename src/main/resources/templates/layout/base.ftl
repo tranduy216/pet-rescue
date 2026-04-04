@@ -1,4 +1,4 @@
-<#macro page title="Pet Rescue">
+<#macro page title="Pet Rescue" headContent="">
 <!DOCTYPE html>
 <html lang="${lang!'vi'}">
 <head>
@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} 🐾</title>
     <link rel="stylesheet" href="/assets/tailwind.min.css">
+    ${headContent}
 </head>
 <body class="min-h-screen bg-green-50">
     <nav class="bg-green-700 shadow-lg">
