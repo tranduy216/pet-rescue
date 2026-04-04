@@ -20,8 +20,7 @@ fun Route.financeRoutes() {
 
     route("/finances") {
         get {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/"); return@get }
+            val session = call.sessions.get<UserSession>()
             val finances = service.getAll()
             val totalIncome = service.getTotalIncome()
             val totalExpense = service.getTotalExpense()
@@ -54,14 +53,12 @@ fun Route.financeRoutes() {
         }
 
         get("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/"); return@get }
+            val session = call.sessions.get<UserSession>()
             call.respond(FreeMarkerContent("finances/form.ftl", mapOf("session" to session, "error" to null), ""))
         }
 
         post("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/"); return@post }
+            val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
             service.create(
                 Finance(
@@ -69,7 +66,7 @@ fun Route.financeRoutes() {
                     amount = params["amount"]?.toBigDecimalOrNull() ?: BigDecimal.ZERO,
                     description = params["description"] ?: "",
                     category = params["category"],
-                    recordedBy = session.userId,
+                    recordedBy = session?.userId ?: 0,
                     date = params["date"]?.let { LocalDate.parse(it) } ?: LocalDate.now()
                 )
             )
@@ -77,8 +74,7 @@ fun Route.financeRoutes() {
         }
 
         post("/{id}/delete") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role != "ADMIN") { call.respondRedirect("/finances"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
             call.respondRedirect("/finances")

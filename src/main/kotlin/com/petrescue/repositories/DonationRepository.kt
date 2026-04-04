@@ -42,6 +42,10 @@ class DonationRepository {
             .fold(BigDecimal.ZERO) { acc, row -> acc + row[Donations.amount] }
     }
 
+    fun countDonors(): Long = transaction {
+        Donations.selectAll().count()
+    }
+
     private fun ResultRow.toDonation() = Donation(
         id = this[Donations.id].value,
         donorName = this[Donations.donorName],

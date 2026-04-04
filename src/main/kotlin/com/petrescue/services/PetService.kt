@@ -21,4 +21,8 @@ class PetService {
     fun addMedia(media: PetMedia) = repository.addMedia(media)
 
     fun deleteMedia(mediaId: Int) = repository.deleteMedia(mediaId)
+
+    fun countByStatus(status: String) = repository.countByStatus(status)
+
+    fun countAll() = repository.countAll()
 }

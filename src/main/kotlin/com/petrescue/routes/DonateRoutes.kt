@@ -43,24 +43,21 @@ fun Route.donateRoutes() {
 
     route("/donations") {
         get {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            if (session.role != "ADMIN") { call.respondRedirect("/"); return@get }
+            val session = call.sessions.get<UserSession>()
             val donations = service.getAll()
             val total = service.getTotalConfirmed()
             call.respond(FreeMarkerContent("donate/list.ftl", mapOf("donations" to donations, "total" to total, "session" to session), ""))
         }
 
         post("/{id}/confirm") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role != "ADMIN") { call.respondRedirect("/donations"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.updateStatus(id, "CONFIRMED")
             call.respondRedirect("/donations")
         }
 
         post("/{id}/cancel") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role != "ADMIN") { call.respondRedirect("/donations"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.updateStatus(id, "CANCELLED")
             call.respondRedirect("/donations")

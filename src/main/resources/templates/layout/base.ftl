@@ -1,6 +1,6 @@
 <#macro page title="Pet Rescue">
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang!'vi'}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,50 +8,115 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Smooth line-clamp support */
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body class="min-h-screen bg-green-50">
     <nav class="bg-green-700 shadow-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="/" class="text-white text-xl font-bold">🌿 Pet Rescue</a>
-                    <div class="ml-10 flex items-baseline space-x-4">
-                        <a href="/pets" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🐾 Pets</a>
-                        <a href="/blog" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📝 Blog</a>
-                        <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 Donate</a>
-                        <#if session?? && session.role != "GUEST">
-                            <a href="/rescues" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🚨 Rescue</a>
-                            <a href="/adoptions" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 Adoptions</a>
-                        </#if>
-                        <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                            <a href="/finances" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💰 Finance</a>
-                        </#if>
-                        <#if session?? && session.role == "ADMIN">
-                            <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 Users</a>
-                            <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📋 Donations</a>
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+            <div class="flex justify-between h-14 sm:h-16 items-center">
+                <#-- Logo -->
+                <a href="/" class="text-white text-lg sm:text-xl font-bold flex-shrink-0">
+                    🌿 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
+                </a>
+
+                <#-- Desktop nav links (hidden on mobile) -->
+                <div class="hidden md:flex items-baseline space-x-1 lg:space-x-2 ml-4">
+                    <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
+                    <a href="/blog" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
+                    <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
+                    <#if session?? && session.role != "GUEST">
+                        <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
+                        <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
+                    </#if>
+                    <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
+                        <a href="/finances" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
+                    </#if>
+                    <#if session?? && session.role == "ADMIN">
+                        <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
+                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
+                    </#if>
+                </div>
+
+                <#-- Right side: lang toggle + auth + hamburger -->
+                <div class="flex items-center gap-2">
+                    <#-- Language toggle -->
+                    <#if lang?? && lang == "en">
+                        <a href="/lang/vi" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
+                    <#else>
+                        <a href="/lang/en" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap">🇬🇧 <#if msg??>${msg['lang_toggle']!'English'}<#else>English</#if></a>
+                    </#if>
+
+                    <#-- Auth (desktop only) -->
+                    <div class="hidden md:flex items-center gap-2">
+                        <#if session??>
+                            <span class="text-green-100 text-xs lg:text-sm whitespace-nowrap">👤 ${session.username}</span>
+                            <a href="/logout" class="bg-green-900 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-800 whitespace-nowrap"><#if msg??>${msg['nav_logout']!'Logout'}<#else>Logout</#if></a>
+                        <#else>
+                            <a href="/login" class="text-green-100 hover:text-white px-2 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
+                            <a href="/register" class="bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-500 whitespace-nowrap"><#if msg??>${msg['nav_register']!'Register'}<#else>Register</#if></a>
                         </#if>
                     </div>
+
+                    <#-- Hamburger button (mobile only) -->
+                    <button id="nav-toggle" class="md:hidden text-white p-1 rounded focus:outline-none" aria-label="Menu" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <#if session??>
-                        <span class="text-green-100 text-sm">👤 ${session.username} (${session.role})</span>
-                        <a href="/logout" class="bg-green-900 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-800">Logout</a>
+            </div>
+        </div>
+
+        <#-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-green-800 px-4 pb-4 pt-2">
+            <div class="flex flex-col space-y-1">
+                <a href="/pets" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
+                <a href="/blog" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
+                <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
+                <#if session?? && session.role != "GUEST">
+                    <a href="/rescues" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
+                    <a href="/adoptions" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
+                </#if>
+                <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
+                    <a href="/finances" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
+                </#if>
+                <#if session?? && session.role == "ADMIN">
+                    <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
+                    <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
+                </#if>
+                <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
+                    <#if lang?? && lang == "en">
+                        <a href="/lang/vi" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
                     <#else>
-                        <a href="/login" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
-                        <a href="/register" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-500">Register</a>
+                        <a href="/lang/en" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🇬🇧 <#if msg??>${msg['lang_toggle']!'English'}<#else>English</#if></a>
+                    </#if>
+                    <#if session??>
+                        <span class="text-green-200 text-xs px-3">👤 ${session.username} (${session.role})</span>
+                        <a href="/logout" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_logout']!'Logout'}<#else>Logout</#if></a>
+                    <#else>
+                        <a href="/login" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
+                        <a href="/register" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_register']!'Register'}<#else>Register</#if></a>
                     </#if>
                 </div>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <main class="max-w-7xl mx-auto py-4 sm:py-6 px-0 sm:px-2 lg:px-4">
         <#nested>
     </main>
 
-    <footer class="bg-green-800 text-green-100 mt-12 py-8">
+    <footer class="bg-green-800 text-green-100 mt-8 sm:mt-12 py-6 sm:py-8">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p>🌱 Pet Rescue System - Saving lives one paw at a time 🐾</p>
+            <p class="text-sm sm:text-base">🌱 <#if msg??>${msg['footer_text']!'Pet Rescue System - Saving lives one paw at a time 🐾'}<#else>Pet Rescue System - Saving lives one paw at a time 🐾</#if></p>
         </div>
     </footer>
 </body>

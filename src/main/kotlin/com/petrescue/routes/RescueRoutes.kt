@@ -15,22 +15,22 @@ fun Route.rescueRoutes() {
 
     route("/rescues") {
         get {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
+            val session = call.sessions.get<UserSession>()
             val rescues = service.getAll()
             call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session), ""))
         }
 
         get("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
+            val session = call.sessions.get<UserSession>()
             call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "error" to null), ""))
         }
 
         post("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
+            val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
             service.create(
                 Rescue(
-                    userId = session.userId,
+                    userId = session?.userId,
                     location = params["location"] ?: "",
                     description = params["description"] ?: "",
                     contactInfo = params["contactInfo"] ?: ""
@@ -40,8 +40,7 @@ fun Route.rescueRoutes() {
         }
 
         post("/{id}/status") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/rescues"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
             service.updateStatus(id, params["status"] ?: "REPORTED")
@@ -49,8 +48,7 @@ fun Route.rescueRoutes() {
         }
 
         post("/{id}/delete") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role != "ADMIN") { call.respondRedirect("/rescues"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
             call.respondRedirect("/rescues")

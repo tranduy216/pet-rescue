@@ -17,30 +17,30 @@ fun Route.adoptionRoutes() {
 
     route("/adoptions") {
         get {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            val adoptions = if (session.role in listOf("ADMIN", "VOLUNTEER")) {
+            val session = call.sessions.get<UserSession>()
+            val adoptions = if (session?.role in listOf("ADMIN", "VOLUNTEER")) {
                 service.getAll()
             } else {
-                service.getByUser(session.userId)
+                service.getByUser(session?.userId ?: 0)
             }
             call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session), ""))
         }
 
         get("/request/{petId}") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
+            val session = call.sessions.get<UserSession>()
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@get
             val pet = petService.getById(petId) ?: return@get
             call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null), ""))
         }
 
         post("/request/{petId}") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
+            val session = call.sessions.get<UserSession>()
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
             service.create(
                 Adoption(
                     petId = petId,
-                    userId = session.userId,
+                    userId = session?.userId ?: 0,
                     phone = params["phone"] ?: "",
                     facebookLink = params["facebookLink"] ?: "",
                     notes = params["notes"]
@@ -50,18 +50,17 @@ fun Route.adoptionRoutes() {
         }
 
         post("/{id}/approve") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/adoptions"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.approve(id, session.userId)
+            service.approve(id, session?.userId ?: 0)
             call.respondRedirect("/adoptions")
         }
 
         post("/{id}/cancel") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
-            service.cancel(id, session.userId, params["reason"])
+            service.cancel(id, session?.userId ?: 0, params["reason"])
             call.respondRedirect("/adoptions")
         }
     }

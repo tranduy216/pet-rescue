@@ -2,6 +2,7 @@ package com.petrescue.database
 
 import com.petrescue.config.AppConfig
 import com.petrescue.database.tables.*
+import com.petrescue.repositories.RoleResourceRepository
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -22,8 +23,10 @@ object DatabaseFactory {
                 Finances,
                 Rescues,
                 Blogs,
-                Donations
+                Donations,
+                RoleResources
             )
         }
+        RoleResourceRepository().seed()
     }
 }
