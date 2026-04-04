@@ -8,4 +8,6 @@ class AppConfig(config: ApplicationConfig) {
     val dbUrl: String = config.propertyOrNull("app.database.url")?.getString()
         ?: "jdbc:h2:file:./data/petrescue;MODE=PostgreSQL;AUTO_SERVER=TRUE"
     val dbDriver: String = config.propertyOrNull("app.database.driver")?.getString() ?: "org.h2.Driver"
+    val dbUsername: String = config.propertyOrNull("app.database.username")?.getString() ?: ""
+    val dbPassword: String = config.propertyOrNull("app.database.password")?.getString() ?: ""
 }

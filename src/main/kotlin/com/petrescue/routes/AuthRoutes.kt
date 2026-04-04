@@ -45,6 +45,32 @@ fun Route.authRoutes(userService: UserService) {
         val password = params["password"] ?: ""
         val fullName = params["fullName"] ?: ""
         val phone = params["phone"]?.trim()?.takeIf { it.isNotBlank() }
+
+        val validationError = when {
+            username.isBlank() ->
+                "Username is required"
+            !username.lowercase().trim().matches(Regex("^[a-z0-9_]+$")) ->
+                "Username can only contain letters (a–z), digits, and underscores — no spaces or special characters"
+            email.isBlank() ->
+                "Email is required"
+            !email.matches(Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) ->
+                "Invalid email format"
+            phone != null && !phone.matches(Regex("^[+\\d][\\d\\s\\-().]{5,19}$")) ->
+                "Invalid phone number format"
+            else -> null
+        }
+
+        if (validationError != null) {
+            call.respond(
+                FreeMarkerContent(
+                    "auth/register.ftl",
+                    mapOf("error" to validationError, "msg" to call.messages(), "lang" to call.lang()),
+                    ""
+                )
+            )
+            return@post
+        }
+
         val user = userService.register(username, email, password, fullName, phone)
         if (user != null) {
             call.sessions.set(UserSession(user.id, user.username, user.role))

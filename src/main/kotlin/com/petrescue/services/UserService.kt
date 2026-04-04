@@ -4,63 +4,31 @@ import at.favre.lib.crypto.bcrypt.BCrypt
 import com.petrescue.models.User
 import com.petrescue.repositories.UserRepository
 
+private val USERNAME_REGEX = Regex("^[a-z0-9_]+$")
+private val EMAIL_REGEX = Regex("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
+private val PHONE_REGEX = Regex("^[+\\d][\\d\\s\\-().]{5,19}$")
+
 class UserService {
     private val repository = UserRepository()
 
-    fun seedAdminUser() {
-        val existing = repository.findByUsername("admin")
-        if (existing == null) {
-            val hash = BCrypt.withDefaults().hashToString(12, "admin123".toCharArray())
-            repository.create(
-                User(
-                    username = "admin",
-                    email = "admin@petrescue.com",
-                    passwordHash = hash,
-                    fullName = "System Administrator",
-                    role = "ADMIN"
-                )
-            )
-        }
-        if (repository.findByUsername("volunteer") == null) {
-            val hash = BCrypt.withDefaults().hashToString(12, "volunteer123".toCharArray())
-            repository.create(
-                User(
-                    username = "volunteer",
-                    email = "volunteer@petrescue.com",
-                    passwordHash = hash,
-                    fullName = "Volunteer",
-                    role = "VOLUNTEER"
-                )
-            )
-        }
-        if (repository.findByUsername("user") == null) {
-            val hash = BCrypt.withDefaults().hashToString(12, "user123".toCharArray())
-            repository.create(
-                User(
-                    username = "user",
-                    email = "user@petrescue.com",
-                    passwordHash = hash,
-                    fullName = "App User",
-                    role = "USER"
-                )
-            )
-        }
-    }
-
     fun login(username: String, password: String): User? {
-        val user = repository.findByUsername(username) ?: return null
+        val user = repository.findByUsername(username.lowercase().trim()) ?: return null
         if (!user.active) return null
         val result = BCrypt.verifyer().verify(password.toCharArray(), user.passwordHash)
         return if (result.verified) user else null
     }
 
     fun register(username: String, email: String, password: String, fullName: String, phone: String? = null): User? {
-        if (repository.findByUsername(username) != null) return null
+        val normalizedUsername = username.lowercase().trim()
+        if (normalizedUsername.isBlank() || !normalizedUsername.matches(USERNAME_REGEX)) return null
+        if (email.isBlank() || !email.matches(EMAIL_REGEX)) return null
+        if (phone != null && !phone.matches(PHONE_REGEX)) return null
+        if (repository.findByUsername(normalizedUsername) != null) return null
         if (repository.findByEmail(email) != null) return null
         val hash = BCrypt.withDefaults().hashToString(12, password.toCharArray())
         return repository.create(
             User(
-                username = username,
+                username = normalizedUsername,
                 email = email,
                 passwordHash = hash,
                 fullName = fullName,

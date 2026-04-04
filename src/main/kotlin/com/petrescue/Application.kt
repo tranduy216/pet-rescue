@@ -99,7 +99,6 @@ fun Application.module() {
     }
 
     val userService = UserService()
-    userService.seedAdminUser()
 
     routing {
         staticResources("/assets", "assets")
