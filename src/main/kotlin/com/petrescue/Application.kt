@@ -6,6 +6,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
+import com.petrescue.services.AuditLogService
 import com.petrescue.services.UserService
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.http.*
@@ -20,8 +21,11 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.slf4j.event.Level
 import java.io.File
+import kotlin.time.Duration.Companion.hours
 
 data class UserSession(val userId: Int, val username: String, val role: String) : Principal
 
@@ -101,6 +105,19 @@ fun Application.module() {
     val userService = UserService()
     userService.seedAdminUser()
 
+    // Daily audit log cleanup: remove records older than 6 months, keep at most 20 000 rows
+    launch {
+        while (true) {
+            delay(24.hours)
+            try {
+                val deleted = AuditLogService.cleanup()
+                if (deleted > 0) log.info("Audit log cleanup: removed $deleted old records")
+            } catch (e: Exception) {
+                log.error("Audit log cleanup failed", e)
+            }
+        }
+    }
+
     routing {
         staticResources("/assets", "assets")
         static("/static") {
@@ -122,5 +139,6 @@ fun Application.module() {
         configRoutes()
         profileRoutes()
         wishRoutes()
+        auditRoutes()
     }
 }

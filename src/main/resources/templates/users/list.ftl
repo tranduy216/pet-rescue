@@ -5,6 +5,16 @@
         <h1 class="text-2xl font-bold text-green-800">${msg['user_page_title']!'👥 Users'}</h1>
         <a href="/users/new" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">${msg['user_add_btn']!'+ New User'}</a>
     </div>
+    <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+        <form method="get" action="/users" class="flex flex-wrap gap-3">
+            <select name="role" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">${msg['user_filter_role_all']!'Tất Cả Vai Trò'}</option>
+                <option value="ADMIN" <#if (role)! == 'ADMIN'>selected</#if>>${msg['role_admin']!'Admin'}</option>
+                <option value="VOLUNTEER" <#if (role)! == 'VOLUNTEER'>selected</#if>>${msg['role_volunteer']!'Volunteer'}</option>
+                <option value="USER" <#if (role)! == 'USER'>selected</#if>>${msg['role_user']!'User'}</option>
+            </select>
+        </form>
+    </div>
     <div class="bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
             <thead class="bg-green-700 text-white">

@@ -10,7 +10,7 @@
     <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
     <div class="bg-white rounded-xl shadow-md p-4 mb-6">
         <form method="get" action="/blog" class="flex flex-wrap gap-3">
-            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
                 <option value="published" <#if (status)! == 'published'>selected</#if>>${msg['blog_status_published']!'Đã Đăng'}</option>
                 <option value="draft" <#if (status)! == 'draft'>selected</#if>>${msg['blog_draft']!'Bản Nháp'}</option>
@@ -36,13 +36,13 @@
                     <span>${blog.createdAt?string?substring(0, 10)}</span>
                     <#if blog.tags??><span class="text-green-600">${blog.tags}</span></#if>
                 </div>
-                <div class="flex space-x-2">
+                <div class="flex items-center space-x-2">
                     <a href="/blog/${blog.id}" class="text-green-600 hover:text-green-800 text-sm">${msg['blog_read_more']!'Read more →'}</a>
                     <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
                     <a href="/blog/${blog.id}/edit" class="text-blue-600 hover:text-blue-800 text-sm">${msg['btn_edit']!'Edit'}</a>
                     </#if>
                     <#if session?? && session.role == "ADMIN">
-                    <form method="POST" action="/blog/${blog.id}/delete" class="inline">
+                    <form method="POST" action="/blog/${blog.id}/delete" class="inline flex items-center">
                         <button type="submit" class="text-red-600 hover:text-red-800 text-sm"
                             onclick="return confirm('${msg['blog_delete_confirm']!'Delete this post?'}')">${msg['btn_delete']!'Delete'}</button>
                     </form>

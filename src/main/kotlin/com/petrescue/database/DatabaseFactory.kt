@@ -24,7 +24,8 @@ object DatabaseFactory {
                 Blogs,
                 Donations,
                 RoleResources,
-                SiteConfigs
+                SiteConfigs,
+                AuditLogs
             )
         }
         RoleResourceRepository().seed()

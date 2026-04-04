@@ -17,8 +17,9 @@ fun Route.userRoutes() {
     route("/users") {
         get {
             val session = call.sessions.get<UserSession>()
-            val users = service.getAll()
-            call.respond(FreeMarkerContent("users/list.ftl", mapOf("users" to users, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            val role = call.request.queryParameters["role"]
+            val users = service.getAll(role)
+            call.respond(FreeMarkerContent("users/list.ftl", mapOf("users" to users, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "role" to role), ""))
         }
 
         get("/new") {

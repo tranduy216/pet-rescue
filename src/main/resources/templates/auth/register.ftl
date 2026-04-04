@@ -9,6 +9,7 @@
         </div>
         </#if>
         <form method="POST" action="/register" class="space-y-4">
+            <input type="hidden" name="redirect" value="${redirect!''}">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">${msg['auth_field_fullname']!'Full Name'}</label>
                 <input type="text" name="fullName" required

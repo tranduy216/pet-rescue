@@ -58,6 +58,10 @@
                                         class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
                                         ⚙️ <#if msg??>${msg['nav_config']!'Cấu Hình'}<#else>Cấu Hình</#if>
                                     </a>
+                                    <a href="/audit"
+                                        class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
+                                        📋 <#if msg??>${msg['nav_audit']!'Nhật Ký'}<#else>Nhật Ký</#if>
+                                    </a>
                                     </#if>
                                     <div class="border-t border-gray-100 my-1"></div>
                                     <a href="/logout"

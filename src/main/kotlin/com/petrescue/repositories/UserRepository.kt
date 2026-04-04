@@ -21,8 +21,10 @@ class UserRepository {
         Users.select { Users.email eq email }.singleOrNull()?.toUser()
     }
 
-    fun findAll(): List<User> = transaction {
-        Users.selectAll().map { it.toUser() }
+    fun findAll(role: String? = null): List<User> = transaction {
+        var query = Users.selectAll()
+        if (!role.isNullOrBlank()) query = query.andWhere { Users.role eq role }
+        query.map { it.toUser() }
     }
 
     fun create(user: User): User = transaction {
