@@ -21,7 +21,7 @@ fun Route.adoptionRoutes() {
             val adoptions = if (session?.role in listOf("ADMIN", "VOLUNTEER")) {
                 service.getAll()
             } else {
-                service.getByUser(session?.userId ?: 0)
+                service.getByUser(session!!.userId)
             }
             call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session), ""))
         }
@@ -40,7 +40,7 @@ fun Route.adoptionRoutes() {
             service.create(
                 Adoption(
                     petId = petId,
-                    userId = session?.userId ?: 0,
+                    userId = session!!.userId,
                     phone = params["phone"] ?: "",
                     facebookLink = params["facebookLink"] ?: "",
                     notes = params["notes"]
@@ -52,7 +52,7 @@ fun Route.adoptionRoutes() {
         post("/{id}/approve") {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.approve(id, session?.userId ?: 0)
+            service.approve(id, session!!.userId)
             call.respondRedirect("/adoptions")
         }
 
@@ -60,7 +60,7 @@ fun Route.adoptionRoutes() {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
-            service.cancel(id, session?.userId ?: 0, params["reason"])
+            service.cancel(id, session!!.userId, params["reason"])
             call.respondRedirect("/adoptions")
         }
     }

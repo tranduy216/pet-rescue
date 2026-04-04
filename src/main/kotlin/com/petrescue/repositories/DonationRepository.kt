@@ -43,7 +43,7 @@ class DonationRepository {
     }
 
     fun countDonors(): Long = transaction {
-        Donations.selectAll().count()
+        Donations.slice(Donations.donorEmail).selectAll().withDistinct().count()
     }
 
     private fun ResultRow.toDonation() = Donation(

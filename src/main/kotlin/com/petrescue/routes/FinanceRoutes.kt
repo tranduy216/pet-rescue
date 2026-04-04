@@ -66,7 +66,7 @@ fun Route.financeRoutes() {
                     amount = params["amount"]?.toBigDecimalOrNull() ?: BigDecimal.ZERO,
                     description = params["description"] ?: "",
                     category = params["category"],
-                    recordedBy = session?.userId ?: 0,
+                    recordedBy = session!!.userId,
                     date = params["date"]?.let { LocalDate.parse(it) } ?: LocalDate.now()
                 )
             )

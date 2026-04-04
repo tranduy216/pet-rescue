@@ -74,18 +74,20 @@ val AuthorizationPlugin = createApplicationPlugin(name = "AuthorizationPlugin") 
     }
 }
 
+// Compiled once – shared across all calls to normalisePath.
+private val UUID_REGEX = Regex("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
+private val NUMERIC_REGEX = Regex("^\\d+$")
+
 // Replace every path segment that looks like a numeric ID or UUID with "*".
 // Examples:
 //   "/pets/42/edit"          becomes  "/pets/[*]/edit"
 //   "/blog/123/delete"       becomes  "/blog/[*]/delete"
 //   "/pets/7/media/3/delete" becomes  "/pets/[*]/media/[*]/delete"
 private fun normalisePath(path: String): String {
-    val uuidRegex = Regex("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
-    val numericRegex = Regex("^\\d+$")
     return path.split("/").joinToString("/") { segment ->
         when {
-            segment.matches(numericRegex) -> "*"
-            segment.matches(uuidRegex) -> "*"
+            segment.matches(NUMERIC_REGEX) -> "*"
+            segment.matches(UUID_REGEX) -> "*"
             else -> segment
         }
     }

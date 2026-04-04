@@ -78,7 +78,7 @@ fun Route.petRoutes() {
                     gender = params["gender"],
                     description = params["description"],
                     status = params["status"] ?: "AVAILABLE",
-                    createdBy = session?.userId ?: 0
+                    createdBy = session!!.userId
                 )
             )
             mediaFiles.forEach { url ->

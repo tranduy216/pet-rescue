@@ -33,7 +33,7 @@ fun Route.blogRoutes() {
                 Blog(
                     title = params["title"] ?: "",
                     content = params["content"] ?: "",
-                    authorId = session?.userId ?: 0,
+                    authorId = session!!.userId,
                     tags = params["tags"],
                     published = params["isPublished"] == "true"
                 )
