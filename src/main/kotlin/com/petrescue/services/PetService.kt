@@ -1,5 +1,6 @@
 package com.petrescue.services
 
+import com.petrescue.cache.AppCache
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
 import com.petrescue.repositories.PetRepository
@@ -14,15 +15,15 @@ class PetService {
 
     fun getById(id: Int) = repository.findById(id)
 
-    fun create(pet: Pet) = repository.create(pet)
+    fun create(pet: Pet) = repository.create(pet).also { AppCache.invalidateAll() }
 
-    fun update(pet: Pet) = repository.update(pet)
+    fun update(pet: Pet) = repository.update(pet).also { AppCache.invalidateAll() }
 
-    fun delete(id: Int) = repository.delete(id)
+    fun delete(id: Int) = repository.delete(id).also { AppCache.invalidateAll() }
 
-    fun addMedia(media: PetMedia) = repository.addMedia(media)
+    fun addMedia(media: PetMedia) = repository.addMedia(media).also { AppCache.invalidateAll() }
 
-    fun deleteMedia(mediaId: Int) = repository.deleteMedia(mediaId)
+    fun deleteMedia(mediaId: Int) = repository.deleteMedia(mediaId).also { AppCache.invalidateAll() }
 
     fun countByStatus(status: String) = repository.countByStatus(status)
 
