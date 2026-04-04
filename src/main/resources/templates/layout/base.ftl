@@ -53,7 +53,7 @@
                                         class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
                                         🪪 <#if msg??>${msg['nav_profile']!'Hồ Sơ'}<#else>Hồ Sơ</#if>
                                     </a>
-                                     <#if session.role == "ADMIN">
+                                    <#if session.role == "ADMIN">
                                     <a href="/config"
                                         class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
                                         ⚙️ <#if msg??>${msg['nav_config']!'Cấu Hình'}<#else>Cấu Hình</#if>

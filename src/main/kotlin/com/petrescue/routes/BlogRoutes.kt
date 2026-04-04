@@ -4,7 +4,6 @@ import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Blog
-import com.petrescue.services.AuditLogService
 import com.petrescue.services.BlogService
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -75,7 +74,7 @@ fun Route.blogRoutes() {
         post("/new") {
             val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
-            val blog = service.create(
+            service.create(
                 Blog(
                     title = params["title"] ?: "",
                     content = params["content"] ?: "",
@@ -84,7 +83,6 @@ fun Route.blogRoutes() {
                     published = params["isPublished"] == "true"
                 )
             )
-            AuditLogService.log("CREATE", "Blog", blog.id, session.userId, session.username)
             call.respondRedirect("/blog")
         }
 
@@ -128,7 +126,6 @@ fun Route.blogRoutes() {
                     published = params["isPublished"] == "true"
                 )
             )
-            AuditLogService.log("UPDATE", "Blog", id, session?.userId, session?.username)
             call.respondRedirect("/blog/$id")
         }
 

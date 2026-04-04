@@ -15,4 +15,7 @@ object AuditLogService {
     }
 
     fun getAll(limit: Int = 200) = repository.findAll(limit)
+
+    /** Deletes records older than 6 months and trims to 20 000 max. Returns count of deleted rows. */
+    fun cleanup() = repository.cleanup()
 }

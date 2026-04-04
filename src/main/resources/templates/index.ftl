@@ -32,6 +32,15 @@
             <a href="/pets" class="flex items-center justify-center gap-1 sm:gap-2 bg-emerald-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-emerald-400 transition-all text-sm sm:text-base">
                 🐶 ${msg['home_btn_browse_pets']!'Ngắm Các Bé'}
             </a>
+            <#if session??>
+            <a href="/rescues/new" class="flex items-center justify-center gap-1 sm:gap-2 bg-red-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-red-400 transition-all text-sm sm:text-base">
+                🚨 ${msg['home_btn_report_rescue']!'Báo Cứu Hộ'}
+            </a>
+            <#else>
+            <a href="/register?redirect=/rescues/new" class="flex items-center justify-center gap-1 sm:gap-2 bg-red-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-red-400 transition-all text-sm sm:text-base">
+                🚨 ${msg['home_btn_report_rescue']!'Báo Cứu Hộ'}
+            </a>
+            </#if>
         </div>
     </div>
 </section>

@@ -6,6 +6,7 @@ import com.petrescue.i18n.messages
 import com.petrescue.models.Rescue
 import com.petrescue.services.AuditLogService
 import com.petrescue.services.RescueService
+import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.request.*
@@ -15,6 +16,7 @@ import io.ktor.server.sessions.*
 
 fun Route.rescueRoutes() {
     val service = RescueService()
+    val userService = UserService()
 
     route("/rescues") {
         get {
@@ -26,18 +28,23 @@ fun Route.rescueRoutes() {
 
         get("/new") {
             val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            val user = userService.getById(session.userId)
+            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "user" to user, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/new") {
             val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
             val params = call.receiveParameters()
+            val user = userService.getById(session.userId)
+            val contactInfo = params["contactInfo"]?.takeIf { it.isNotBlank() }
+                ?: user?.phone?.takeIf { it.isNotBlank() }
+                ?: ""
             val rescue = service.create(
                 Rescue(
                     userId = session.userId,
                     location = params["location"] ?: "",
                     description = params["description"] ?: "",
-                    contactInfo = params["contactInfo"] ?: ""
+                    contactInfo = contactInfo
                 )
             )
             AuditLogService.log("CREATE", "Rescue", rescue.id, session.userId, session.username)
