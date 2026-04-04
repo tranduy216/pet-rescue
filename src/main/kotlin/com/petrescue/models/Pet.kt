@@ -2,6 +2,16 @@ package com.petrescue.models
 
 import java.time.LocalDateTime
 
+enum class PetStatus {
+    JUST_RESCUED,
+    UNDER_TREATMENT,
+    READY_TO_ADOPT,
+    ADOPT_REGISTERED,
+    ADOPTED,
+    CANNOT_ADOPT,
+    GONE_AWAY
+}
+
 data class Pet(
     val id: Int = 0,
     val name: String,
@@ -10,7 +20,7 @@ data class Pet(
     val age: Int? = null,
     val gender: String? = null,
     val description: String? = null,
-    val status: String = "AVAILABLE",
+    val status: String = PetStatus.JUST_RESCUED.name,
     val createdBy: Int,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
