@@ -24,19 +24,16 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_status']!'Status'}</label>
-                    <#if (pet.status)! == 'ADOPT_REGISTERED'>
-                    <input type="hidden" name="status" value="ADOPT_REGISTERED">
+                    <#if (pet.status)! == 'ADOPT_REGISTERED' || (pet.status)! == 'ADOPTED'>
+                    <input type="hidden" name="status" value="${(pet.status)!}">
                     <div class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-100 text-gray-500">
-                        ${msg['pet_status_adopt_registered']!'Adopt Registered'}
+                        <#if (pet.status)! == 'ADOPT_REGISTERED'>${msg['pet_status_adopt_registered']!'Adopt Registered'}<#else>${msg['pet_status_adopted']!'Adopted'}</#if>
                     </div>
                     <#else>
                     <select name="status" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="JUST_RESCUED" <#if (pet.status)! == 'JUST_RESCUED'>selected</#if>>${msg['pet_status_just_rescued']!'Just Rescued'}</option>
                         <option value="UNDER_TREATMENT" <#if (pet.status)! == 'UNDER_TREATMENT'>selected</#if>>${msg['pet_status_under_treatment']!'Under Treatment'}</option>
                         <option value="READY_TO_ADOPT" <#if (pet.status)! == 'READY_TO_ADOPT'>selected</#if>>${msg['pet_status_ready_to_adopt']!'Ready to Adopt'}</option>
-                        <#if pet??>
-                        <option value="ADOPTED" <#if (pet.status)! == 'ADOPTED'>selected</#if>>${msg['pet_status_adopted']!'Adopted'}</option>
-                        </#if>
                         <option value="CANNOT_ADOPT" <#if (pet.status)! == 'CANNOT_ADOPT'>selected</#if>>${msg['pet_status_cannot_adopt']!'Cannot Adopt'}</option>
                         <option value="GONE_AWAY" <#if (pet.status)! == 'GONE_AWAY'>selected</#if>>${msg['pet_status_gone_away']!'Gone Away'}</option>
                     </select>
