@@ -103,23 +103,30 @@ fun Route.petRoutes() {
                 call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
                 return@post
             }
-            val pet = service.create(
-                Pet(
-                    name = params["name"] ?: "",
-                    type = params["type"] ?: "DOG",
-                    breed = params["breed"],
-                    age = params["age"]?.toIntOrNull(),
-                    gender = params["gender"],
-                    description = params["description"],
-                    youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
-                    status = params["status"] ?: "AVAILABLE",
-                    createdBy = session!!.userId
+            val pet = try {
+                service.create(
+                    Pet(
+                        name = params["name"] ?: "",
+                        type = params["type"] ?: "DOG",
+                        breed = params["breed"],
+                        age = params["age"]?.toIntOrNull(),
+                        gender = params["gender"],
+                        description = params["description"],
+                        youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
+                        status = params["status"] ?: "JUST_RESCUED",
+                        createdBy = session!!.userId
+                    )
                 )
-            )
+            } catch (e: IllegalStateException) {
+                val msg = call.messages()
+                val error = msg[e.message] ?: e.message
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                return@post
+            }
             mediaFiles.forEach { url ->
                 service.addMedia(PetMedia(petId = pet.id, fileUrl = url, mediaType = "IMAGE"))
             }
-            AuditLogService.log("CREATE", "Pet", pet.id, session.userId, session.username)
+            AuditLogService.log("CREATE", "Pet", pet.id, session!!.userId, session.username)
             call.respondRedirect("/pets/${pet.id}")
         }
 

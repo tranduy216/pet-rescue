@@ -3,12 +3,19 @@ package com.petrescue.services
 import com.petrescue.cache.AppCache
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
+import com.petrescue.models.PetStatus
 import com.petrescue.repositories.AdoptionRepository
 import com.petrescue.repositories.PetRepository
 
 class PetService {
     private val repository = PetRepository()
     private val adoptionRepository = AdoptionRepository()
+
+    companion object {
+        private val VALID_STATUSES = PetStatus.entries.map { it.name }.toSet()
+        // Statuses managed exclusively by the adoption workflow; cannot be set manually on create
+        val CREATE_DISALLOWED_STATUSES = setOf(PetStatus.ADOPT_REGISTERED.name, PetStatus.ADOPTED.name)
+    }
 
     fun getRecent(limit: Int = 3) = repository.findRecent(limit)
 
@@ -17,9 +24,20 @@ class PetService {
 
     fun getById(id: Int) = repository.findById(id)
 
-    fun create(pet: Pet) = repository.create(pet).also { AppCache.invalidateAll() }
+    fun create(pet: Pet): Pet {
+        if (pet.status !in VALID_STATUSES) {
+            throw IllegalStateException("pet_error_invalid_status")
+        }
+        if (pet.status in CREATE_DISALLOWED_STATUSES) {
+            throw IllegalStateException("pet_error_create_disallowed_status")
+        }
+        return repository.create(pet).also { AppCache.invalidateAll() }
+    }
 
     fun update(pet: Pet): Boolean {
+        if (pet.status !in VALID_STATUSES) {
+            throw IllegalStateException("pet_error_invalid_status")
+        }
         val existing = repository.findById(pet.id)
         if (existing != null && existing.status != pet.status) {
             // ADOPT_REGISTERED can only be set or cleared by the adoption workflow, never manually
