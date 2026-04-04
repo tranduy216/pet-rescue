@@ -24,6 +24,13 @@
 
         <form method="post" action="/profile" class="space-y-5">
             <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['profile_fullname']!'Họ Và Tên'}</label>
+                <input type="text" name="fullName"
+                    value="${(user.fullName)!''}"
+                    required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+            </div>
+            <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['profile_email']!'Email'}</label>
                 <input type="email" name="email"
                     value="${(user.email)!''}"

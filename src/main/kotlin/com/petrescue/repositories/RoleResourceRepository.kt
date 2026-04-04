@@ -48,14 +48,6 @@ class RoleResourceRepository {
             RoleResource("ADMIN", "/users", "GET"),
             RoleResource("ADMIN", "/users", "POST"),
 
-            // /finances – ADMIN and VOLUNTEER
-            RoleResource("ADMIN", "/finances", "GET"),
-            RoleResource("ADMIN", "/finances", "POST"),
-            RoleResource("VOLUNTEER", "/finances", "GET"),
-            RoleResource("VOLUNTEER", "/finances", "POST"),
-            // /finances/*/delete – ADMIN only
-            RoleResource("ADMIN", "/finances/*/delete", "POST"),
-
             // /adoptions – any authenticated role
             RoleResource("USER", "/adoptions", "GET"),
             RoleResource("USER", "/adoptions", "POST"),
@@ -84,9 +76,9 @@ class RoleResourceRepository {
             // /rescues/*/delete – ADMIN only
             RoleResource("ADMIN", "/rescues/*/delete", "POST"),
 
-            // /donations (management list) – ADMIN only
-            RoleResource("ADMIN", "/donations", "GET"),
-            RoleResource("ADMIN", "/donations", "POST"),
+            // /donations/*/confirm and /donations/*/cancel – ADMIN only
+            RoleResource("ADMIN", "/donations/*/confirm", "POST"),
+            RoleResource("ADMIN", "/donations/*/cancel", "POST"),
 
             // /pets write operations – ADMIN and VOLUNTEER
             RoleResource("ADMIN", "/pets/new", "GET"),

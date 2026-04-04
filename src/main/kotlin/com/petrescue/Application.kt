@@ -91,7 +91,6 @@ fun Application.module() {
         blogRoutes()
         donateRoutes()
         userRoutes()
-        financeRoutes()
         adoptionRoutes()
         rescueRoutes()
         configRoutes()

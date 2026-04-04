@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} 🐾</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Smooth line-clamp support */
         .line-clamp-3 {
@@ -36,24 +34,14 @@
                         <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
                         <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                     </#if>
-                    <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                        <a href="/finances" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
-                    </#if>
                     <#if session?? && session.role == "ADMIN">
                         <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                     </#if>
+                    <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                 </div>
 
-                <#-- Right side: lang toggle + auth + hamburger -->
+                <#-- Right side: auth + hamburger -->
                 <div class="flex items-center gap-2 ml-auto">
-                    <#-- Language toggle -->
-                    <#if lang?? && lang == "en">
-                        <a href="/lang/vi" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
-                    <#else>
-                        <a href="/lang/en" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap">🇬🇧 <#if msg??>${msg['lang_toggle']!'English'}<#else>English</#if></a>
-                    </#if>
-
                     <#-- Auth (desktop only) -->
                     <div class="hidden md:flex items-center gap-2">
                         <#if session??>
@@ -99,6 +87,13 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
+
+                    <#-- Language toggle (far right) -->
+                    <#if lang?? && lang == "en">
+                        <a href="/lang/vi" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap ml-2">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
+                    <#else>
+                        <a href="/lang/en" class="hidden sm:inline text-xs bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded font-medium border border-green-400 whitespace-nowrap ml-2">🇬🇧 <#if msg??>${msg['lang_toggle']!'English'}<#else>English</#if></a>
+                    </#if>
                 </div>
             </div>
         </div>
@@ -113,13 +108,10 @@
                     <a href="/rescues" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
                     <a href="/adoptions" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                 </#if>
-                <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                    <a href="/finances" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💰 <#if msg??>${msg['nav_finance']!'Finance'}<#else>Finance</#if></a>
-                </#if>
                 <#if session?? && session.role == "ADMIN">
                     <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                    <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                 </#if>
+                <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#if lang?? && lang == "en">
                         <a href="/lang/vi" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>

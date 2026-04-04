@@ -30,7 +30,7 @@ class UserService {
         return if (result.verified) user else null
     }
 
-    fun register(username: String, email: String, password: String, fullName: String): User? {
+    fun register(username: String, email: String, password: String, fullName: String, phone: String? = null): User? {
         if (repository.findByUsername(username) != null) return null
         if (repository.findByEmail(email) != null) return null
         val hash = BCrypt.withDefaults().hashToString(12, password.toCharArray())
@@ -40,6 +40,7 @@ class UserService {
                 email = email,
                 passwordHash = hash,
                 fullName = fullName,
+                phone = phone,
                 role = "USER"
             )
         )

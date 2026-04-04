@@ -29,6 +29,12 @@
                 <input type="password" name="password" required minlength="6"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
             </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['auth_field_phone']!'Số Điện Thoại'}</label>
+                <input type="tel" name="phone" required
+                    placeholder="0912 345 678"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
             <button type="submit" class="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700">${msg['auth_btn_register']!'Register'}</button>
         </form>
         <p class="text-center mt-4 text-sm text-gray-600">

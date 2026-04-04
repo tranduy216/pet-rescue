@@ -71,6 +71,7 @@ object Messages {
 
         // Profile page
         "profile_title" to "Hồ Sơ Của Tôi",
+        "profile_fullname" to "Họ Và Tên",
         "profile_email" to "Email",
         "profile_phone" to "Số Điện Thoại",
         "profile_save" to "Lưu Thay Đổi",
@@ -278,6 +279,7 @@ object Messages {
         "auth_register_title" to "🌿 Đăng Ký",
         "auth_field_fullname" to "Họ Và Tên",
         "auth_field_email" to "Email",
+        "auth_field_phone" to "Số Điện Thoại",
         "auth_btn_register" to "Đăng Ký",
         "auth_have_account" to "Đã có tài khoản?",
         "auth_login_link" to "Đăng Nhập",
@@ -362,6 +364,7 @@ object Messages {
 
         // Profile page
         "profile_title" to "My Profile",
+        "profile_fullname" to "Full Name",
         "profile_email" to "Email",
         "profile_phone" to "Phone Number",
         "profile_save" to "Save Changes",
@@ -569,6 +572,7 @@ object Messages {
         "auth_register_title" to "🌿 Register",
         "auth_field_fullname" to "Full Name",
         "auth_field_email" to "Email",
+        "auth_field_phone" to "Phone Number",
         "auth_btn_register" to "Register",
         "auth_have_account" to "Already have an account?",
         "auth_login_link" to "Login",

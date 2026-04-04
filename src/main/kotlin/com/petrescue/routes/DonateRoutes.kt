@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.models.Donation
 import com.petrescue.services.DonationService
 import io.ktor.server.application.*
@@ -17,7 +19,7 @@ fun Route.donateRoutes() {
     route("/donate") {
         get {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "success" to false, "error" to null), ""))
+            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "success" to false, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post {
@@ -34,7 +36,7 @@ fun Route.donateRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "donate/form.ftl",
-                    mapOf("session" to session, "success" to true, "error" to null, "donation" to donation),
+                    mapOf("session" to session, "success" to true, "error" to null, "donation" to donation, "msg" to call.messages(), "lang" to call.lang()),
                     ""
                 )
             )
@@ -46,11 +48,15 @@ fun Route.donateRoutes() {
             val session = call.sessions.get<UserSession>()
             val donations = service.getAll()
             val total = service.getTotalConfirmed()
-            call.respond(FreeMarkerContent("donate/list.ftl", mapOf("donations" to donations, "total" to total, "session" to session), ""))
+            call.respond(FreeMarkerContent("donate/list.ftl", mapOf("donations" to donations, "total" to total, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         post("/{id}/confirm") {
             val session = call.sessions.get<UserSession>()
+            if (session == null || session.role != "ADMIN") {
+                call.respondRedirect("/donations")
+                return@post
+            }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.updateStatus(id, "CONFIRMED")
             call.respondRedirect("/donations")
@@ -58,6 +64,10 @@ fun Route.donateRoutes() {
 
         post("/{id}/cancel") {
             val session = call.sessions.get<UserSession>()
+            if (session == null || session.role != "ADMIN") {
+                call.respondRedirect("/donations")
+                return@post
+            }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.updateStatus(id, "CANCELLED")
             call.respondRedirect("/donations")
