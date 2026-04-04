@@ -37,7 +37,7 @@
                             <#else>${msg['adoption_status_requested']!'Pending'}</#if>
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-sm">${d.createdAt?string('yyyy-MM-dd')}</td>
+                    <td class="px-4 py-3 text-sm">${d.createdAt?string?substring(0, 10)}</td>
                     <td class="px-4 py-3 text-sm space-x-2">
                         <#if d.status == 'PENDING' && session?? && session.role == "ADMIN">
                         <form method="POST" action="/donations/${d.id}/confirm" class="inline">
