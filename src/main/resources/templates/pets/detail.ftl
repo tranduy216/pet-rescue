@@ -20,12 +20,22 @@
             <div class="flex justify-between items-start mb-4">
                 <h1 class="text-3xl font-bold text-green-800">${pet.name}</h1>
                 <span class="px-3 py-1 rounded-full text-sm font-medium
-                    <#if pet.status == 'AVAILABLE'>bg-green-100 text-green-800
-                    <#elseif pet.status == 'ADOPTED'>bg-blue-100 text-blue-800
+                    <#if pet.status == 'JUST_RESCUED'>bg-orange-100 text-orange-800
+                    <#elseif pet.status == 'UNDER_TREATMENT'>bg-yellow-100 text-yellow-800
+                    <#elseif pet.status == 'READY_TO_ADOPT'>bg-green-100 text-green-800
+                    <#elseif pet.status == 'ADOPT_REGISTERED'>bg-blue-100 text-blue-800
+                    <#elseif pet.status == 'ADOPTED'>bg-indigo-100 text-indigo-800
+                    <#elseif pet.status == 'CANNOT_ADOPT'>bg-gray-100 text-gray-800
+                    <#elseif pet.status == 'GONE_AWAY'>bg-red-100 text-red-800
                     <#else>bg-yellow-100 text-yellow-800</#if>">
-                    <#if pet.status == 'AVAILABLE'>${msg['pet_status_available']!'Available'}
+                    <#if pet.status == 'JUST_RESCUED'>${msg['pet_status_just_rescued']!'Just Rescued'}
+                    <#elseif pet.status == 'UNDER_TREATMENT'>${msg['pet_status_under_treatment']!'Under Treatment'}
+                    <#elseif pet.status == 'READY_TO_ADOPT'>${msg['pet_status_ready_to_adopt']!'Ready to Adopt'}
+                    <#elseif pet.status == 'ADOPT_REGISTERED'>${msg['pet_status_adopt_registered']!'Adopt Registered'}
                     <#elseif pet.status == 'ADOPTED'>${msg['pet_status_adopted']!'Adopted'}
-                    <#else>${msg['pet_status_rescued']!'Rescued'}</#if>
+                    <#elseif pet.status == 'CANNOT_ADOPT'>${msg['pet_status_cannot_adopt']!'Cannot Adopt'}
+                    <#elseif pet.status == 'GONE_AWAY'>${msg['pet_status_gone_away']!'Gone Away'}
+                    <#else>${pet.status}</#if>
                 </span>
             </div>
 
@@ -44,7 +54,7 @@
             </#if>
 
             <div class="flex space-x-3">
-                <#if session?? && pet.status == 'AVAILABLE'>
+                <#if session?? && pet.status == 'READY_TO_ADOPT'>
                 <a href="/adoptions/request/${pet.id}" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">${msg['pet_request_adoption']!'🏠 Request Adoption'}</a>
                 </#if>
                 <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>

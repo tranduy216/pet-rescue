@@ -21,9 +21,13 @@
             </select>
             <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">${msg['pet_status_all']!'All Status'}</option>
-                <option value="AVAILABLE" <#if (status)! == 'AVAILABLE'>selected</#if>>${msg['pet_status_available']!'Available'}</option>
+                <option value="JUST_RESCUED" <#if (status)! == 'JUST_RESCUED'>selected</#if>>${msg['pet_status_just_rescued']!'Just Rescued'}</option>
+                <option value="UNDER_TREATMENT" <#if (status)! == 'UNDER_TREATMENT'>selected</#if>>${msg['pet_status_under_treatment']!'Under Treatment'}</option>
+                <option value="READY_TO_ADOPT" <#if (status)! == 'READY_TO_ADOPT'>selected</#if>>${msg['pet_status_ready_to_adopt']!'Ready to Adopt'}</option>
+                <option value="ADOPT_REGISTERED" <#if (status)! == 'ADOPT_REGISTERED'>selected</#if>>${msg['pet_status_adopt_registered']!'Adopt Registered'}</option>
                 <option value="ADOPTED" <#if (status)! == 'ADOPTED'>selected</#if>>${msg['pet_status_adopted']!'Adopted'}</option>
-                <option value="RESCUED" <#if (status)! == 'RESCUED'>selected</#if>>${msg['pet_status_rescued']!'Rescued'}</option>
+                <option value="CANNOT_ADOPT" <#if (status)! == 'CANNOT_ADOPT'>selected</#if>>${msg['pet_status_cannot_adopt']!'Cannot Adopt'}</option>
+                <option value="GONE_AWAY" <#if (status)! == 'GONE_AWAY'>selected</#if>>${msg['pet_status_gone_away']!'Gone Away'}</option>
             </select>
         </form>
     </div>

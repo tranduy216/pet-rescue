@@ -13,12 +13,22 @@
             <div class="flex justify-between items-start">
                 <h3 class="text-lg font-bold text-green-800">${pet.name}</h3>
                 <span class="text-xs px-2 py-1 rounded
-                    <#if pet.status == 'AVAILABLE'>bg-green-100 text-green-800
-                    <#elseif pet.status == 'ADOPTED'>bg-blue-100 text-blue-800
+                    <#if pet.status == 'JUST_RESCUED'>bg-orange-100 text-orange-800
+                    <#elseif pet.status == 'UNDER_TREATMENT'>bg-yellow-100 text-yellow-800
+                    <#elseif pet.status == 'READY_TO_ADOPT'>bg-green-100 text-green-800
+                    <#elseif pet.status == 'ADOPT_REGISTERED'>bg-blue-100 text-blue-800
+                    <#elseif pet.status == 'ADOPTED'>bg-indigo-100 text-indigo-800
+                    <#elseif pet.status == 'CANNOT_ADOPT'>bg-gray-100 text-gray-800
+                    <#elseif pet.status == 'GONE_AWAY'>bg-red-100 text-red-800
                     <#else>bg-yellow-100 text-yellow-800</#if>">
-                    <#if pet.status == 'AVAILABLE'>${msg['pet_status_available']!'Available'}
+                    <#if pet.status == 'JUST_RESCUED'>${msg['pet_status_just_rescued']!'Just Rescued'}
+                    <#elseif pet.status == 'UNDER_TREATMENT'>${msg['pet_status_under_treatment']!'Under Treatment'}
+                    <#elseif pet.status == 'READY_TO_ADOPT'>${msg['pet_status_ready_to_adopt']!'Ready to Adopt'}
+                    <#elseif pet.status == 'ADOPT_REGISTERED'>${msg['pet_status_adopt_registered']!'Adopt Registered'}
                     <#elseif pet.status == 'ADOPTED'>${msg['pet_status_adopted']!'Adopted'}
-                    <#else>${msg['pet_status_rescued']!'Rescued'}</#if>
+                    <#elseif pet.status == 'CANNOT_ADOPT'>${msg['pet_status_cannot_adopt']!'Cannot Adopt'}
+                    <#elseif pet.status == 'GONE_AWAY'>${msg['pet_status_gone_away']!'Gone Away'}
+                    <#else>${pet.status}</#if>
                 </span>
             </div>
             <p class="text-sm text-green-600"><#if pet.type == 'DOG'>${msg['pet_type_dog']!'🐕 Dog'}<#elseif pet.type == 'CAT'>${msg['pet_type_cat']!'🐈 Cat'}<#else>${msg['pet_type_other']!'🐾 Other'}</#if><#if pet.breed??> - ${pet.breed}</#if></p>
@@ -26,7 +36,7 @@
             <#if pet.gender??><p class="text-sm text-gray-500"><#if pet.gender == 'Male'>${msg['pet_gender_male']!'Male'}<#elseif pet.gender == 'Female'>${msg['pet_gender_female']!'Female'}<#else>${msg['pet_gender_unknown']!'Unknown'}</#if></p></#if>
             <div class="mt-3 flex space-x-2">
                 <a href="/pets/${pet.id}" class="flex-1 text-center bg-green-600 text-white px-3 py-1.5 rounded text-sm hover:bg-green-700">${msg['btn_view']!'View'}</a>
-                <#if session?? && pet.status == 'AVAILABLE'>
+                <#if session?? && pet.status == 'READY_TO_ADOPT'>
                 <a href="/adoptions/request/${pet.id}" class="flex-1 text-center bg-green-100 text-green-800 px-3 py-1.5 rounded text-sm hover:bg-green-200">${msg['btn_adopt']!'Adopt'}</a>
                 </#if>
             </div>

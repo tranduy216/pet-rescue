@@ -96,9 +96,13 @@ object Messages {
 
         // Pet statuses
         "pet_status_all" to "Tất Cả Trạng Thái",
-        "pet_status_available" to "Sẵn Sàng",
+        "pet_status_just_rescued" to "Vừa Được Cứu",
+        "pet_status_under_treatment" to "Đang Điều Trị",
+        "pet_status_ready_to_adopt" to "Sẵn Sàng Nhận Nuôi",
+        "pet_status_adopt_registered" to "Đã Đăng Ký Nhận Nuôi",
         "pet_status_adopted" to "Đã Được Nhận",
-        "pet_status_rescued" to "Đã Được Cứu",
+        "pet_status_cannot_adopt" to "Không Thể Nhận Nuôi",
+        "pet_status_gone_away" to "Đã Mất",
 
         // Pet genders
         "pet_gender_unknown" to "Không Rõ",
@@ -417,9 +421,13 @@ object Messages {
 
         // Pet statuses
         "pet_status_all" to "All Status",
-        "pet_status_available" to "Available",
+        "pet_status_just_rescued" to "Just Rescued",
+        "pet_status_under_treatment" to "Under Treatment",
+        "pet_status_ready_to_adopt" to "Ready to Adopt",
+        "pet_status_adopt_registered" to "Adopt Registered",
         "pet_status_adopted" to "Adopted",
-        "pet_status_rescued" to "Rescued",
+        "pet_status_cannot_adopt" to "Cannot Adopt",
+        "pet_status_gone_away" to "Gone Away",
 
         // Pet genders
         "pet_gender_unknown" to "Unknown",
