@@ -1,4 +1,4 @@
-<#import "layout/base.ftl" as layout>
+<#import "../layout/base.ftl" as layout>
 <@layout.page title="${msg['profile_title']!'Hồ Sơ Của Tôi'}">
 
 <div class="px-2 sm:px-4 py-6 max-w-lg mx-auto">
