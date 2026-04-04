@@ -71,6 +71,7 @@ object Messages {
 
         // Profile page
         "profile_title" to "Hồ Sơ Của Tôi",
+        "profile_fullname" to "Họ Và Tên",
         "profile_email" to "Email",
         "profile_phone" to "Số Điện Thoại",
         "profile_save" to "Lưu Thay Đổi",
@@ -210,9 +211,18 @@ object Messages {
         "donate_field_name" to "Tên Của Bạn",
         "donate_field_email" to "Email",
         "donate_field_amount" to "Số Tiền (VNĐ)",
-        "donate_field_message" to "Tin Nhắn (tùy chọn)",
-        "donate_field_message_placeholder" to "Để lại lời nhắn...",
+        "donate_field_message_placeholder" to "Gửi lời động viên tới các bạn tình nguyện...",
         "donate_btn" to "💚 Đóng Góp Ngay",
+        "donate_btn_send" to "💌 Gửi Lời Chúc",
+        "donate_wish_sent" to "Lời chúc của bạn đã được gửi! Cảm ơn bạn 💚",
+        "donate_wish_title" to "Gửi Lời Chúc",
+        "donate_wish_subtitle" to "Gửi lời động viên đến trạm cứu hộ",
+        "donate_field_name_placeholder" to "Nguyễn Văn A",
+        "donate_field_message" to "Lời Nhắn",
+        "donate_qr1_title" to "Ủng Hộ Trạm Cứu Hộ",
+        "donate_qr1_subtitle" to "Quét mã để chuyển khoản hỗ trợ trạm",
+        "donate_qr2_title" to "Ủng Hộ Website",
+        "donate_qr2_subtitle" to "Quét mã để chuyển khoản duy trì website",
 
         // Donate list
         "donate_page_title" to "📋 Đóng Góp",
@@ -278,6 +288,7 @@ object Messages {
         "auth_register_title" to "🌿 Đăng Ký",
         "auth_field_fullname" to "Họ Và Tên",
         "auth_field_email" to "Email",
+        "auth_field_phone" to "Số Điện Thoại",
         "auth_btn_register" to "Đăng Ký",
         "auth_have_account" to "Đã có tài khoản?",
         "auth_login_link" to "Đăng Nhập",
@@ -362,6 +373,7 @@ object Messages {
 
         // Profile page
         "profile_title" to "My Profile",
+        "profile_fullname" to "Full Name",
         "profile_email" to "Email",
         "profile_phone" to "Phone Number",
         "profile_save" to "Save Changes",
@@ -501,9 +513,18 @@ object Messages {
         "donate_field_name" to "Your Name",
         "donate_field_email" to "Email",
         "donate_field_amount" to "Amount (USD)",
-        "donate_field_message" to "Message (optional)",
-        "donate_field_message_placeholder" to "Leave a message of support...",
+        "donate_field_message_placeholder" to "Send your encouragement to the volunteers...",
         "donate_btn" to "💚 Donate Now",
+        "donate_btn_send" to "💌 Send Wishes",
+        "donate_wish_sent" to "Your wishes have been sent! Thank you 💚",
+        "donate_wish_title" to "Send Wishes",
+        "donate_wish_subtitle" to "Send your encouragement to the rescue station",
+        "donate_field_name_placeholder" to "Your name",
+        "donate_field_message" to "Message",
+        "donate_qr1_title" to "Support the Station",
+        "donate_qr1_subtitle" to "Scan to transfer and support the rescue station",
+        "donate_qr2_title" to "Support the Website",
+        "donate_qr2_subtitle" to "Scan to transfer and help maintain the website",
 
         // Donate list
         "donate_page_title" to "📋 Donations",
@@ -569,6 +590,7 @@ object Messages {
         "auth_register_title" to "🌿 Register",
         "auth_field_fullname" to "Full Name",
         "auth_field_email" to "Email",
+        "auth_field_phone" to "Phone Number",
         "auth_btn_register" to "Register",
         "auth_have_account" to "Already have an account?",
         "auth_login_link" to "Login",

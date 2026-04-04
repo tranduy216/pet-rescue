@@ -44,6 +44,7 @@ fun Route.profileRoutes() {
 
         val newEmail = params["email"]?.trim() ?: ""
         val newPhone = params["phone"]?.trim()?.takeIf { it.isNotBlank() }
+        val newFullName = params["fullName"]?.trim()?.takeIf { it.isNotBlank() }
 
         val existing = userService.getById(session.userId)
         if (existing == null) {
@@ -73,7 +74,8 @@ fun Route.profileRoutes() {
 
         val updated = existing.copy(
             email = if (newEmail.isNotBlank()) newEmail else existing.email,
-            phone = newPhone ?: existing.phone
+            phone = newPhone ?: existing.phone,
+            fullName = newFullName ?: existing.fullName
         )
         userService.update(updated)
 

@@ -39,7 +39,7 @@
                     </td>
                     <td class="px-4 py-3 text-sm">${d.createdAt?string('yyyy-MM-dd')}</td>
                     <td class="px-4 py-3 text-sm space-x-2">
-                        <#if d.status == 'PENDING'>
+                        <#if d.status == 'PENDING' && session?? && session.role == "ADMIN">
                         <form method="POST" action="/donations/${d.id}/confirm" class="inline">
                             <button type="submit" class="text-green-600 hover:text-green-800 text-xs font-medium">${msg['btn_confirm']!'Confirm'}</button>
                         </form>

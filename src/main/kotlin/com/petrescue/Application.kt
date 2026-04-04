@@ -81,6 +81,7 @@ fun Application.module() {
     userService.seedAdminUser()
 
     routing {
+        staticResources("/assets", "assets")
         static("/static") {
             staticRootFolder = File("static")
             files(".")
@@ -91,7 +92,6 @@ fun Application.module() {
         blogRoutes()
         donateRoutes()
         userRoutes()
-        financeRoutes()
         adoptionRoutes()
         rescueRoutes()
         configRoutes()

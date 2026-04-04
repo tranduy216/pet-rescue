@@ -44,7 +44,8 @@ fun Route.authRoutes(userService: UserService) {
         val email = params["email"] ?: ""
         val password = params["password"] ?: ""
         val fullName = params["fullName"] ?: ""
-        val user = userService.register(username, email, password, fullName)
+        val phone = params["phone"]?.trim()?.takeIf { it.isNotBlank() }
+        val user = userService.register(username, email, password, fullName, phone)
         if (user != null) {
             call.sessions.set(UserSession(user.id, user.username, user.role))
             call.respondRedirect("/")

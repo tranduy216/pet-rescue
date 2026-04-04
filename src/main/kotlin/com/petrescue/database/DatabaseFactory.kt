@@ -20,7 +20,6 @@ object DatabaseFactory {
                 PetMedia,
                 PetPosts,
                 Adoptions,
-                Finances,
                 Rescues,
                 Blogs,
                 Donations,
