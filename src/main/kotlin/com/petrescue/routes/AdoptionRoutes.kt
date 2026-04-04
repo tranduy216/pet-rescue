@@ -40,6 +40,10 @@ fun Route.adoptionRoutes() {
             }
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@get
             val pet = petService.getById(petId) ?: return@get
+            if (pet.status != "READY_TO_ADOPT") {
+                call.respondRedirect("/pets/$petId")
+                return@get
+            }
             call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
@@ -51,6 +55,12 @@ fun Route.adoptionRoutes() {
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@post
             val pet = petService.getById(petId) ?: return@post
             val params = call.receiveParameters()
+            if (pet.status != "READY_TO_ADOPT") {
+                val msg = call.messages()
+                val error = msg["adoption_error_pet_not_ready"] ?: "adoption_error_pet_not_ready"
+                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                return@post
+            }
             val adoption = try {
                 service.create(
                     Adoption(

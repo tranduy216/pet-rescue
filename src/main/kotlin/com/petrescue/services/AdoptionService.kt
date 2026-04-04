@@ -44,9 +44,9 @@ class AdoptionService {
             val success = repository.updateStatus(id, "FINISHED", byUserId)
             if (success) {
                 val pet = petRepository.findById(adoption.petId)
-                if (pet != null) {
-                    petRepository.update(pet.copy(status = "ADOPTED"))
-                }
+                    ?: throw IllegalStateException("pet_not_found")
+                val petUpdated = petRepository.update(pet.copy(status = "ADOPTED"))
+                if (!petUpdated) throw IllegalStateException("adoption_error_optimistic_lock")
                 AppCache.invalidateAll()
             }
             success
@@ -59,9 +59,9 @@ class AdoptionService {
             val success = repository.updateStatus(id, "CANCELLED", byUserId, reason)
             if (success) {
                 val pet = petRepository.findById(adoption.petId)
-                if (pet != null) {
-                    petRepository.update(pet.copy(status = "READY_TO_ADOPT"))
-                }
+                    ?: throw IllegalStateException("pet_not_found")
+                val petUpdated = petRepository.update(pet.copy(status = "READY_TO_ADOPT"))
+                if (!petUpdated) throw IllegalStateException("adoption_error_optimistic_lock")
                 AppCache.invalidateAll()
             }
             success

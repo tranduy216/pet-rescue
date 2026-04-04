@@ -22,6 +22,11 @@ class PetService {
     fun update(pet: Pet): Boolean {
         val existing = repository.findById(pet.id)
         if (existing != null && existing.status != pet.status) {
+            // ADOPT_REGISTERED can only be set or cleared by the adoption workflow, never manually
+            if (existing.status == "ADOPT_REGISTERED" || pet.status == "ADOPT_REGISTERED") {
+                throw IllegalStateException("pet_error_adoption_managed_status")
+            }
+            // Also block any other status change while an active adoption exists
             if (adoptionRepository.hasActiveAdoption(pet.id)) {
                 throw IllegalStateException("pet_error_active_adoption")
             }
