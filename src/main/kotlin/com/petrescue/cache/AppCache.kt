@@ -11,9 +11,9 @@ object AppCache {
 
     private val ttlMillis: Long = 60 * 60 * 1000L // 1 hour
 
-    private data class CacheEntry<T>(val value: T, val expiresAt: Long)
+    private data class CacheEntry(val value: Any?, val expiresAt: Long)
 
-    private val store = ConcurrentHashMap<String, CacheEntry<*>>()
+    private val store = ConcurrentHashMap<String, CacheEntry>()
 
     /**
      * Returns the cached value for [key], or null if missing / expired.
@@ -25,14 +25,14 @@ object AppCache {
             store.remove(key)
             return null
         }
-        return entry.value as T
+        return entry.value as? T
     }
 
     /**
      * Stores [value] under [key] with a TTL of 1 hour.
      */
     fun <T> set(key: String, value: T) {
-        store[key] = CacheEntry(value as Any, System.currentTimeMillis() + ttlMillis)
+        store[key] = CacheEntry(value, System.currentTimeMillis() + ttlMillis)
     }
 
     /**
