@@ -4,17 +4,72 @@
     <a href="/pets" class="text-green-600 hover:text-green-800 mb-4 inline-block">${msg['pet_back']!'← Back to List'}</a>
 
     <div class="bg-white rounded-xl shadow-md overflow-hidden">
-        <#if pet.mediaList?has_content>
-        <div class="flex overflow-x-auto gap-2 p-2 bg-gray-50">
-            <#list pet.mediaList as media>
-            <img src="${media.fileUrl}" alt="${pet.name}" class="h-64 w-auto rounded object-cover">
-            </#list>
+    <#-- Helper: extract YouTube video ID from watch or short URL -->
+    <#assign hasImages = pet.mediaList?has_content>
+    <#assign hasVideo = (pet.youtubeUrl!'')?has_content>
+
+    <#if hasImages || hasVideo>
+    <div>
+        <#-- Tab buttons -->
+        <div class="flex border-b border-gray-200 bg-gray-50">
+            <#if hasImages>
+            <button id="tab-images" onclick="showTab('images')"
+                class="tab-btn px-6 py-3 text-sm font-medium text-green-700 border-b-2 border-green-600 focus:outline-none">
+                ${msg['pet_tab_images']!'🖼️ Ảnh'}
+            </button>
+            </#if>
+            <#if hasVideo>
+            <button id="tab-videos" onclick="showTab('videos')"
+                class="tab-btn px-6 py-3 text-sm font-medium text-gray-500 hover:text-green-700 border-b-2 border-transparent focus:outline-none">
+                ${msg['pet_tab_videos']!'▶️ Video'}
+            </button>
+            </#if>
         </div>
-        <#else>
-        <div class="h-64 bg-green-100 flex items-center justify-center">
-            <span class="text-8xl"><#if pet.type == "DOG">🐕<#elseif pet.type == "CAT">🐈<#else>🐾</#if></span>
+
+        <#-- Images tab -->
+        <#if hasImages>
+        <div id="panel-images" class="tab-panel">
+            <div class="flex overflow-x-auto gap-2 p-2 bg-gray-50">
+                <#list pet.mediaList as media>
+                <img src="${media.fileUrl}" alt="${pet.name}" class="h-64 w-auto rounded object-cover">
+                </#list>
+            </div>
         </div>
         </#if>
+
+        <#-- Video tab -->
+        <#if hasVideo>
+        <#assign rawUrl = pet.youtubeUrl!''>
+        <#-- Convert watch?v= or youtu.be/ to embed URL -->
+        <#if rawUrl?contains("youtube.com/watch?v=")>
+            <#assign videoId = rawUrl?keep_after("watch?v=")?keep_before("&")>
+            <#assign embedUrl = "https://www.youtube.com/embed/" + videoId>
+        <#elseif rawUrl?contains("youtu.be/")>
+            <#assign videoId = rawUrl?keep_after("youtu.be/")?keep_before("?")>
+            <#assign embedUrl = "https://www.youtube.com/embed/" + videoId>
+        <#elseif rawUrl?contains("youtube.com/embed/")>
+            <#assign embedUrl = rawUrl>
+        <#else>
+            <#assign embedUrl = rawUrl>
+        </#if>
+        <div id="panel-videos" class="tab-panel hidden">
+            <div class="p-2 bg-gray-50">
+                <div class="relative w-full" style="padding-top: 56.25%;">
+                    <iframe src="${embedUrl}"
+                        class="absolute inset-0 w-full h-full rounded"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+        </#if>
+    </div>
+    <#else>
+    <div class="h-64 bg-green-100 flex items-center justify-center">
+        <span class="text-8xl"><#if pet.type == "DOG">🐕<#elseif pet.type == "CAT">🐈<#else>🐾</#if></span>
+    </div>
+    </#if>
 
         <div class="p-6">
             <div class="flex justify-between items-start mb-4">
@@ -70,4 +125,20 @@
         </div>
     </div>
 </div>
+<script>
+function showTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.add('hidden'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('text-green-700', 'border-green-600');
+        b.classList.add('text-gray-500', 'border-transparent');
+    });
+    var panel = document.getElementById('panel-' + name);
+    var btn = document.getElementById('tab-' + name);
+    if (panel) panel.classList.remove('hidden');
+    if (btn) {
+        btn.classList.remove('text-gray-500', 'border-transparent');
+        btn.classList.add('text-green-700', 'border-green-600');
+    }
+}
+</script>
 </@layout.page>

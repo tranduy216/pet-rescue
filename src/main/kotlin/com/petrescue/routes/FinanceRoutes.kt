@@ -43,6 +43,8 @@ fun Route.financeRoutes() {
                 FreeMarkerContent(
                     "finances/dashboard.ftl", mapOf(
                         "session" to session,
+                        "msg" to call.messages(),
+                        "lang" to call.lang(),
                         "finances" to finances,
                         "totalIncome" to totalIncome.toPlainString(),
                         "totalExpense" to totalExpense.toPlainString(),

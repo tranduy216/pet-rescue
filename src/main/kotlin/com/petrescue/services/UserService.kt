@@ -21,6 +21,30 @@ class UserService {
                 )
             )
         }
+        if (repository.findByUsername("volunteer") == null) {
+            val hash = BCrypt.withDefaults().hashToString(12, "volunteer123".toCharArray())
+            repository.create(
+                User(
+                    username = "volunteer",
+                    email = "volunteer@petrescue.com",
+                    passwordHash = hash,
+                    fullName = "Volunteer",
+                    role = "VOLUNTEER"
+                )
+            )
+        }
+        if (repository.findByUsername("user") == null) {
+            val hash = BCrypt.withDefaults().hashToString(12, "user123".toCharArray())
+            repository.create(
+                User(
+                    username = "user",
+                    email = "user@petrescue.com",
+                    passwordHash = hash,
+                    fullName = "App User",
+                    role = "USER"
+                )
+            )
+        }
     }
 
     fun login(username: String, password: String): User? {

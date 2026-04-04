@@ -31,7 +31,7 @@ fun Route.petRoutes() {
             val pets = service.getAll(search, type, status)
             val isHtmx = call.request.headers["HX-Request"] == "true"
             if (isHtmx) {
-                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session, "msg" to msg), ""))
+                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session, "msg" to msg, "lang" to lang), ""))
             } else {
                 call.respond(
                     FreeMarkerContent(
@@ -83,6 +83,7 @@ fun Route.petRoutes() {
                     age = params["age"]?.toIntOrNull(),
                     gender = params["gender"],
                     description = params["description"],
+                    youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
                     status = params["status"] ?: "AVAILABLE",
                     createdBy = session!!.userId
                 )
@@ -138,6 +139,7 @@ fun Route.petRoutes() {
                     age = params["age"]?.toIntOrNull(),
                     gender = params["gender"],
                     description = params["description"],
+                    youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
                     status = params["status"] ?: existing.status
                 )
             )
