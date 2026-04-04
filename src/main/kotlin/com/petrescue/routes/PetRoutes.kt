@@ -97,7 +97,7 @@ fun Route.petRoutes() {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: run { call.respond(HttpStatusCode.NotFound); return@get }
             val pet = service.getById(id) ?: run { call.respond(HttpStatusCode.NotFound); return@get }
-            call.respond(FreeMarkerContent("pets/detail.ftl", mapOf("pet" to pet, "session" to session), ""))
+            call.respond(FreeMarkerContent("pets/detail.ftl", mapOf("pet" to pet, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
         }
 
         get("/{id}/edit") {
