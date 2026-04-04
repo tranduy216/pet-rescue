@@ -4,7 +4,7 @@ object Messages {
 
     private val vi: Map<String, String> = mapOf(
         // Site-wide
-        "site_name" to "Trạm Cứu Hộ Thú Cưng",
+        "site_name" to "Trạm Cứu Hộ",
         "nav_pets" to "Thú Cưng",
         "nav_blog" to "Tin Tức",
         "nav_donate" to "Đóng Góp",
@@ -12,7 +12,7 @@ object Messages {
         "nav_adoptions" to "Nhận Nuôi",
         "nav_finance" to "Tài Chính",
         "nav_users" to "Người Dùng",
-        "nav_donations" to "Danh Sách Đóng Góp",
+        "nav_donations" to "Đóng Góp",
         "nav_login" to "Đăng Nhập",
         "nav_register" to "Đăng Ký",
         "nav_logout" to "Đăng Xuất",
