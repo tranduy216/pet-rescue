@@ -20,24 +20,28 @@ fun Route.blogRoutes() {
     val service = BlogService()
 
     post("/blog/upload-image") {
+        val allowedExtensions = setOf("jpg", "jpeg", "png", "gif", "webp")
         val multipart = call.receiveMultipart()
         var url = ""
         multipart.forEachPart { part ->
             if (part is PartData.FileItem && part.originalFileName?.isNotBlank() == true) {
-                val ext = part.originalFileName!!.substringAfterLast('.', "jpg")
-                val fileName = "${UUID.randomUUID()}.$ext"
-                val dir = File("uploads/blog")
-                dir.mkdirs()
-                val file = File(dir, fileName)
-                part.streamProvider().use { input -> file.outputStream().use { input.copyTo(it) } }
-                url = "/uploads/blog/$fileName"
+                val rawExt = part.originalFileName!!.substringAfterLast('.', "").lowercase()
+                val ext = rawExt.filter { it.isLetterOrDigit() }.take(10)
+                if (ext in allowedExtensions) {
+                    val fileName = "${UUID.randomUUID()}.$ext"
+                    val dir = File("uploads/blog")
+                    dir.mkdirs()
+                    val file = File(dir, fileName)
+                    part.streamProvider().use { input -> file.outputStream().use { input.copyTo(it) } }
+                    url = "/uploads/blog/$fileName"
+                }
             }
             part.dispose()
         }
         if (url.isNotEmpty()) {
             call.respond(mapOf("url" to url))
         } else {
-            call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No file uploaded"))
+            call.respond(HttpStatusCode.BadRequest, mapOf("error" to "No valid image file uploaded"))
         }
     }
 

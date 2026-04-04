@@ -15,7 +15,12 @@ data class Blog(
     val authorName: String? = null
 ) {
     val excerpt: String get() {
-        val stripped = content.replace(Regex("<[^>]+>"), " ").replace(Regex("\\s+"), " ").trim()
+        val stripped = content
+            .replace(Regex("(?i)<(script|style)[^>]*>.*?</(script|style)>"), " ")
+            .replace(Regex("<[^>]+>"), " ")
+            .replace(Regex("&[a-zA-Z0-9#]+;"), " ")
+            .replace(Regex("\\s+"), " ")
+            .trim()
         return if (stripped.length > 200) stripped.substring(0, 200) + "..." else stripped
     }
 }
