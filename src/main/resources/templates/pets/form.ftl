@@ -1,20 +1,20 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="${(pet??)?then('Edit', 'Add')} Pet - Pet Rescue">
+<@layout.page title="${(pet??)?then(msg['pet_form_edit']!'Edit Pet', msg['pet_form_add']!'Add Pet')} - ${msg['site_name']!'Pet Rescue'}">
 <div class="max-w-2xl mx-auto mt-6">
     <div class="bg-white rounded-xl shadow-md p-8">
-        <h1 class="text-2xl font-bold text-green-800 mb-6">${(pet??)?then('Edit', 'Add')} Pet</h1>
+        <h1 class="text-2xl font-bold text-green-800 mb-6">${(pet??)?then(msg['pet_form_edit']!'Edit Pet', msg['pet_form_add']!'Add Pet')}</h1>
         <#if error??>
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">${error}</div>
         </#if>
         <form method="POST" action="/pets/<#if pet??>${pet.id}/edit<#else>new</#if>" enctype="multipart/form-data" class="space-y-4">
             <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_name']!'Name'} *</label>
                     <input type="text" name="name" value="${(pet.name)!''}" required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Type *</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_type']!'Type'} *</label>
                     <select name="type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="DOG" <#if (pet.type)! == 'DOG'>selected</#if>>${msg['pet_type_dog']!'🐕 Dog'}</option>
                         <option value="CAT" <#if (pet.type)! == 'CAT'>selected</#if>>${msg['pet_type_cat']!'🐈 Cat'}</option>
@@ -22,7 +22,7 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_status']!'Status'}</label>
                     <select name="status" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                         <option value="AVAILABLE" <#if (pet.status)! == 'AVAILABLE'>selected</#if>>${msg['pet_status_available']!'Available'}</option>
                         <option value="ADOPTED" <#if (pet.status)! == 'ADOPTED'>selected</#if>>${msg['pet_status_adopted']!'Adopted'}</option>
@@ -30,17 +30,17 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Breed</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_breed']!'Breed'}</label>
                     <input type="text" name="breed" value="${(pet.breed)!''}"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Age (years)</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_age']!'Age (years)'}</label>
                     <input type="number" name="age" value="${(pet.age)!''}" min="0"
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_gender']!'Gender'}</label>
                     <select name="gender" class="w-full border border-gray-300 rounded-lg px-3 py-2">
                         <option value="">${msg['pet_gender_unknown']!'Unknown'}</option>
                         <option value="Male" <#if (pet.gender)! == 'Male'>selected</#if>>${msg['pet_gender_male']!'Male'}</option>
@@ -49,12 +49,12 @@
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_description']!'Description'}</label>
                 <textarea name="description" rows="4"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">${(pet.description)!''}</textarea>
             </div>
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Photos</label>
+                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_photos']!'Photos'}</label>
                 <input type="file" name="media" multiple accept="image/*"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2">
                 <#if pet?? && pet.mediaList?has_content>
@@ -71,8 +71,8 @@
                 </#if>
             </div>
             <div class="flex space-x-3">
-                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">Save</button>
-                <a href="/pets<#if pet??>/${pet.id}</#if>" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">Cancel</a>
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">${msg['btn_save']!'Save'}</button>
+                <a href="/pets<#if pet??>/${pet.id}</#if>" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">${msg['btn_cancel']!'Cancel'}</a>
             </div>
         </form>
     </div>

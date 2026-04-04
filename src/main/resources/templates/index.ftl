@@ -9,10 +9,18 @@
     <div class="relative z-10 flex flex-col items-center justify-center text-center py-14 sm:py-20 px-4 sm:px-8 lg:px-16">
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
-            <#if siteConfig?? && siteConfig['homepage_title']??>${siteConfig['homepage_title']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
+            <#if lang == 'en'>
+                <#if siteConfig?? && siteConfig['homepage_title_en']??>${siteConfig['homepage_title_en']}<#else>${msg['home_hero_title']!'Love & Protect'}</#if>
+            <#else>
+                <#if siteConfig?? && siteConfig['homepage_title_vi']??>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
+            </#if>
         </h1>
         <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-8 sm:mb-10 leading-relaxed">
-            <#if siteConfig?? && siteConfig['homepage_subtitle']??>${siteConfig['homepage_subtitle']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
+            <#if lang == 'en'>
+                <#if siteConfig?? && siteConfig['homepage_subtitle_en']??>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
+            <#else>
+                <#if siteConfig?? && siteConfig['homepage_subtitle_vi']??>${siteConfig['homepage_subtitle_vi']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
+            </#if>
         </p>
         <div class="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <a href="/register" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">

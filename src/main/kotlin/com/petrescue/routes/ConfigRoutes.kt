@@ -35,8 +35,10 @@ fun Route.configRoutes() {
         val session = call.sessions.get<UserSession>()
         val msg = call.messages()
 
-        val title = params["homepage_title"]?.trim() ?: ""
-        val subtitle = params["homepage_subtitle"]?.trim() ?: ""
+        val titleVi = params["homepage_title_vi"]?.trim() ?: ""
+        val titleEn = params["homepage_title_en"]?.trim() ?: ""
+        val subtitleVi = params["homepage_subtitle_vi"]?.trim() ?: ""
+        val subtitleEn = params["homepage_subtitle_en"]?.trim() ?: ""
         val videoUrl = params["homepage_video_url"]?.trim() ?: ""
 
         val allowedPrefixes = listOf(
@@ -46,9 +48,10 @@ fun Route.configRoutes() {
         val videoUrlError = videoUrl.isNotBlank() && allowedPrefixes.none { videoUrl.startsWith(it) }
 
         if (!videoUrlError) {
-            // Allow blank values to clear existing config
-            siteConfigService.set("homepage_title", title)
-            siteConfigService.set("homepage_subtitle", subtitle)
+            siteConfigService.set("homepage_title_vi", titleVi)
+            siteConfigService.set("homepage_title_en", titleEn)
+            siteConfigService.set("homepage_subtitle_vi", subtitleVi)
+            siteConfigService.set("homepage_subtitle_en", subtitleEn)
             if (videoUrl.isNotBlank()) siteConfigService.set("homepage_video_url", videoUrl)
         }
 

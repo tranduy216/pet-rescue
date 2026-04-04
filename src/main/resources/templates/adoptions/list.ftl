@@ -1,19 +1,19 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="Adoptions - Pet Rescue">
+<@layout.page title="${msg['adoption_page_title']!'Adoptions'} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-green-800">🏠 Adoptions</h1>
+        <h1 class="text-2xl font-bold text-green-800">${msg['adoption_page_title']!'🏠 Adoptions'}</h1>
     </div>
     <div class="bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
             <thead class="bg-green-700 text-white">
                 <tr>
-                    <th class="px-4 py-3 text-left text-sm">Pet ID</th>
-                    <th class="px-4 py-3 text-left text-sm">Phone</th>
-                    <th class="px-4 py-3 text-left text-sm">Facebook</th>
-                    <th class="px-4 py-3 text-left text-sm">Status</th>
-                    <th class="px-4 py-3 text-left text-sm">Date</th>
-                    <th class="px-4 py-3 text-left text-sm">Actions</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_pet_id']!'Pet ID'}</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_phone']!'Phone'}</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_facebook']!'Facebook'}</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_status']!'Status'}</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_date']!'Date'}</th>
+                    <th class="px-4 py-3 text-left text-sm">${msg['adoption_col_actions']!'Actions'}</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -37,11 +37,11 @@
                         <#if a.status == 'REQUESTED'>
                             <#if session.role == "ADMIN" || session.role == "VOLUNTEER">
                             <form method="POST" action="/adoptions/${a.id}/approve" class="inline">
-                                <button type="submit" class="text-green-600 hover:text-green-800 text-xs font-medium">Approve</button>
+                                <button type="submit" class="text-green-600 hover:text-green-800 text-xs font-medium">${msg['btn_approve']!'Approve'}</button>
                             </form>
                             </#if>
                             <form method="POST" action="/adoptions/${a.id}/cancel" class="inline">
-                                <button type="submit" class="text-red-600 hover:text-red-800 text-xs font-medium">Cancel</button>
+                                <button type="submit" class="text-red-600 hover:text-red-800 text-xs font-medium">${msg['btn_cancel']!'Cancel'}</button>
                             </form>
                         </#if>
                     </td>
@@ -50,7 +50,7 @@
             </tbody>
         </table>
         <#if !adoptions?has_content>
-        <div class="text-center py-8 text-gray-500">No adoptions found.</div>
+        <div class="text-center py-8 text-gray-500">${msg['adoption_empty']!'No adoptions found.'}</div>
         </#if>
     </div>
 </div>

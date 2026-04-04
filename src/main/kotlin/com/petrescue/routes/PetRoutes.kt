@@ -31,7 +31,7 @@ fun Route.petRoutes() {
             val pets = service.getAll(search, type, status)
             val isHtmx = call.request.headers["HX-Request"] == "true"
             if (isHtmx) {
-                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session), ""))
+                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session, "msg" to msg), ""))
             } else {
                 call.respond(
                     FreeMarkerContent(

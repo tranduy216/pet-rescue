@@ -20,21 +20,42 @@
         </#if>
 
         <form method="post" action="/config" class="space-y-6">
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_title']!'Tiêu Đề Chính'}</label>
-                <input type="text" name="homepage_title"
-                    value="${(config['homepage_title'])!''}"
-                    placeholder="${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                <p class="mt-1 text-xs text-gray-500">Tiêu đề lớn hiển thị ở đầu trang chủ.</p>
+            <div class="border border-gray-200 rounded-xl p-4 space-y-4">
+                <h2 class="text-base font-semibold text-green-700">🇻🇳 ${msg['config_homepage_title_vi']!'Tiêu Đề Tiếng Việt'}</h2>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_title_vi']!'Tiêu Đề Tiếng Việt'}</label>
+                    <input type="text" name="homepage_title_vi"
+                        value="${(config['homepage_title_vi'])!''}"
+                        placeholder="${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+                    <p class="mt-1 text-xs text-gray-500">${msg['config_homepage_title_vi_hint']!'Tiêu đề lớn hiển thị ở đầu trang chủ (Tiếng Việt).'}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_subtitle_vi']!'Mô Tả Tiếng Việt'}</label>
+                    <textarea name="homepage_subtitle_vi" rows="3"
+                        placeholder="${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm...'}"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-y">${(config['homepage_subtitle_vi'])!''}</textarea>
+                    <p class="mt-1 text-xs text-gray-500">${msg['config_homepage_subtitle_vi_hint']!'Mô tả ngắn hiển thị bên dưới tiêu đề (Tiếng Việt).'}</p>
+                </div>
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_subtitle']!'Nội Dung Giới Thiệu'}</label>
-                <textarea name="homepage_subtitle" rows="3"
-                    placeholder="${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm...'}"
-                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-y">${(config['homepage_subtitle'])!''}</textarea>
-                <p class="mt-1 text-xs text-gray-500">Mô tả ngắn hiển thị bên dưới tiêu đề.</p>
+            <div class="border border-gray-200 rounded-xl p-4 space-y-4">
+                <h2 class="text-base font-semibold text-green-700">🇬🇧 ${msg['config_homepage_title_en']!'English Title'}</h2>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_title_en']!'English Title'}</label>
+                    <input type="text" name="homepage_title_en"
+                        value="${(config['homepage_title_en'])!''}"
+                        placeholder="Love &amp; Protect"
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+                    <p class="mt-1 text-xs text-gray-500">${msg['config_homepage_title_en_hint']!'Main title displayed at the top of the homepage (English).'}</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_homepage_subtitle_en']!'English Description'}</label>
+                    <textarea name="homepage_subtitle_en" rows="3"
+                        placeholder="We rescue, treat, and rehome pets in need..."
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-y">${(config['homepage_subtitle_en'])!''}</textarea>
+                    <p class="mt-1 text-xs text-gray-500">${msg['config_homepage_subtitle_en_hint']!'Short description displayed below the title (English).'}</p>
+                </div>
             </div>
 
             <div>
