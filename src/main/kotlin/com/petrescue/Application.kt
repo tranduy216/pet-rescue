@@ -95,5 +95,6 @@ fun Application.module() {
         adoptionRoutes()
         rescueRoutes()
         configRoutes()
+        profileRoutes()
     }
 }

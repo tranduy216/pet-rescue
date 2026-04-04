@@ -13,6 +13,11 @@
             ✅ ${msg['config_saved']!'Đã lưu cấu hình thành công!'}
         </div>
         </#if>
+        <#if videoUrlError?? && videoUrlError>
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+            ⚠️ ${msg['config_video_url_error']!'URL video không hợp lệ. Chỉ chấp nhận URL nhúng YouTube.'}
+        </div>
+        </#if>
 
         <form method="post" action="/config" class="space-y-6">
             <div>

@@ -41,16 +41,17 @@ fun Route.configRoutes() {
         val subtitle = params["homepage_subtitle"]?.trim() ?: ""
         val videoUrl = params["homepage_video_url"]?.trim() ?: ""
 
-        if (title.isNotBlank()) siteConfigService.set("homepage_title", title)
-        if (subtitle.isNotBlank()) siteConfigService.set("homepage_subtitle", subtitle)
-        if (videoUrl.isNotBlank()) {
-            val allowedPrefixes = listOf(
-                "https://www.youtube.com/embed/",
-                "https://www.youtube-nocookie.com/embed/"
-            )
-            if (allowedPrefixes.any { videoUrl.startsWith(it) }) {
-                siteConfigService.set("homepage_video_url", videoUrl)
-            }
+        val allowedPrefixes = listOf(
+            "https://www.youtube.com/embed/",
+            "https://www.youtube-nocookie.com/embed/"
+        )
+        val videoUrlError = videoUrl.isNotBlank() && allowedPrefixes.none { videoUrl.startsWith(it) }
+
+        if (!videoUrlError) {
+            // Allow blank values to clear existing config
+            siteConfigService.set("homepage_title", title)
+            siteConfigService.set("homepage_subtitle", subtitle)
+            if (videoUrl.isNotBlank()) siteConfigService.set("homepage_video_url", videoUrl)
         }
 
         val config = siteConfigService.getAll()
@@ -61,7 +62,8 @@ fun Route.configRoutes() {
                     "msg" to msg,
                     "lang" to lang,
                     "config" to config,
-                    "success" to true
+                    "success" to !videoUrlError,
+                    "videoUrlError" to videoUrlError
                 ), ""
             )
         )

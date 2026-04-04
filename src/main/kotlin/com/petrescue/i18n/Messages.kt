@@ -14,6 +14,7 @@ object Messages {
         "nav_users" to "Người Dùng",
         "nav_donations" to "Mạnh Thường Quân",
         "nav_config" to "Cấu Hình",
+        "nav_profile" to "Hồ Sơ",
         "nav_login" to "Đăng Nhập",
         "nav_register" to "Đăng Ký",
         "nav_logout" to "Đăng Xuất",
@@ -65,7 +66,16 @@ object Messages {
         "config_homepage_subtitle" to "Nội Dung Giới Thiệu",
         "config_homepage_video_url" to "URL Video Nhúng (YouTube Embed)",
         "config_save" to "Lưu Thay Đổi",
-        "config_saved" to "Đã lưu cấu hình thành công!"
+        "config_saved" to "Đã lưu cấu hình thành công!",
+        "config_video_url_error" to "URL video không hợp lệ. Chỉ chấp nhận URL nhúng YouTube (https://www.youtube.com/embed/...)",
+
+        // Profile page
+        "profile_title" to "Hồ Sơ Của Tôi",
+        "profile_email" to "Email",
+        "profile_phone" to "Số Điện Thoại",
+        "profile_save" to "Lưu Thay Đổi",
+        "profile_saved" to "Đã cập nhật hồ sơ thành công!",
+        "profile_email_taken" to "Email này đã được sử dụng bởi tài khoản khác."
     )
 
     private val en: Map<String, String> = mapOf(
@@ -80,6 +90,7 @@ object Messages {
         "nav_users" to "Users",
         "nav_donations" to "Patrons",
         "nav_config" to "Configuration",
+        "nav_profile" to "Profile",
         "nav_login" to "Login",
         "nav_register" to "Register",
         "nav_logout" to "Logout",
@@ -131,7 +142,16 @@ object Messages {
         "config_homepage_subtitle" to "Introduction Content",
         "config_homepage_video_url" to "Embedded Video URL (YouTube Embed)",
         "config_save" to "Save Changes",
-        "config_saved" to "Configuration saved successfully!"
+        "config_saved" to "Configuration saved successfully!",
+        "config_video_url_error" to "Invalid video URL. Only YouTube embed URLs are accepted (https://www.youtube.com/embed/...)",
+
+        // Profile page
+        "profile_title" to "My Profile",
+        "profile_email" to "Email",
+        "profile_phone" to "Phone Number",
+        "profile_save" to "Save Changes",
+        "profile_saved" to "Profile updated successfully!",
+        "profile_email_taken" to "This email is already used by another account."
     )
 
     fun forLang(lang: String): Map<String, String> = if (lang == "en") en else vi

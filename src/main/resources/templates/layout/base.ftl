@@ -42,7 +42,6 @@
                     <#if session?? && session.role == "ADMIN">
                         <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
                         <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
-                        <a href="/config" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">⚙️ <#if msg??>${msg['nav_config']!'Configuration'}<#else>Configuration</#if></a>
                     </#if>
                 </div>
 
@@ -58,8 +57,36 @@
                     <#-- Auth (desktop only) -->
                     <div class="hidden md:flex items-center gap-2">
                         <#if session??>
-                            <span class="text-green-100 text-xs lg:text-sm whitespace-nowrap">👤 ${session.username}</span>
-                            <a href="/logout" class="bg-green-900 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-800 whitespace-nowrap"><#if msg??>${msg['nav_logout']!'Logout'}<#else>Logout</#if></a>
+                            <#-- User dropdown -->
+                            <div class="relative" id="user-dropdown-wrapper">
+                                <button
+                                    id="user-dropdown-btn"
+                                    onclick="toggleUserDropdown()"
+                                    class="flex items-center gap-1.5 bg-green-800 hover:bg-green-900 text-white px-3 py-1.5 rounded-md text-sm font-medium focus:outline-none whitespace-nowrap">
+                                    👤 ${session.username}
+                                    <svg class="w-3.5 h-3.5 ml-0.5 opacity-75" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </button>
+                                <div id="user-dropdown-menu"
+                                    class="hidden absolute right-0 mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+                                    <a href="/profile"
+                                        class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
+                                        🪪 <#if msg??>${msg['nav_profile']!'Hồ Sơ'}<#else>Hồ Sơ</#if>
+                                    </a>
+                                    <#if session.role == "ADMIN">
+                                    <a href="/config"
+                                        class="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-green-50 hover:text-green-800">
+                                        ⚙️ <#if msg??>${msg['nav_config']!'Cấu Hình'}<#else>Cấu Hình</#if>
+                                    </a>
+                                    </#if>
+                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <a href="/logout"
+                                        class="flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50">
+                                        🚪 <#if msg??>${msg['nav_logout']!'Đăng Xuất'}<#else>Đăng Xuất</#if>
+                                    </a>
+                                </div>
+                            </div>
                         <#else>
                             <a href="/login" class="text-green-100 hover:text-white px-2 py-2 rounded-md text-sm font-medium whitespace-nowrap"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
                             <a href="/register" class="bg-green-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-green-500 whitespace-nowrap"><#if msg??>${msg['nav_register']!'Register'}<#else>Register</#if></a>
@@ -92,7 +119,6 @@
                 <#if session?? && session.role == "ADMIN">
                     <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
                     <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
-                    <a href="/config" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">⚙️ <#if msg??>${msg['nav_config']!'Configuration'}<#else>Configuration</#if></a>
                 </#if>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#if lang?? && lang == "en">
@@ -102,7 +128,11 @@
                     </#if>
                     <#if session??>
                         <span class="text-green-200 text-xs px-3">👤 ${session.username} (${session.role})</span>
-                        <a href="/logout" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_logout']!'Logout'}<#else>Logout</#if></a>
+                        <a href="/profile" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🪪 <#if msg??>${msg['nav_profile']!'Hồ Sơ'}<#else>Hồ Sơ</#if></a>
+                        <#if session.role == "ADMIN">
+                        <a href="/config" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">⚙️ <#if msg??>${msg['nav_config']!'Cấu Hình'}<#else>Cấu Hình</#if></a>
+                        </#if>
+                        <a href="/logout" class="text-red-300 hover:text-red-100 px-3 py-2 rounded-md text-sm font-medium">🚪 <#if msg??>${msg['nav_logout']!'Đăng Xuất'}<#else>Đăng Xuất</#if></a>
                     <#else>
                         <a href="/login" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_login']!'Login'}<#else>Login</#if></a>
                         <a href="/register" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium"><#if msg??>${msg['nav_register']!'Register'}<#else>Register</#if></a>
@@ -121,6 +151,20 @@
             <p class="text-sm sm:text-base">🌱 <#if msg??>${msg['footer_text']!'Pet Rescue System - Saving lives one paw at a time 🐾'}<#else>Pet Rescue System - Saving lives one paw at a time 🐾</#if></p>
         </div>
     </footer>
+
+    <script>
+    function toggleUserDropdown() {
+        var menu = document.getElementById('user-dropdown-menu');
+        if (menu) menu.classList.toggle('hidden');
+    }
+    document.addEventListener('click', function(e) {
+        var wrapper = document.getElementById('user-dropdown-wrapper');
+        var menu = document.getElementById('user-dropdown-menu');
+        if (wrapper && menu && !wrapper.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+    </script>
 </body>
 </html>
 </#macro>
