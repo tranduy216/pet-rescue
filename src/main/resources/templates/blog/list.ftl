@@ -7,6 +7,17 @@
         <a href="/blog/new" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">${msg['blog_add_btn']!'+ New Post'}</a>
         </#if>
     </div>
+    <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
+    <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+        <form method="get" action="/blog" class="flex flex-wrap gap-3">
+            <select name="status" onchange="this.form.submit()" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <option value="">${msg['filter_status_all']!'Tất Cả Trạng Thái'}</option>
+                <option value="published" <#if (status)! == 'published'>selected</#if>>${msg['blog_status_published']!'Đã Đăng'}</option>
+                <option value="draft" <#if (status)! == 'draft'>selected</#if>>${msg['blog_draft']!'Bản Nháp'}</option>
+            </select>
+        </form>
+    </div>
+    </#if>
     <div class="space-y-6">
         <#list blogs as blog>
         <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow">

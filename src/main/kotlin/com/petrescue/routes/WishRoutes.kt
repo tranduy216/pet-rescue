@@ -16,11 +16,12 @@ fun Route.wishRoutes() {
     route("/wishes") {
         get {
             val session = call.sessions.get<UserSession>()
-            val wishes = service.getAll()
+            val status = call.request.queryParameters["status"]
+            val wishes = service.getAll(status)
             call.respond(
                 FreeMarkerContent(
                     "wishes/list.ftl",
-                    mapOf("wishes" to wishes, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("wishes" to wishes, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status),
                     ""
                 )
             )

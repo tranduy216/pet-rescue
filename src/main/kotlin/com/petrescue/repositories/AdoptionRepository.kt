@@ -11,9 +11,10 @@ import java.time.LocalDateTime
 
 class AdoptionRepository {
 
-    fun findAll(): List<Adoption> = transaction {
-        (Adoptions leftJoin Pets).selectAll()
-            .orderBy(Adoptions.createdAt, SortOrder.DESC)
+    fun findAll(status: String? = null): List<Adoption> = transaction {
+        var query = (Adoptions leftJoin Pets).selectAll()
+        if (!status.isNullOrBlank()) query = query.andWhere { Adoptions.status eq status }
+        query.orderBy(Adoptions.createdAt, SortOrder.DESC)
             .map { it.toAdoption() }
     }
 
@@ -21,9 +22,10 @@ class AdoptionRepository {
         (Adoptions leftJoin Pets).select { Adoptions.id eq id }.singleOrNull()?.toAdoption()
     }
 
-    fun findByUser(userId: Int): List<Adoption> = transaction {
-        (Adoptions leftJoin Pets).select { Adoptions.userId eq userId }
-            .orderBy(Adoptions.createdAt, SortOrder.DESC)
+    fun findByUser(userId: Int, status: String? = null): List<Adoption> = transaction {
+        var query = (Adoptions leftJoin Pets).select { Adoptions.userId eq userId }
+        if (!status.isNullOrBlank()) query = query.andWhere { Adoptions.status eq status }
+        query.orderBy(Adoptions.createdAt, SortOrder.DESC)
             .map { it.toAdoption() }
     }
 
