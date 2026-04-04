@@ -2,7 +2,6 @@ val ktor_version = "2.3.12"
 val kotlin_version = "2.0.21"
 val logback_version = "1.4.14"
 val exposed_version = "0.44.1"
-val flyway_version = "9.22.3"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -41,7 +40,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("com.h2database:h2:2.2.224")
-    implementation("org.flywaydb:flyway-core:$flyway_version")
     implementation("at.favre.lib:bcrypt:0.10.2")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
