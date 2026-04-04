@@ -13,6 +13,7 @@ data class Adoption(
     val phone: String,
     val facebookLink: String,
     val notes: String? = null,
+    val version: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     val petName: String? = null,

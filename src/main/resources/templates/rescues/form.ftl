@@ -23,6 +23,11 @@
                             class="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100 text-gray-600 text-sm cursor-not-allowed">
                     </div>
                 </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-500 mb-1">${msg['profile_phone']!'Số Điện Thoại'}</label>
+                    <input type="text" value="${(user.phone)!''}" disabled
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100 text-gray-600 text-sm cursor-not-allowed">
+                </div>
             </div>
 
             <div>
@@ -36,22 +41,15 @@
                 <textarea name="description" rows="4" required
                     placeholder="${msg['rescue_field_description_placeholder']!'Describe the animal and situation...'}"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
-                <p class="text-xs text-amber-600 mt-1 bg-amber-50 border border-amber-200 rounded px-3 py-2">
-                    ${msg['rescue_field_description_hint']!'💡 Nếu bạn chỉ là người chuyển tiếp, hãy ghi thêm số điện thoại người trực tiếp phát hiện vào phần mô tả.'}
-                </p>
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['rescue_field_contact']!'Contact Info'} *</label>
-                <#if (user.phone)?has_content>
-                <input type="hidden" name="contactInfo" value="${user.phone}">
-                <input type="text" value="${user.phone}" disabled
-                    class="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100 text-gray-600 cursor-not-allowed focus:outline-none">
-                <p class="text-xs text-gray-400 mt-1">${msg['rescue_field_contact_readonly']!'Số điện thoại từ tài khoản của bạn'}</p>
-                <#else>
-                <input type="text" name="contactInfo" required placeholder="${msg['rescue_field_contact_placeholder']!'Phone or other contact'}"
+                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['rescue_field_contact']!'Other Contact Info'}</label>
+                <input type="text" name="contactInfo" placeholder="${msg['rescue_field_contact_placeholder']!'Phone or contact info of the direct witness'}"
                     class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-                </#if>
+                <p class="text-xs text-amber-600 mt-1 bg-amber-50 border border-amber-200 rounded px-3 py-2">
+                    ${msg['rescue_field_contact_hint']!'💡 Nếu bạn chỉ là người chuyển tiếp, hãy ghi thông tin liên hệ của người trực tiếp phát hiện vào đây.'}
+                </p>
             </div>
 
             <div class="flex space-x-3 pt-2">

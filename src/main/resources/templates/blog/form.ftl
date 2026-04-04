@@ -1,6 +1,5 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="${(blog??)?then(msg['blog_form_edit']!'Edit Post', msg['blog_form_new']!'New Post')} - ${msg['site_name']!'Pet Rescue'}">
-<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<@layout.page title="${(blog??)?then(msg['blog_form_edit']!'Edit Post', msg['blog_form_new']!'New Post')} - ${msg['site_name']!'Pet Rescue'}" headContent='<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">'>
 <div class="max-w-3xl mx-auto mt-6">
     <div class="bg-white rounded-xl shadow-md p-8">
         <h1 class="text-2xl font-bold text-green-800 mb-6">${(blog??)?then(msg['blog_form_edit']!'Edit Post', msg['blog_form_new']!'New Post')}</h1>
@@ -76,7 +75,7 @@
     });
 
     <#if blog?? && blog.content?has_content>
-    quill.clipboard.dangerouslyPasteHTML(${blog.content?js_string});
+    quill.clipboard.dangerouslyPasteHTML("${blog.content?js_string}");
     </#if>
 
     document.getElementById('blog-form').addEventListener('submit', function () {

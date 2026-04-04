@@ -23,6 +23,7 @@ data class Pet(
     val youtubeUrl: String? = null,
     val status: String = PetStatus.JUST_RESCUED.name,
     val createdBy: Int,
+    val version: Int = 0,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now(),
     val mediaList: List<PetMedia> = emptyList()

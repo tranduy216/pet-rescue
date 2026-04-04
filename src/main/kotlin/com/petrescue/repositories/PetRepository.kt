@@ -62,7 +62,7 @@ class PetRepository {
     }
 
     fun update(pet: Pet): Boolean = transaction {
-        Pets.update({ Pets.id eq pet.id }) {
+        Pets.update({ (Pets.id eq pet.id) and (Pets.version eq pet.version) }) {
             it[name] = pet.name
             it[type] = pet.type
             it[breed] = pet.breed
@@ -71,6 +71,7 @@ class PetRepository {
             it[description] = pet.description
             it[youtubeUrl] = pet.youtubeUrl
             it[status] = pet.status
+            it[version] = pet.version + 1
             it[updatedAt] = LocalDateTime.now()
         } > 0
     }
@@ -112,6 +113,7 @@ class PetRepository {
         youtubeUrl = this[Pets.youtubeUrl],
         status = this[Pets.status],
         createdBy = this[Pets.createdBy],
+        version = this[Pets.version],
         createdAt = this[Pets.createdAt],
         updatedAt = this[Pets.updatedAt]
     )

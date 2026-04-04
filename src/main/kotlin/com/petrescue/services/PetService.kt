@@ -3,10 +3,12 @@ package com.petrescue.services
 import com.petrescue.cache.AppCache
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
+import com.petrescue.repositories.AdoptionRepository
 import com.petrescue.repositories.PetRepository
 
 class PetService {
     private val repository = PetRepository()
+    private val adoptionRepository = AdoptionRepository()
 
     fun getRecent(limit: Int = 3) = repository.findRecent(limit)
 
@@ -17,7 +19,20 @@ class PetService {
 
     fun create(pet: Pet) = repository.create(pet).also { AppCache.invalidateAll() }
 
-    fun update(pet: Pet) = repository.update(pet).also { AppCache.invalidateAll() }
+    fun update(pet: Pet): Boolean {
+        val existing = repository.findById(pet.id)
+        if (existing != null && existing.status != pet.status) {
+            // ADOPT_REGISTERED can only be set or cleared by the adoption workflow, never manually
+            if (existing.status == "ADOPT_REGISTERED" || pet.status == "ADOPT_REGISTERED") {
+                throw IllegalStateException("pet_error_adoption_managed_status")
+            }
+            // Also block any other status change while an active adoption exists
+            if (adoptionRepository.hasActiveAdoption(pet.id)) {
+                throw IllegalStateException("pet_error_active_adoption")
+            }
+        }
+        return repository.update(pet).also { AppCache.invalidateAll() }
+    }
 
     fun delete(id: Int) = repository.delete(id).also { AppCache.invalidateAll() }
 

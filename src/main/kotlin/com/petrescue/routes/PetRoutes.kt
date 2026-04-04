@@ -165,18 +165,32 @@ fun Route.petRoutes() {
                 call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
                 return@post
             }
-            service.update(
-                existing.copy(
-                    name = params["name"] ?: existing.name,
-                    type = params["type"] ?: existing.type,
-                    breed = params["breed"],
-                    age = params["age"]?.toIntOrNull(),
-                    gender = params["gender"],
-                    description = params["description"],
-                    youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
-                    status = params["status"] ?: existing.status
+            val updated = try {
+                service.update(
+                    existing.copy(
+                        name = params["name"] ?: existing.name,
+                        type = params["type"] ?: existing.type,
+                        breed = params["breed"],
+                        age = params["age"]?.toIntOrNull(),
+                        gender = params["gender"],
+                        description = params["description"],
+                        youtubeUrl = params["youtubeUrl"]?.trim()?.takeIf { it.isNotBlank() },
+                        status = params["status"] ?: existing.status,
+                        version = params["version"]?.toIntOrNull() ?: existing.version
+                    )
                 )
-            )
+            } catch (e: IllegalStateException) {
+                val msg = call.messages()
+                val error = msg[e.message] ?: e.message
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                return@post
+            }
+            if (!updated) {
+                val msg = call.messages()
+                val error = msg["pet_error_optimistic_lock"] ?: "pet_error_optimistic_lock"
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                return@post
+            }
             mediaFiles.forEach { url ->
                 service.addMedia(PetMedia(petId = id, fileUrl = url, mediaType = "IMAGE"))
             }
