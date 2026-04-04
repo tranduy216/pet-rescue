@@ -11,9 +11,7 @@ class BlogRepository {
 
     fun findAll(publishedOnly: Boolean = false, filterStatus: String? = null): List<Blog> = transaction {
         var query = Blogs.selectAll()
-        if (publishedOnly) {
-            query = query.andWhere { Blogs.isPublished eq true }
-        } else if (filterStatus == "published") {
+        if (publishedOnly || filterStatus == "published") {
             query = query.andWhere { Blogs.isPublished eq true }
         } else if (filterStatus == "draft") {
             query = query.andWhere { Blogs.isPublished eq false }
