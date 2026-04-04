@@ -149,26 +149,6 @@
 </section>
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
-<#-- COMMUNITY WISHES                                                -->
-<#-- ═══════════════════════════════════════════════════════════════ -->
-<#if approvedWishes?has_content>
-<section class="px-2 sm:px-4 mb-8 sm:mb-12">
-    <div class="text-center mb-6">
-        <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-2">${msg['wish_section_title']!'💌 Lời Chúc Từ Cộng Đồng'}</h2>
-        <p class="text-gray-500 text-sm sm:text-base">${msg['wish_section_subtitle']!'Những lời động viên ấm áp từ mọi người dành cho trạm cứu hộ'}</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-        <#list approvedWishes as wish>
-        <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between border-l-4 border-green-400">
-            <p class="text-gray-700 text-sm sm:text-base leading-relaxed italic mb-4">"${(wish.message)!''?html}"</p>
-            <p class="text-green-700 font-semibold text-sm text-right">${msg['home_wishes_from']!'— '}${wish.donorName?html}</p>
-        </div>
-        </#list>
-    </div>
-</section>
-</#if>
-
-<#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- RECENTLY RESCUED ANIMALS                                        -->
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#if recentPets?has_content>
@@ -196,6 +176,26 @@
                 <span class="mt-3 inline-block text-green-600 hover:text-green-800 text-sm font-semibold">${msg['recent_pets_view_detail']!'Xem chi tiết →'}</span>
             </div>
         </a>
+        </#list>
+    </div>
+</section>
+</#if>
+
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#-- COMMUNITY WISHES                                                -->
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#if approvedWishes?has_content>
+<section class="px-2 sm:px-4 mb-8 sm:mb-12">
+    <div class="text-center mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-2">${msg['wish_section_title']!'💌 Lời Chúc Từ Cộng Đồng'}</h2>
+        <p class="text-gray-500 text-sm sm:text-base">${msg['wish_section_subtitle']!'Những lời động viên ấm áp từ mọi người dành cho trạm cứu hộ'}</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <#list approvedWishes as wish>
+        <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between border-l-4 border-green-400">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed italic mb-4">"${(wish.message)!''?html}"</p>
+            <p class="text-green-700 font-semibold text-sm text-right">${msg['home_wishes_from']!'— '}${wish.donorName?html}</p>
+        </div>
         </#list>
     </div>
 </section>
