@@ -1,4 +1,4 @@
-<#import "layout/base.ftl" as layout>
+<#import "../layout/base.ftl" as layout>
 <@layout.page title="${msg['config_title']!'Cấu Hình Trang Chủ'}">
 
 <div class="px-2 sm:px-4 py-6 max-w-2xl mx-auto">
