@@ -76,6 +76,14 @@ class PetRepository {
         PetMedia.deleteWhere { PetMedia.id eq mediaId } > 0
     }
 
+    fun countByStatus(status: String): Long = transaction {
+        Pets.select { Pets.status eq status }.count()
+    }
+
+    fun countAll(): Long = transaction {
+        Pets.selectAll().count()
+    }
+
     private fun ResultRow.toPet() = Pet(
         id = this[Pets.id].value,
         name = this[Pets.name],

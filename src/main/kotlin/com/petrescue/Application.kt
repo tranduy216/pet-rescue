@@ -2,6 +2,7 @@ package com.petrescue
 
 import com.petrescue.config.AppConfig
 import com.petrescue.database.DatabaseFactory
+import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
 import com.petrescue.services.UserService
 import freemarker.cache.ClassTemplateLoader
@@ -54,6 +55,8 @@ fun Application.module() {
         }
     }
 
+    install(AuthorizationPlugin)
+
     install(FreeMarker) {
         templateLoader = ClassTemplateLoader(this::class.java.classLoader, "templates")
     }
@@ -87,11 +90,9 @@ fun Application.module() {
         petRoutes()
         blogRoutes()
         donateRoutes()
-        authenticate("auth-session") {
-            userRoutes()
-            financeRoutes()
-            adoptionRoutes()
-            rescueRoutes()
-        }
+        userRoutes()
+        financeRoutes()
+        adoptionRoutes()
+        rescueRoutes()
     }
 }

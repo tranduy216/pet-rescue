@@ -15,23 +15,17 @@ fun Route.userRoutes() {
     route("/users") {
         get {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") {
-                call.respondRedirect("/")
-                return@get
-            }
             val users = service.getAll()
             call.respond(FreeMarkerContent("users/list.ftl", mapOf("users" to users, "session" to session), ""))
         }
 
         get("/new") {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") { call.respondRedirect("/"); return@get }
             call.respond(FreeMarkerContent("users/form.ftl", mapOf("user" to null, "session" to session, "error" to null), ""))
         }
 
         post("/new") {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") { call.respondRedirect("/"); return@post }
             val params = call.receiveParameters()
             val username = params["username"] ?: ""
             val email = params["email"] ?: ""
@@ -49,7 +43,6 @@ fun Route.userRoutes() {
 
         get("/{id}/edit") {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") { call.respondRedirect("/"); return@get }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get
             val user = service.getById(id)
             call.respond(FreeMarkerContent("users/form.ftl", mapOf("user" to user, "session" to session, "error" to null), ""))
@@ -57,7 +50,6 @@ fun Route.userRoutes() {
 
         post("/{id}/edit") {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") { call.respondRedirect("/"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val params = call.receiveParameters()
             val existing = service.getById(id) ?: return@post
@@ -76,7 +68,6 @@ fun Route.userRoutes() {
 
         post("/{id}/delete") {
             val session = call.sessions.get<UserSession>()
-            if (session?.role != "ADMIN") { call.respondRedirect("/"); return@post }
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
             call.respondRedirect("/users")

@@ -11,4 +11,5 @@ class DonationService {
     fun create(donation: Donation) = repository.create(donation)
     fun updateStatus(id: Int, status: String) = repository.updateStatus(id, status)
     fun getTotalConfirmed() = repository.getTotalConfirmed()
+    fun countDonors() = repository.countDonors()
 }

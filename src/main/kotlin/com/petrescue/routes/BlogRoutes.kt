@@ -22,20 +22,18 @@ fun Route.blogRoutes() {
         }
 
         get("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/blog"); return@get }
+            val session = call.sessions.get<UserSession>()
             call.respond(FreeMarkerContent("blog/form.ftl", mapOf("blog" to null, "session" to session, "error" to null), ""))
         }
 
         post("/new") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/blog"); return@post }
+            val session = call.sessions.get<UserSession>()
             val params = call.receiveParameters()
             service.create(
                 Blog(
                     title = params["title"] ?: "",
                     content = params["content"] ?: "",
-                    authorId = session.userId,
+                    authorId = session!!.userId,
                     tags = params["tags"],
                     published = params["isPublished"] == "true"
                 )
@@ -52,16 +50,14 @@ fun Route.blogRoutes() {
         }
 
         get("/{id}/edit") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/blog"); return@get }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get
             val blog = service.getById(id)
             call.respond(FreeMarkerContent("blog/form.ftl", mapOf("blog" to blog, "session" to session, "error" to null), ""))
         }
 
         post("/{id}/edit") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role !in listOf("ADMIN", "VOLUNTEER")) { call.respondRedirect("/blog"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val existing = service.getById(id) ?: return@post
             val params = call.receiveParameters()
@@ -77,8 +73,7 @@ fun Route.blogRoutes() {
         }
 
         post("/{id}/delete") {
-            val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
-            if (session.role != "ADMIN") { call.respondRedirect("/blog"); return@post }
+            val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
             call.respondRedirect("/blog")
