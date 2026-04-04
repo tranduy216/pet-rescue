@@ -26,7 +26,7 @@ private fun processImageUpload(part: PartData.FileItem): FileUploadResult {
     val originalName = part.originalFileName ?: return FileUploadResult()
     val ext = originalName.substringAfterLast('.', "").lowercase()
     if (ext.isEmpty() || ext !in ALLOWED_IMAGE_EXTENSIONS) {
-        return FileUploadResult(error = "Invalid file type '${ext.ifEmpty { "unknown" }}'. Only image files (jpg, jpeg, png, gif, webp, bmp) are allowed.")
+        return FileUploadResult(error = "Invalid file type '${ext.ifEmpty { "unknown" }}'. Only image files (${ALLOWED_IMAGE_EXTENSIONS.joinToString(", ")}) are allowed.")
     }
     val bytes = part.streamProvider().readBytes()
     if (bytes.size > MAX_IMAGE_SIZE_BYTES) {
