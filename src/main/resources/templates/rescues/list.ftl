@@ -1,9 +1,9 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="Rescues - Pet Rescue">
+<@layout.page title="${msg['rescue_page_title']!'Rescue Reports'} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-green-800">🚨 Rescue Reports</h1>
-        <a href="/rescues/new" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">+ Report Rescue</a>
+        <h1 class="text-2xl font-bold text-green-800">${msg['rescue_page_title']!'🚨 Rescue Reports'}</h1>
+        <a href="/rescues/new" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600">${msg['rescue_add_btn']!'+ Report Rescue'}</a>
     </div>
     <div class="space-y-4">
         <#list rescues as r>
@@ -12,7 +12,7 @@
                 <div>
                     <h3 class="font-semibold text-green-800">📍 ${r.location}</h3>
                     <p class="text-sm text-gray-600 mt-1">${r.description}</p>
-                    <p class="text-xs text-gray-500 mt-1">Contact: ${r.contactInfo}</p>
+                    <p class="text-xs text-gray-500 mt-1">${msg['rescue_contact_label']!'Contact:'} ${r.contactInfo}</p>
                 </div>
                 <span class="px-3 py-1 rounded-full text-xs font-medium
                     <#if r.status == 'RESCUED'>bg-green-100 text-green-800
@@ -36,12 +36,12 @@
                             <option value="RESCUED" <#if r.status == 'RESCUED'>selected</#if>>${msg['rescue_status_rescued']!'Rescued'}</option>
                             <option value="FAILED" <#if r.status == 'FAILED'>selected</#if>>${msg['rescue_status_failed']!'Failed'}</option>
                         </select>
-                        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Update</button>
+                        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">${msg['btn_update']!'Update'}</button>
                     </form>
                     <#if session.role == "ADMIN">
                     <form method="POST" action="/rescues/${r.id}/delete" class="inline">
                         <button type="submit" class="text-red-600 hover:text-red-800 text-sm"
-                            onclick="return confirm('Delete this rescue report?')">Delete</button>
+                            onclick="return confirm('${msg['rescue_delete_confirm']!'Delete this rescue report?'}')">${msg['btn_delete']!'Delete'}</button>
                     </form>
                     </#if>
                 </div>
@@ -50,7 +50,7 @@
         </div>
         </#list>
         <#if !rescues?has_content>
-        <div class="text-center py-8 text-gray-500">No rescue reports found.</div>
+        <div class="text-center py-8 text-gray-500">${msg['rescue_empty']!'No rescue reports found.'}</div>
         </#if>
     </div>
 </div>

@@ -1,16 +1,16 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="Pets - Pet Rescue">
+<@layout.page title="${msg['nav_pets']!'Pets'} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-4">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-green-800">🐾 Pets</h1>
+        <h1 class="text-2xl font-bold text-green-800">🐾 ${msg['nav_pets']!'Pets'}</h1>
         <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-        <a href="/pets/new" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add Pet</a>
+        <a href="/pets/new" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">${msg['pet_add_btn']!'+ Add Pet'}</a>
         </#if>
     </div>
 
     <div class="bg-white rounded-xl shadow-md p-4 mb-6">
         <form hx-get="/pets" hx-target="#pet-list" hx-trigger="input delay:500ms, change" class="flex flex-wrap gap-3">
-            <input type="text" name="search" placeholder="Search by name..." value="${(search)!''}"
+            <input type="text" name="search" placeholder="${msg['pet_search_placeholder']!'Search by name...'}" value="${(search)!''}"
                 class="border border-gray-300 rounded-lg px-3 py-2 flex-1 min-w-48 focus:outline-none focus:ring-2 focus:ring-green-500">
             <select name="type" class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
                 <option value="">${msg['pet_type_all']!'All Types'}</option>

@@ -16,16 +16,18 @@
                     <#if pet.status == 'AVAILABLE'>bg-green-100 text-green-800
                     <#elseif pet.status == 'ADOPTED'>bg-blue-100 text-blue-800
                     <#else>bg-yellow-100 text-yellow-800</#if>">
-                    ${pet.status}
+                    <#if pet.status == 'AVAILABLE'>${msg['pet_status_available']!'Available'}
+                    <#elseif pet.status == 'ADOPTED'>${msg['pet_status_adopted']!'Adopted'}
+                    <#else>${msg['pet_status_rescued']!'Rescued'}</#if>
                 </span>
             </div>
-            <p class="text-sm text-green-600">${pet.type}<#if pet.breed??> - ${pet.breed}</#if></p>
-            <#if pet.age??><p class="text-sm text-gray-500">${pet.age} years old</p></#if>
-            <#if pet.gender??><p class="text-sm text-gray-500">${pet.gender}</p></#if>
+            <p class="text-sm text-green-600"><#if pet.type == 'DOG'>${msg['pet_type_dog']!'🐕 Dog'}<#elseif pet.type == 'CAT'>${msg['pet_type_cat']!'🐈 Cat'}<#else>${msg['pet_type_other']!'🐾 Other'}</#if><#if pet.breed??> - ${pet.breed}</#if></p>
+            <#if pet.age??><p class="text-sm text-gray-500">${pet.age} ${msg['pet_years_old']!'years old'}</p></#if>
+            <#if pet.gender??><p class="text-sm text-gray-500"><#if pet.gender == 'Male'>${msg['pet_gender_male']!'Male'}<#elseif pet.gender == 'Female'>${msg['pet_gender_female']!'Female'}<#else>${msg['pet_gender_unknown']!'Unknown'}</#if></p></#if>
             <div class="mt-3 flex space-x-2">
-                <a href="/pets/${pet.id}" class="flex-1 text-center bg-green-600 text-white px-3 py-1.5 rounded text-sm hover:bg-green-700">View</a>
+                <a href="/pets/${pet.id}" class="flex-1 text-center bg-green-600 text-white px-3 py-1.5 rounded text-sm hover:bg-green-700">${msg['btn_view']!'View'}</a>
                 <#if session?? && pet.status == 'AVAILABLE'>
-                <a href="/adoptions/request/${pet.id}" class="flex-1 text-center bg-green-100 text-green-800 px-3 py-1.5 rounded text-sm hover:bg-green-200">Adopt</a>
+                <a href="/adoptions/request/${pet.id}" class="flex-1 text-center bg-green-100 text-green-800 px-3 py-1.5 rounded text-sm hover:bg-green-200">${msg['btn_adopt']!'Adopt'}</a>
                 </#if>
             </div>
         </div>
@@ -35,6 +37,6 @@
 <#else>
 <div class="text-center py-12 text-gray-500">
     <p class="text-4xl mb-4">🐾</p>
-    <p>No pets found matching your criteria.</p>
+    <p>${msg['pet_empty']!'No pets found.'}</p>
 </div>
 </#if>

@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -16,7 +18,7 @@ fun Route.authRoutes(userService: UserService) {
             call.respondRedirect("/")
             return@get
         }
-        call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to null), ""))
+        call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
     }
 
     post("/login") {
@@ -28,12 +30,12 @@ fun Route.authRoutes(userService: UserService) {
             call.sessions.set(UserSession(user.id, user.username, user.role))
             call.respondRedirect("/")
         } else {
-            call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to "Invalid username or password"), ""))
+            call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to "Invalid username or password", "msg" to call.messages(), "lang" to call.lang()), ""))
         }
     }
 
     get("/register") {
-        call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to null), ""))
+        call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
     }
 
     post("/register") {
@@ -47,7 +49,7 @@ fun Route.authRoutes(userService: UserService) {
             call.sessions.set(UserSession(user.id, user.username, user.role))
             call.respondRedirect("/")
         } else {
-            call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to "Username or email already exists"), ""))
+            call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to "Username or email already exists", "msg" to call.messages(), "lang" to call.lang()), ""))
         }
     }
 
