@@ -2,6 +2,8 @@ package com.petrescue
 
 import com.petrescue.config.AppConfig
 import com.petrescue.database.DatabaseFactory
+import com.petrescue.i18n.lang
+import com.petrescue.i18n.messages
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
 import com.petrescue.services.UserService
@@ -63,16 +65,35 @@ fun Application.module() {
 
     install(StatusPages) {
         status(HttpStatusCode.NotFound) { call, _ ->
-            call.respond(FreeMarkerContent("error.ftl", mapOf("message" to "Page not found", "code" to 404), ""))
+            val session = call.sessions.get<UserSession>()
+            call.respond(
+                FreeMarkerContent(
+                    "error.ftl",
+                    mapOf("message" to "Page not found", "code" to 404, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    ""
+                )
+            )
         }
         status(HttpStatusCode.InternalServerError) { call, _ ->
-            call.respond(FreeMarkerContent("error.ftl", mapOf("message" to "Internal server error", "code" to 500), ""))
+            val session = call.sessions.get<UserSession>()
+            call.respond(
+                FreeMarkerContent(
+                    "error.ftl",
+                    mapOf("message" to "Internal server error", "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    ""
+                )
+            )
         }
         exception<Throwable> { call, cause ->
             call.application.log.error("Unhandled exception", cause)
+            val session = call.sessions.get<UserSession>()
             call.respond(
                 HttpStatusCode.InternalServerError,
-                FreeMarkerContent("error.ftl", mapOf("message" to (cause.message ?: "Unknown error"), "code" to 500), "")
+                FreeMarkerContent(
+                    "error.ftl",
+                    mapOf("message" to (cause.message ?: "Unknown error"), "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    ""
+                )
             )
         }
     }
@@ -86,6 +107,10 @@ fun Application.module() {
             staticRootFolder = File("static")
             files(".")
         }
+        static("/uploads") {
+            staticRootFolder = File("uploads")
+            files(".")
+        }
         authRoutes(userService)
         homeRoutes()
         petRoutes()
@@ -96,5 +121,6 @@ fun Application.module() {
         rescueRoutes()
         configRoutes()
         profileRoutes()
+        wishRoutes()
     }
 }

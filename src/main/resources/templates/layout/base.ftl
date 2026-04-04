@@ -27,6 +27,7 @@
                     </#if>
                     <#if session?? && session.role == "ADMIN">
                         <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
+                        <a href="/wishes" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💌 <#if msg??>${msg['nav_wishes']!'Lời Chúc'}<#else>Lời Chúc</#if></a>
                     </#if>
                 </div>
 
@@ -100,6 +101,7 @@
                 </#if>
                 <#if session?? && session.role == "ADMIN">
                     <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
+                    <a href="/wishes" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💌 <#if msg??>${msg['nav_wishes']!'Lời Chúc'}<#else>Lời Chúc</#if></a>
                 </#if>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#if lang?? && lang == "en">

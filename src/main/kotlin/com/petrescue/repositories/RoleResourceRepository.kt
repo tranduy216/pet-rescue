@@ -110,7 +110,17 @@ class RoleResourceRepository {
             RoleResource("ADMIN", "/blog/*/edit", "POST"),
             RoleResource("VOLUNTEER", "/blog/*/edit", "GET"),
             RoleResource("VOLUNTEER", "/blog/*/edit", "POST"),
-            RoleResource("ADMIN", "/blog/*/delete", "POST")
+            RoleResource("ADMIN", "/blog/*/delete", "POST"),
+
+            // /blog/upload-image – ADMIN and VOLUNTEER
+            RoleResource("ADMIN", "/blog/upload-image", "POST"),
+            RoleResource("VOLUNTEER", "/blog/upload-image", "POST"),
+
+            // /wishes – ADMIN only
+            RoleResource("ADMIN", "/wishes", "GET"),
+            RoleResource("ADMIN", "/wishes/*/approve", "POST"),
+            RoleResource("ADMIN", "/wishes/*/receive", "POST"),
+            RoleResource("ADMIN", "/wishes/*/delete", "POST")
         )
         entries.forEach { insert(it) }
     }

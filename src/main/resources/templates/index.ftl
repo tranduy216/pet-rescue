@@ -149,6 +149,26 @@
 </section>
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
+<#-- COMMUNITY WISHES                                                -->
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#if approvedWishes?has_content>
+<section class="px-2 sm:px-4 mb-8 sm:mb-12">
+    <div class="text-center mb-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-2">${msg['wish_section_title']!'💌 Lời Chúc Từ Cộng Đồng'}</h2>
+        <p class="text-gray-500 text-sm sm:text-base">${msg['wish_section_subtitle']!'Những lời động viên ấm áp từ mọi người dành cho trạm cứu hộ'}</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+        <#list approvedWishes as wish>
+        <div class="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-between border-l-4 border-green-400">
+            <p class="text-gray-700 text-sm sm:text-base leading-relaxed italic mb-4">"${(wish.message)!''?html}"</p>
+            <p class="text-green-700 font-semibold text-sm text-right">${msg['home_wishes_from']!'— '}${wish.donorName?html}</p>
+        </div>
+        </#list>
+    </div>
+</section>
+</#if>
+
+<#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- RECENTLY RESCUED ANIMALS                                        -->
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#if recentPets?has_content>
@@ -220,12 +240,12 @@
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#if blogs?has_content>
 <section class="px-2 sm:px-4 mb-8 sm:mb-12">
-    <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-4 sm:mb-6">📝 ${(lang!'vi') == 'en'?then('Latest News', 'Tin Tức Mới Nhất')}</h2>
+    <h2 class="text-xl sm:text-2xl font-bold text-green-800 mb-4 sm:mb-6">📝 ${(lang!'vi') == 'en'?then('Latest Posts', 'Tâm Tình Mới Nhất')}</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         <#list blogs as blog>
         <div class="bg-white rounded-xl shadow-md p-5 sm:p-6 hover:shadow-lg transition-shadow flex flex-col">
             <h3 class="text-base sm:text-lg font-bold text-green-800 mb-2">${blog.title}</h3>
-            <p class="text-gray-600 text-xs sm:text-sm line-clamp-3 flex-1">${blog.content?substring(0, [blog.content?length, 150]?min)}<#if blog.content?length gt 150>...</#if></p>
+            <p class="text-gray-600 text-xs sm:text-sm line-clamp-3 flex-1">${blog.excerpt}</p>
             <a href="/blog/${blog.id}" class="mt-3 sm:mt-4 inline-block text-green-600 hover:text-green-800 text-sm font-semibold">Đọc thêm →</a>
         </div>
         </#list>
