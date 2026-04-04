@@ -5,16 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} 🐾</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Smooth line-clamp support */
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/tailwind.min.css">
 </head>
 <body class="min-h-screen bg-green-50">
     <nav class="bg-green-700 shadow-lg">

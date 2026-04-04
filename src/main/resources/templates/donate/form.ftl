@@ -73,6 +73,7 @@
 
 <script>
 (function () {
+    var COOLDOWN_MS = 30000;
     var btn = document.getElementById('send-btn');
     var form = document.getElementById('wish-form');
     var originalText = btn ? (btn.getAttribute('data-text') || btn.textContent.trim()) : '';
@@ -102,8 +103,8 @@
     var lastSent = localStorage.getItem('wishLastSent');
     if (lastSent) {
         var elapsed = Date.now() - parseInt(lastSent, 10);
-        if (elapsed < 30000) {
-            startCooldown(Math.ceil((30000 - elapsed) / 1000));
+        if (elapsed < COOLDOWN_MS) {
+            startCooldown(Math.ceil((COOLDOWN_MS - elapsed) / 1000));
         }
     }
 
@@ -117,7 +118,7 @@
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: params
             }).then(function (res) {
-                if (res.ok || res.status === 200) {
+                if (res.ok) {
                     var toast = document.getElementById('wish-toast');
                     if (toast) {
                         toast.classList.remove('hidden');
