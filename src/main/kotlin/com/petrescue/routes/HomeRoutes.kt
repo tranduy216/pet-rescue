@@ -1,6 +1,8 @@
 package com.petrescue.routes
 
 import com.petrescue.UserSession
+import com.petrescue.cache.AppCache
+import com.petrescue.cache.CacheKeys
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.services.DonationService
@@ -20,16 +22,32 @@ fun Route.homeRoutes() {
     get("/") {
         val session = call.sessions.get<UserSession>()
 
-        val featuredPets = petService.getAll(status = "AVAILABLE").take(6)
-        val recentPets = petService.getRecent(3)
-        val approvedWishes = donationService.getApproved().take(3)
+        val featuredPets = AppCache.getOrLoad(CacheKeys.HOME_FEATURED_PETS) {
+            petService.getAll(status = "AVAILABLE").take(6)
+        }
+        val recentPets = AppCache.getOrLoad(CacheKeys.HOME_RECENT_PETS) {
+            petService.getRecent(3)
+        }
+        val approvedWishes = AppCache.getOrLoad(CacheKeys.HOME_APPROVED_WISHES) {
+            donationService.getApproved().take(3)
+        }
 
-        val statsAvailable = petService.countByStatus("AVAILABLE")
-        val statsAdopted = petService.countByStatus("ADOPTED")
-        val statsTreated = petService.countAll()
-        val statsDonors = donationService.countDonors()
+        val statsAvailable = AppCache.getOrLoad(CacheKeys.HOME_STATS_AVAILABLE) {
+            petService.countByStatus("AVAILABLE")
+        }
+        val statsAdopted = AppCache.getOrLoad(CacheKeys.HOME_STATS_ADOPTED) {
+            petService.countByStatus("ADOPTED")
+        }
+        val statsTreated = AppCache.getOrLoad(CacheKeys.HOME_STATS_TREATED) {
+            petService.countAll()
+        }
+        val statsDonors = AppCache.getOrLoad(CacheKeys.HOME_STATS_DONORS) {
+            donationService.countDonors()
+        }
 
-        val siteConfig = siteConfigService.getAll()
+        val siteConfig = AppCache.getOrLoad(CacheKeys.HOME_SITE_CONFIG) {
+            siteConfigService.getAll()
+        }
 
         call.respond(
             FreeMarkerContent(

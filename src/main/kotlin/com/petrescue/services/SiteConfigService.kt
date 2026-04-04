@@ -1,5 +1,6 @@
 package com.petrescue.services
 
+import com.petrescue.cache.AppCache
 import com.petrescue.repositories.SiteConfigRepository
 
 class SiteConfigService {
@@ -7,7 +8,7 @@ class SiteConfigService {
 
     fun get(key: String, default: String = ""): String = repository.get(key) ?: default
 
-    fun set(key: String, value: String) = repository.set(key, value)
+    fun set(key: String, value: String) = repository.set(key, value).also { AppCache.invalidateAll() }
 
     fun getAll(): Map<String, String> = repository.getAll()
 }
