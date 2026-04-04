@@ -27,8 +27,8 @@
                     🌿 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
                 </a>
 
-                <#-- Desktop nav links (centered) -->
-                <div class="hidden md:flex flex-1 justify-center items-center space-x-1 lg:space-x-2">
+                <#-- Desktop nav links (left-aligned after logo) -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2 ml-4 lg:ml-6">
                     <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
                     <a href="/blog" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
                     <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
@@ -41,7 +41,8 @@
                     </#if>
                     <#if session?? && session.role == "ADMIN">
                         <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
+                        <a href="/donations" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
+                        <a href="/config" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">⚙️ <#if msg??>${msg['nav_config']!'Configuration'}<#else>Configuration</#if></a>
                     </#if>
                 </div>
 
@@ -90,7 +91,8 @@
                 </#if>
                 <#if session?? && session.role == "ADMIN">
                     <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                    <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📋 <#if msg??>${msg['nav_donations']!'Donations'}<#else>Donations</#if></a>
+                    <a href="/donations" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🤝 <#if msg??>${msg['nav_donations']!'Patrons'}<#else>Patrons</#if></a>
+                    <a href="/config" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">⚙️ <#if msg??>${msg['nav_config']!'Configuration'}<#else>Configuration</#if></a>
                 </#if>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#if lang?? && lang == "en">

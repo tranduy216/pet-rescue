@@ -5,6 +5,7 @@ import com.petrescue.i18n.Messages
 import com.petrescue.services.BlogService
 import com.petrescue.services.DonationService
 import com.petrescue.services.PetService
+import com.petrescue.services.SiteConfigService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.response.*
@@ -15,6 +16,7 @@ fun Route.homeRoutes() {
     val petService = PetService()
     val blogService = BlogService()
     val donationService = DonationService()
+    val siteConfigService = SiteConfigService()
 
     get("/") {
         val session = call.sessions.get<UserSession>()
@@ -22,6 +24,7 @@ fun Route.homeRoutes() {
         val msg = Messages.forLang(lang)
 
         val featuredPets = petService.getAll(status = "AVAILABLE").take(6)
+        val recentPets = petService.getRecent(3)
         val blogs = blogService.getAll(publishedOnly = true).take(3)
 
         val statsAvailable = petService.countByStatus("AVAILABLE")
@@ -29,18 +32,22 @@ fun Route.homeRoutes() {
         val statsTreated = petService.countAll()
         val statsDonors = donationService.countDonors()
 
+        val siteConfig = siteConfigService.getAll()
+
         call.respond(
             FreeMarkerContent(
                 "index.ftl", mapOf(
                     "session" to session,
                     "pets" to featuredPets,
+                    "recentPets" to recentPets,
                     "blogs" to blogs,
                     "statsAvailable" to statsAvailable,
                     "statsAdopted" to statsAdopted,
                     "statsTreated" to statsTreated,
                     "statsDonors" to statsDonors,
                     "msg" to msg,
-                    "lang" to lang
+                    "lang" to lang,
+                    "siteConfig" to siteConfig
                 ), ""
             )
         )

@@ -7,6 +7,8 @@ import com.petrescue.repositories.PetRepository
 class PetService {
     private val repository = PetRepository()
 
+    fun getRecent(limit: Int = 3) = repository.findRecent(limit)
+
     fun getAll(search: String? = null, type: String? = null, status: String? = null) =
         repository.findAll(search, type, status)
 
