@@ -14,7 +14,7 @@ object DatabaseFactory {
             driver = config.dbDriver
         )
         transaction {
-            SchemaUtils.create(
+            SchemaUtils.createMissingTablesAndColumns(
                 Users,
                 Pets,
                 PetMedia,

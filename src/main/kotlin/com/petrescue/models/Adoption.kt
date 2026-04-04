@@ -6,7 +6,7 @@ data class Adoption(
     val id: Int = 0,
     val petId: Int,
     val userId: Int,
-    val status: String = "REQUESTED",
+    val status: String = "REGISTERED",
     val approvedBy: Int? = null,
     val cancelledBy: Int? = null,
     val reason: String? = null,

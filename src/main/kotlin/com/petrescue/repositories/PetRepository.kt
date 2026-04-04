@@ -50,6 +50,7 @@ class PetRepository {
             it[age] = pet.age
             it[gender] = pet.gender
             it[description] = pet.description
+            it[youtubeUrl] = pet.youtubeUrl
             it[status] = pet.status
             it[createdBy] = pet.createdBy
         } get Pets.id
@@ -64,6 +65,7 @@ class PetRepository {
             it[age] = pet.age
             it[gender] = pet.gender
             it[description] = pet.description
+            it[youtubeUrl] = pet.youtubeUrl
             it[status] = pet.status
             it[updatedAt] = LocalDateTime.now()
         } > 0
@@ -103,6 +105,7 @@ class PetRepository {
         age = this[Pets.age],
         gender = this[Pets.gender],
         description = this[Pets.description],
+        youtubeUrl = this[Pets.youtubeUrl],
         status = this[Pets.status],
         createdBy = this[Pets.createdBy],
         createdAt = this[Pets.createdAt],

@@ -12,11 +12,30 @@ class AdoptionService {
     fun getById(id: Int) = repository.findById(id)
     fun getByUser(userId: Int) = repository.findByUser(userId)
 
-    fun create(adoption: Adoption) = repository.create(adoption)
+    fun create(adoption: Adoption): Adoption {
+        val created = repository.create(adoption)
+        val pet = petRepository.findById(adoption.petId)
+        if (pet != null) {
+            petRepository.update(pet.copy(status = "ADOPT_REGISTERED"))
+        }
+        return created
+    }
 
-    fun approve(id: Int, byUserId: Int): Boolean {
+    fun confirm(id: Int, byUserId: Int): Boolean {
         val adoption = repository.findById(id) ?: return false
-        val success = repository.updateStatus(id, "APPROVED", byUserId)
+        val success = repository.updateStatus(id, "CONFIRMED", byUserId)
+        if (success) {
+            val pet = petRepository.findById(adoption.petId)
+            if (pet != null) {
+                petRepository.update(pet.copy(status = "ADOPT_REGISTERED"))
+            }
+        }
+        return success
+    }
+
+    fun finish(id: Int, byUserId: Int): Boolean {
+        val adoption = repository.findById(id) ?: return false
+        val success = repository.updateStatus(id, "FINISHED", byUserId)
         if (success) {
             val pet = petRepository.findById(adoption.petId)
             if (pet != null) {
@@ -27,6 +46,14 @@ class AdoptionService {
     }
 
     fun cancel(id: Int, byUserId: Int, reason: String?): Boolean {
-        return repository.updateStatus(id, "CANCELLED", byUserId, reason)
+        val adoption = repository.findById(id) ?: return false
+        val success = repository.updateStatus(id, "CANCELLED", byUserId, reason)
+        if (success) {
+            val pet = petRepository.findById(adoption.petId)
+            if (pet != null) {
+                petRepository.update(pet.copy(status = "READY_TO_ADOPT"))
+            }
+        }
+        return success
     }
 }

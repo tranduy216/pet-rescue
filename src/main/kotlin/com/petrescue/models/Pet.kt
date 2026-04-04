@@ -20,6 +20,7 @@ data class Pet(
     val age: Int? = null,
     val gender: String? = null,
     val description: String? = null,
+    val youtubeUrl: String? = null,
     val status: String = PetStatus.JUST_RESCUED.name,
     val createdBy: Int,
     val createdAt: LocalDateTime = LocalDateTime.now(),

@@ -74,6 +74,12 @@
                 </div>
                 </#if>
             </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">${msg['pet_field_youtube']!'YouTube Video'}</label>
+                <input type="url" name="youtubeUrl" value="${(pet.youtubeUrl)!''}"
+                    placeholder="${msg['pet_field_youtube_placeholder']!'https://www.youtube.com/watch?v=...'}"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+            </div>
             <div class="flex space-x-3">
                 <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">${msg['btn_save']!'Save'}</button>
                 <a href="/pets<#if pet??>/${pet.id}</#if>" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300">${msg['btn_cancel']!'Cancel'}</a>

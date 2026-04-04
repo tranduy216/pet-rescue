@@ -1,6 +1,8 @@
 package com.petrescue.repositories
 
 import com.petrescue.database.tables.Adoptions
+import com.petrescue.database.tables.Pets
+import com.petrescue.database.tables.Users
 import com.petrescue.models.Adoption
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -10,15 +12,19 @@ import java.time.LocalDateTime
 class AdoptionRepository {
 
     fun findAll(): List<Adoption> = transaction {
-        Adoptions.selectAll().orderBy(Adoptions.createdAt, SortOrder.DESC).map { it.toAdoption() }
+        (Adoptions leftJoin Pets).selectAll()
+            .orderBy(Adoptions.createdAt, SortOrder.DESC)
+            .map { it.toAdoption() }
     }
 
     fun findById(id: Int): Adoption? = transaction {
-        Adoptions.select { Adoptions.id eq id }.singleOrNull()?.toAdoption()
+        (Adoptions leftJoin Pets).select { Adoptions.id eq id }.singleOrNull()?.toAdoption()
     }
 
     fun findByUser(userId: Int): List<Adoption> = transaction {
-        Adoptions.select { Adoptions.userId eq userId }.map { it.toAdoption() }
+        (Adoptions leftJoin Pets).select { Adoptions.userId eq userId }
+            .orderBy(Adoptions.createdAt, SortOrder.DESC)
+            .map { it.toAdoption() }
     }
 
     fun create(adoption: Adoption): Adoption = transaction {
@@ -36,7 +42,7 @@ class AdoptionRepository {
     fun updateStatus(id: Int, status: String, byUserId: Int, reason: String? = null): Boolean = transaction {
         Adoptions.update({ Adoptions.id eq id }) {
             it[Adoptions.status] = status
-            if (status == "APPROVED") it[approvedBy] = byUserId
+            if (status == "CONFIRMED") it[approvedBy] = byUserId
             if (status == "CANCELLED") it[cancelledBy] = byUserId
             it[Adoptions.reason] = reason
             it[updatedAt] = LocalDateTime.now()
@@ -55,6 +61,7 @@ class AdoptionRepository {
         facebookLink = this[Adoptions.facebookLink],
         notes = this[Adoptions.notes],
         createdAt = this[Adoptions.createdAt],
-        updatedAt = this[Adoptions.updatedAt]
+        updatedAt = this[Adoptions.updatedAt],
+        petName = runCatching { this[Pets.name] }.getOrNull()
     )
 }

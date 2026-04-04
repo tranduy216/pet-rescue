@@ -7,7 +7,7 @@ import java.time.LocalDateTime
 object Adoptions : IntIdTable("t_tbl_adoptions") {
     val petId = integer("pet_id").references(Pets.id)
     val userId = integer("user_id").references(Users.id)
-    val status = varchar("status", 50).default("REQUESTED")
+    val status = varchar("status", 50).default("REGISTERED")
     val approvedBy = integer("approved_by").references(Users.id).nullable()
     val cancelledBy = integer("cancelled_by").references(Users.id).nullable()
     val reason = text("reason").nullable()

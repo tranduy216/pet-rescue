@@ -11,6 +11,7 @@ object Pets : IntIdTable("m_tbl_pets") {
     val age = integer("age").nullable()
     val gender = varchar("gender", 20).nullable()
     val description = text("description").nullable()
+    val youtubeUrl = varchar("youtube_url", 500).nullable()
     val status = varchar("status", 50).default("AVAILABLE")
     val createdBy = integer("created_by").references(Users.id)
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now() }
