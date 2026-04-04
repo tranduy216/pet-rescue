@@ -35,10 +35,7 @@ fun Route.rescueRoutes() {
         post("/new") {
             val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@post }
             val params = call.receiveParameters()
-            val user = userService.getById(session.userId)
-            val contactInfo = params["contactInfo"]?.takeIf { it.isNotBlank() }
-                ?: user?.phone?.takeIf { it.isNotBlank() }
-                ?: ""
+            val contactInfo = params["contactInfo"]?.takeIf { it.isNotBlank() } ?: ""
             val rescue = service.create(
                 Rescue(
                     userId = session.userId,
