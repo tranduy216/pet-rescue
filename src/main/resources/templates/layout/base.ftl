@@ -11,7 +11,7 @@
 </head>
 <body class="min-h-screen bg-green-50">
     <nav class="bg-green-700 shadow-lg">
-        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8">
+        <div class="w-full px-3 sm:px-4 lg:px-8">
             <div class="flex h-14 sm:h-16 items-center">
                 <#-- Logo (left) -->
                 <a href="/" class="text-white text-lg sm:text-xl font-bold flex-shrink-0">
@@ -156,12 +156,12 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto py-4 sm:py-6 px-0 sm:px-2 lg:px-4">
+    <main class="w-full py-4 sm:py-6">
         <#nested>
     </main>
 
     <footer class="bg-green-800 text-green-100 mt-8 sm:mt-12 py-6 sm:py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center">
+        <div class="w-full px-4 text-center">
             <p class="text-sm sm:text-base">🌱 <#if msg??>${msg['footer_text']!'Pet Rescue System - Saving lives one paw at a time 🐾'}<#else>Pet Rescue System - Saving lives one paw at a time 🐾</#if></p>
         </div>
     </footer>
