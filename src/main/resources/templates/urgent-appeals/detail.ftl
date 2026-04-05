@@ -123,7 +123,7 @@
                 <div class="absolute -left-6 top-4 w-3 h-3 rounded-full ${upDot} border-2 border-white shadow"></div>
                 <div class="bg-white rounded-xl shadow-sm border ${upBorder} p-4">
                     <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
-                        <span class="text-sm font-semibold text-gray-700">📅 ${upd.updateDate?string("dd/MM/yyyy")}</span>
+                        <span class="text-sm font-semibold text-gray-700">📅 ${upd.updateDate.dayOfMonth?string["00"]}/${upd.updateDate.monthValue?string["00"]}/${upd.updateDate.year}</span>
                         <span class="text-sm font-bold" style="color: <#if upProg == 100>#15803d<#elseif upProg <= 90>#22c55e<#elseif upProg <= 75>#eab308<#elseif upProg <= 60>#f97316<#else>#ef4444</#if>">${upProg}%</span>
                     </div>
 

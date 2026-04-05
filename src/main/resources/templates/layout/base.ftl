@@ -19,9 +19,7 @@
 
                 <#-- Desktop nav links (left-aligned after logo) -->
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2 ml-4 lg:ml-6">
-                    <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                        <a href="/urgent-appeals" class="text-red-200 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
-                    </#if>
+                    <a href="/urgent-appeals" class="text-red-200 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
                     <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🐾 <#if msg??>${msg['nav_pets']!'Các Bé'}<#else>Các Bé</#if></a>
                     <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                     <#if session?? && session.role != "GUEST">
@@ -114,9 +112,7 @@
         <#-- Mobile menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-green-800 px-4 pb-4 pt-2">
             <div class="flex flex-col space-y-1">
-                <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
-                    <a href="/urgent-appeals" class="text-red-200 hover:text-white px-3 py-2 rounded-md text-sm font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
-                </#if>
+                <a href="/urgent-appeals" class="text-red-200 hover:text-white px-3 py-2 rounded-md text-sm font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
                 <a href="/pets" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Các Bé'}<#else>Các Bé</#if></a>
                 <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                 <#if session?? && session.role != "GUEST">

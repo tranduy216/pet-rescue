@@ -1,7 +1,7 @@
 <#import "../layout/base.ftl" as layout>
-<@layout.page title="${msg['donate_title']!'Đóng Góp'} - ${msg['site_name']!'Pet Rescue'}">
+<@layout.page title="${msg['donate_title']!'Động Viên'} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-4 py-6 max-w-6xl mx-auto">
-    <h1 class="text-2xl font-bold text-green-800 mb-2 text-center">💚 ${msg['donate_title']!'Đóng Góp & Ủng Hộ'}</h1>
+    <h1 class="text-2xl font-bold text-green-800 mb-2 text-center">💚 ${msg['donate_title']!'Động Viên & Ủng Hộ'}</h1>
     <p class="text-center text-green-700 mb-8 text-sm">${msg['donate_subtitle']!'Sự hỗ trợ của bạn giúp chúng tôi cứu hộ và chăm sóc động vật.'}</p>
 
     <div id="wish-toast" class="hidden mb-6 p-4 bg-green-50 border border-green-300 text-green-800 rounded-xl text-center font-medium text-sm">

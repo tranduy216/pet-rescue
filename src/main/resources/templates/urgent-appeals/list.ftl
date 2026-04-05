@@ -40,7 +40,7 @@
                         <h2 class="text-lg font-bold text-gray-800">${appeal.title?html}</h2>
                         <span class="text-xs text-gray-400">${appeal.createdAt?string?substring(0, 10)}</span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-3 line-clamp-2">${appeal.content?html?substring(0, (appeal.content?length > 120)?then(120, appeal.content?length))}<#if appeal.content?length > 120>...</#if></p>
+                    <p class="text-sm text-gray-600 mb-3 line-clamp-2">${appeal.content?html?substring(0, (appeal.content?length > 120)?then(120, appeal.content?length))}<#if appeal.content?length gt 120>...</#if></p>
 
                     <#-- Progress bar -->
                     <#assign barColor = "bg-red-500">
