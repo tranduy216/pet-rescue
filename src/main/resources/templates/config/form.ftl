@@ -157,27 +157,42 @@
                     <#-- QR Station -->
                     <div class="flex flex-col items-center gap-3">
                         <p class="text-sm font-medium text-gray-700 self-start">🏥 ${msg['config_qr1_upload']!'Upload QR Ủng Hộ Trạm'}</p>
-                        <img src="/static/qr-station.png" alt="QR Station"
+                        <img id="preview-qr-station" src="/static/qr-station.png" alt="QR Station"
                             class="w-36 h-36 object-contain rounded-xl border border-gray-200"
                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                        <div style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+                        <div id="placeholder-qr-station" style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                             <span class="text-3xl">📷</span><span>qr-station.png</span>
                         </div>
                         <input type="file" name="qr_station" accept="image/*"
-                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                            onchange="previewQr(this,'preview-qr-station','placeholder-qr-station')">
                     </div>
                     <#-- QR Web -->
                     <div class="flex flex-col items-center gap-3">
                         <p class="text-sm font-medium text-gray-700 self-start">🌐 ${msg['config_qr2_upload']!'Upload QR Ủng Hộ Website'}</p>
-                        <img src="/static/qr-web.png" alt="QR Web"
+                        <img id="preview-qr-web" src="/static/qr-web.png" alt="QR Web"
                             class="w-36 h-36 object-contain rounded-xl border border-gray-200"
                             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                        <div style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+                        <div id="placeholder-qr-web" style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                             <span class="text-3xl">📷</span><span>qr-web.png</span>
                         </div>
                         <input type="file" name="qr_web" accept="image/*"
-                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
+                            onchange="previewQr(this,'preview-qr-web','placeholder-qr-web')">
                     </div>
+<script>
+function previewQr(input, imgId, placeholderId) {
+    var file = input.files && input.files[0];
+    var img = document.getElementById(imgId);
+    var placeholder = document.getElementById(placeholderId);
+    if (file) {
+        var url = URL.createObjectURL(file);
+        img.src = url;
+        img.style.display = '';
+        placeholder.style.display = 'none';
+    }
+}
+</script>
                 </div>
             </div>
 
