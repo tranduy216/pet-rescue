@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.services.DonationService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -21,7 +22,7 @@ fun Route.wishRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "wishes/list.ftl",
-                    mapOf("wishes" to wishes, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status),
+                    mapOf("wishes" to wishes, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status, "siteConfig" to call.siteConfig()),
                     ""
                 )
             )

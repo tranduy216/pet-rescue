@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Adoption
 import com.petrescue.services.AdoptionService
 import com.petrescue.services.AuditLogService
@@ -30,7 +31,7 @@ fun Route.adoptionRoutes() {
             } else {
                 service.getByUser(session.userId, status)
             }
-            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status), ""))
+            call.respond(FreeMarkerContent("adoptions/list.ftl", mapOf("adoptions" to adoptions, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status, "siteConfig" to call.siteConfig()), ""))
         }
 
         get("/request/{petId}") {
@@ -44,7 +45,7 @@ fun Route.adoptionRoutes() {
                 call.respondRedirect("/pets/$petId")
                 return@get
             }
-            call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         post("/request/{petId}") {
@@ -58,7 +59,7 @@ fun Route.adoptionRoutes() {
             if (pet.status != "READY_TO_ADOPT") {
                 val msg = call.messages()
                 val error = msg["adoption_error_pet_not_ready"] ?: "adoption_error_pet_not_ready"
-                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             val adoption = try {
@@ -74,7 +75,7 @@ fun Route.adoptionRoutes() {
             } catch (e: IllegalStateException) {
                 val msg = call.messages()
                 val error = msg[e.message] ?: e.message
-                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("adoptions/form.ftl", mapOf("pet" to pet, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             AuditLogService.log("CREATE", "Adoption", adoption.id, session.userId, session.username, "petId=$petId")

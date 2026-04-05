@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.services.DonationService
 import com.petrescue.services.SiteConfigService
 import com.petrescue.services.UserService
@@ -32,7 +33,8 @@ fun Route.configRoutes() {
             "success" to success,
             "videoUrlError" to videoUrlError,
             "users" to users,
-            "wishes" to wishes
+            "wishes" to wishes,
+            "siteConfig" to call.siteConfig()
         )
     }
 

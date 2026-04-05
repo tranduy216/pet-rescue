@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Donation
 import com.petrescue.services.DonationService
 import com.petrescue.services.SiteConfigService
@@ -22,7 +23,7 @@ fun Route.donateRoutes() {
     route("/donate") {
         get {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to siteConfigService.getAll()), ""))
+            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         post {

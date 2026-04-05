@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Blog
 import com.petrescue.services.BlogService
 import io.ktor.http.*
@@ -54,7 +55,7 @@ fun Route.blogRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "blog/list.ftl",
-                    mapOf("blogs" to blogs, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to filterStatus),
+                    mapOf("blogs" to blogs, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to filterStatus, "siteConfig" to call.siteConfig()),
                     ""
                 )
             )
@@ -65,7 +66,7 @@ fun Route.blogRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "blog/form.ftl",
-                    mapOf("blog" to null, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("blog" to null, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )
@@ -94,7 +95,7 @@ fun Route.blogRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "blog/detail.ftl",
-                    mapOf("blog" to blog, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("blog" to blog, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )
@@ -107,7 +108,7 @@ fun Route.blogRoutes() {
             call.respond(
                 FreeMarkerContent(
                     "blog/form.ftl",
-                    mapOf("blog" to blog, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("blog" to blog, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )

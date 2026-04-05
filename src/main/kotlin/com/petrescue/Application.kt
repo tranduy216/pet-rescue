@@ -4,6 +4,7 @@ import com.petrescue.config.AppConfig
 import com.petrescue.database.DatabaseFactory
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
 import com.petrescue.services.AuditLogService
@@ -73,7 +74,7 @@ fun Application.module() {
             call.respond(
                 FreeMarkerContent(
                     "error.ftl",
-                    mapOf("message" to "Page not found", "code" to 404, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("message" to "Page not found", "code" to 404, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )
@@ -83,7 +84,7 @@ fun Application.module() {
             call.respond(
                 FreeMarkerContent(
                     "error.ftl",
-                    mapOf("message" to "Internal server error", "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("message" to "Internal server error", "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )
@@ -95,7 +96,7 @@ fun Application.module() {
                 HttpStatusCode.InternalServerError,
                 FreeMarkerContent(
                     "error.ftl",
-                    mapOf("message" to (cause.message ?: "Unknown error"), "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang()),
+                    mapOf("message" to (cause.message ?: "Unknown error"), "code" to 500, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()),
                     ""
                 )
             )

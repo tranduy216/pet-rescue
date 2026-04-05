@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.UrgentAppeal
 import com.petrescue.models.UrgentAppealUpdate
 import com.petrescue.services.UrgentAppealService
@@ -33,7 +34,8 @@ fun Route.urgentAppealRoutes() {
                 "appeals" to appeals,
                 "session" to session,
                 "msg" to call.messages(),
-                "lang" to call.lang()
+                "lang" to call.lang(),
+                "siteConfig" to call.siteConfig()
             ), ""))
         }
 
@@ -44,7 +46,8 @@ fun Route.urgentAppealRoutes() {
                 "session" to session,
                 "msg" to call.messages(),
                 "lang" to call.lang(),
-                "error" to null
+                "error" to null,
+                "siteConfig" to call.siteConfig()
             ), ""))
         }
 
@@ -97,7 +100,8 @@ fun Route.urgentAppealRoutes() {
                     "session" to session,
                     "msg" to call.messages(),
                     "lang" to call.lang(),
-                    "error" to "Tiêu đề và nội dung không được để trống."
+                    "error" to "Tiêu đề và nội dung không được để trống.",
+                    "siteConfig" to call.siteConfig()
                 ), ""))
                 return@post
             }
@@ -121,7 +125,8 @@ fun Route.urgentAppealRoutes() {
                 "appeal" to appeal,
                 "session" to session,
                 "msg" to call.messages(),
-                "lang" to call.lang()
+                "lang" to call.lang(),
+                "siteConfig" to call.siteConfig()
             ), ""))
         }
 
@@ -135,7 +140,8 @@ fun Route.urgentAppealRoutes() {
                 "session" to session,
                 "msg" to call.messages(),
                 "lang" to call.lang(),
-                "error" to null
+                "error" to null,
+                "siteConfig" to call.siteConfig()
             ), ""))
         }
 
@@ -191,7 +197,8 @@ fun Route.urgentAppealRoutes() {
                     "session" to session,
                     "msg" to call.messages(),
                     "lang" to call.lang(),
-                    "error" to "Nội dung không được để trống."
+                    "error" to "Nội dung không được để trống.",
+                    "siteConfig" to call.siteConfig()
                 ), ""))
                 return@post
             }

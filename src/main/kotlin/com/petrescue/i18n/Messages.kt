@@ -1,5 +1,8 @@
 package com.petrescue.i18n
 
+import com.petrescue.cache.AppCache
+import com.petrescue.cache.CacheKeys
+import com.petrescue.services.SiteConfigService
 import java.io.InputStreamReader
 import java.util.Properties
 
@@ -25,3 +28,8 @@ fun io.ktor.server.application.ApplicationCall.lang(): String =
 
 fun io.ktor.server.application.ApplicationCall.messages(): Map<String, String> =
     Messages.forLang(lang())
+
+private val _siteConfigService by lazy { SiteConfigService() }
+
+fun io.ktor.server.application.ApplicationCall.siteConfig(): Map<String, String> =
+    AppCache.getOrLoad(CacheKeys.HOME_SITE_CONFIG) { _siteConfigService.getAll() }

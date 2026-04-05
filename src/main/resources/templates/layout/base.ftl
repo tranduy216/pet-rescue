@@ -19,21 +19,38 @@
 
                 <#-- Desktop nav links (left-aligned after logo) -->
                 <div class="hidden md:flex items-center space-x-1 lg:space-x-2 ml-4 lg:ml-6">
-                    <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
-                    <a href="/blog" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
-                    <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
+                    <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
+                        <a href="/urgent-appeals" class="text-red-200 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
+                    </#if>
+                    <a href="/pets" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🐾 <#if msg??>${msg['nav_pets']!'Các Bé'}<#else>Các Bé</#if></a>
+                    <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                     <#if session?? && session.role != "GUEST">
                         <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
                         <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                     </#if>
-                    <#if session?? && session.role == "ADMIN">
-                        <a href="/users" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                        <a href="/wishes" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💌 <#if msg??>${msg['nav_wishes']!'Lời Chúc'}<#else>Lời Chúc</#if></a>
-                    </#if>
                 </div>
 
-                <#-- Right side: auth + hamburger -->
+                <#-- Right side: social icons + auth + hamburger -->
                 <div class="flex items-center gap-2 ml-auto">
+                    <#-- Social media icons (desktop) -->
+                    <#if siteConfig??>
+                    <#assign fbUrl = (siteConfig['social_facebook_url'])!''>
+                    <#assign ytUrl = (siteConfig['social_youtube_url'])!''>
+                    <#else>
+                    <#assign fbUrl = ''>
+                    <#assign ytUrl = ''>
+                    </#if>
+                    <#if fbUrl?has_content>
+                        <a href="${fbUrl}" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center text-green-200 hover:text-white" title="Facebook">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                    </#if>
+                    <#if ytUrl?has_content>
+                        <a href="${ytUrl}" target="_blank" rel="noopener noreferrer" class="hidden md:inline-flex items-center text-green-200 hover:text-white" title="YouTube">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                        </a>
+                    </#if>
+
                     <#-- Auth (desktop only) -->
                     <div class="hidden md:flex items-center gap-2">
                         <#if session??>
@@ -97,18 +114,30 @@
         <#-- Mobile menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-green-800 px-4 pb-4 pt-2">
             <div class="flex flex-col space-y-1">
-                <a href="/pets" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Pets'}<#else>Pets</#if></a>
-                <a href="/blog" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📝 <#if msg??>${msg['nav_blog']!'Blog'}<#else>Blog</#if></a>
-                <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Donate'}<#else>Donate</#if></a>
+                <#if session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
+                    <a href="/urgent-appeals" class="text-red-200 hover:text-white px-3 py-2 rounded-md text-sm font-semibold">🆘 <#if msg??>${msg['nav_urgent_appeals']!'Khẩn Cầu'}<#else>Khẩn Cầu</#if></a>
+                </#if>
+                <a href="/pets" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🐾 <#if msg??>${msg['nav_pets']!'Các Bé'}<#else>Các Bé</#if></a>
+                <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                 <#if session?? && session.role != "GUEST">
                     <a href="/rescues" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
                     <a href="/adoptions" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                 </#if>
-                <#if session?? && session.role == "ADMIN">
-                    <a href="/users" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">👥 <#if msg??>${msg['nav_users']!'Users'}<#else>Users</#if></a>
-                    <a href="/wishes" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💌 <#if msg??>${msg['nav_wishes']!'Lời Chúc'}<#else>Lời Chúc</#if></a>
-                </#if>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
+                    <#-- Social links in mobile -->
+                    <#if siteConfig??>
+                    <#assign fbUrlM = (siteConfig['social_facebook_url'])!''>
+                    <#assign ytUrlM = (siteConfig['social_youtube_url'])!''>
+                    <#else>
+                    <#assign fbUrlM = ''>
+                    <#assign ytUrlM = ''>
+                    </#if>
+                    <#if fbUrlM?has_content>
+                        <a href="${fbUrlM}" target="_blank" rel="noopener noreferrer" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">📘 Facebook</a>
+                    </#if>
+                    <#if ytUrlM?has_content>
+                        <a href="${ytUrlM}" target="_blank" rel="noopener noreferrer" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">▶️ YouTube</a>
+                    </#if>
                     <#if lang?? && lang == "en">
                         <a href="/lang/vi" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🇻🇳 <#if msg??>${msg['lang_toggle']!'Tiếng Việt'}<#else>Tiếng Việt</#if></a>
                     <#else>

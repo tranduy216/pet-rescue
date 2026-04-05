@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
 import com.petrescue.services.AuditLogService
@@ -54,7 +55,7 @@ fun Route.petRoutes() {
             val pets = service.getAll(search, type, status)
             val isHtmx = call.request.headers["HX-Request"] == "true"
             if (isHtmx) {
-                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session, "msg" to msg, "lang" to lang), ""))
+                call.respond(FreeMarkerContent("pets/list_partial.ftl", mapOf("pets" to pets, "session" to session, "msg" to msg, "lang" to lang, "siteConfig" to call.siteConfig()), ""))
             } else {
                 call.respond(
                     FreeMarkerContent(
@@ -65,7 +66,8 @@ fun Route.petRoutes() {
                             "type" to type,
                             "status" to status,
                             "msg" to msg,
-                            "lang" to lang
+                            "lang" to lang,
+                            "siteConfig" to call.siteConfig()
                         ), ""
                     )
                 )
@@ -74,7 +76,7 @@ fun Route.petRoutes() {
 
         get("/new") {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         post("/new") {
@@ -100,7 +102,7 @@ fun Route.petRoutes() {
                 part.dispose()
             }
             if (uploadError != null) {
-                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to null, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             val pet = service.create(
@@ -127,14 +129,14 @@ fun Route.petRoutes() {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: run { call.respond(HttpStatusCode.NotFound); return@get }
             val pet = service.getById(id) ?: run { call.respond(HttpStatusCode.NotFound); return@get }
-            call.respond(FreeMarkerContent("pets/detail.ftl", mapOf("pet" to pet, "session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("pets/detail.ftl", mapOf("pet" to pet, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         get("/{id}/edit") {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@get
             val pet = service.getById(id)
-            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to pet, "session" to session, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         post("/{id}/edit") {
@@ -162,7 +164,7 @@ fun Route.petRoutes() {
                 part.dispose()
             }
             if (uploadError != null) {
-                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to uploadError, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             val updated = try {
@@ -182,13 +184,13 @@ fun Route.petRoutes() {
             } catch (e: IllegalStateException) {
                 val msg = call.messages()
                 val error = msg[e.message] ?: e.message
-                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             if (!updated) {
                 val msg = call.messages()
                 val error = msg["pet_error_optimistic_lock"] ?: "pet_error_optimistic_lock"
-                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang()), ""))
+                call.respond(FreeMarkerContent("pets/form.ftl", mapOf("pet" to existing, "session" to session, "error" to error, "msg" to msg, "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
                 return@post
             }
             mediaFiles.forEach { url ->
