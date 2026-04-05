@@ -63,15 +63,17 @@
 
                 <#-- Progress bar with amount text overlay -->
                 <div class="mb-2">
-                    <div class="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
-                        <span class="${textColor} font-semibold">${prog}%</span>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
+                        <span class="${textColor} font-bold">${prog}%</span>
                     </div>
-                    <div class="relative h-7 bg-gray-100 rounded-full overflow-hidden">
-                        <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                        <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
-                            ${appeal.amount?string["###,###,###"]} VNĐ
-                        </span>
+                    <div class="border-2 ${borderColor} rounded-full p-0.5">
+                        <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
+                            <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
+                                ${appeal.amount?string["###,###,###"]} VNĐ
+                            </span>
+                        </div>
                     </div>
                 </div>
 

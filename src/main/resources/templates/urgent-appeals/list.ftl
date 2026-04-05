@@ -17,10 +17,15 @@
         <#list appeals as appeal>
         <#assign prog = appeal.currentProgress>
         <#assign borderColor = "border-red-400">
-        <#if prog == 100><#assign borderColor = "border-green-700">
-        <#elseif prog <= 90><#assign borderColor = "border-green-400">
-        <#elseif prog <= 75><#assign borderColor = "border-yellow-400">
-        <#elseif prog <= 60><#assign borderColor = "border-orange-400">
+        <#assign textColor = "text-red-500">
+        <#if prog == 100>
+          <#assign borderColor = "border-green-700"><#assign textColor = "text-green-700">
+        <#elseif prog <= 90>
+          <#assign borderColor = "border-green-400"><#assign textColor = "text-green-600">
+        <#elseif prog <= 75>
+          <#assign borderColor = "border-yellow-400"><#assign textColor = "text-yellow-600">
+        <#elseif prog <= 60>
+          <#assign borderColor = "border-orange-400"><#assign textColor = "text-orange-600">
         </#if>
         <div class="bg-white rounded-2xl shadow-md border-l-4 ${borderColor} p-5 hover:shadow-lg transition-shadow">
             <div class="flex flex-col sm:flex-row gap-4">
@@ -44,9 +49,18 @@
                     <#elseif prog <= 75><#assign barColor = "bg-yellow-400">
                     <#elseif prog <= 60><#assign barColor = "bg-orange-400">
                     </#if>
-                    <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden mb-2">
-                        <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                        <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">${prog}%</span>
+                    <div class="mb-2">
+                        <div class="flex justify-end mb-0.5">
+                            <span class="text-xs font-bold ${textColor}">${prog}%</span>
+                        </div>
+                        <div class="border-2 ${borderColor} rounded-full p-0.5">
+                            <div class="relative h-5 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
+                                <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
+                                    ${appeal.amount?string["###,###,###"]} VNĐ
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="flex justify-between items-center">
