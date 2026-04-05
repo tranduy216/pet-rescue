@@ -52,37 +52,34 @@
 <#if urgentAppeals?? && urgentAppeals?has_content>
 <section class="px-2 sm:px-4 mb-8 sm:mb-10">
     <h2 class="text-xl font-bold text-red-700 mb-4">🆘 ${msg['home_urgent_appeals_title']!'Đang Cần Hỗ Trợ Khẩn Cấp'}</h2>
-    <div class="flex flex-col sm:flex-row gap-4">
-        <#-- Left: appeal cards stacked -->
-        <div class="flex-1 grid grid-cols-1 gap-4">
-            <#list urgentAppeals as appeal>
-            <#assign prog = appeal.currentProgress>
-            <#assign progText = macros.progressTextColor(prog)>
-            <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow block">
-                <#if appeal.images?has_content>
-                <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
-                <#else>
-                <div class="w-full h-40 bg-red-50 flex items-center justify-center text-4xl">🆘</div>
-                </#if>
-                <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
-                    <div class="flex justify-between text-xs mb-1">
-                        <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
-                        <span class="${progText} font-bold">${prog}%</span>
-                    </div>
-                    <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <#list urgentAppeals as appeal>
+        <#assign prog = appeal.currentProgress>
+        <#assign progText = macros.progressTextColor(prog)>
+        <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow block">
+            <#if appeal.images?has_content>
+            <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
+            <#else>
+            <div class="w-full h-40 bg-red-50 flex items-center justify-center text-4xl">🆘</div>
+            </#if>
+            <div class="p-4">
+                <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
+                    <span class="${progText} font-bold">${prog}%</span>
                 </div>
-            </a>
-            </#list>
-        </div>
+                <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
+            </div>
+        </a>
+        </#list>
 
-        <#-- Right: QR box (full height) -->
-        <div class="w-full sm:w-56 bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-center text-center">
+        <#-- QR box -->
+        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-start text-center">
             <h3 class="font-bold text-green-800 mb-3 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
-            <img src="/static/qr-station.png" alt="QR" class="w-36 h-36 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+            <img src="/static/qr-station.png" alt="QR" class="w-28 h-28 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                 onclick="document.getElementById('qr-popup').style.display='flex'"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+            <div style="display:none" class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                 <span class="text-3xl">📷</span><span>QR</span>
             </div>
         </div>
