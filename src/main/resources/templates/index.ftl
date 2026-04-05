@@ -4,9 +4,9 @@
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- HERO SECTION                                                    -->
 <#-- ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden rounded-2xl mx-2 sm:mx-4 mt-4 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl" style="min-height:360px;">
+<section class="relative overflow-hidden rounded-2xl mx-2 sm:mx-4 mt-4 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl" style="min-height:288px;">
     <div class="absolute inset-0 opacity-10" style="background-image:url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1400&q=80');background-size:cover;background-position:center;"></div>
-    <div class="relative z-10 flex flex-col items-center justify-center text-center py-14 sm:py-20 px-4 sm:px-8 lg:px-16">
+    <div class="relative z-10 flex flex-col items-center justify-center text-center py-10 sm:py-14 px-4 sm:px-8 lg:px-16">
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
             <#if lang == 'en'>
@@ -44,6 +44,65 @@
         </div>
     </div>
 </section>
+
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#-- URGENT APPEALS SECTION                                          -->
+<#-- ═══════════════════════════════════════════════════════════════ -->
+<#if urgentAppeals?? && urgentAppeals?has_content>
+<section class="px-2 sm:px-4 mb-8 sm:mb-10">
+    <h2 class="text-xl font-bold text-red-700 mb-4">🆘 ${msg['home_urgent_appeals_title']!'Đang Cần Hỗ Trợ Khẩn Cấp'}</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <#list urgentAppeals as appeal>
+        <#assign prog = appeal.currentProgress>
+        <#assign barColor = "bg-red-500">
+        <#assign borderColor = "border-red-300">
+        <#if prog == 100><#assign barColor = "bg-green-700"><#assign borderColor = "border-green-600">
+        <#elseif prog <= 90><#assign barColor = "bg-green-400"><#assign borderColor = "border-green-400">
+        <#elseif prog <= 75><#assign barColor = "bg-yellow-400"><#assign borderColor = "border-yellow-400">
+        <#elseif prog <= 60><#assign barColor = "bg-orange-400"><#assign borderColor = "border-orange-400">
+        </#if>
+        <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 ${borderColor} overflow-hidden hover:shadow-lg transition-shadow block">
+            <#if appeal.images?has_content>
+            <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
+            <#else>
+            <div class="w-full h-40 bg-red-50 flex items-center justify-center text-4xl">🆘</div>
+            </#if>
+            <div class="p-4">
+                <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
+                <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
+                    <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
+                        ${appeal.amount?string["###,###,###"]} VNĐ
+                    </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-1 text-right">${prog}%</p>
+            </div>
+        </a>
+        </#list>
+
+        <#-- QR box -->
+        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-center text-center">
+            <h3 class="font-bold text-green-800 mb-2 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
+            <p class="text-xs text-gray-500 mb-3">${msg['home_urgent_appeals_qr_subtitle']!'Quét mã để chuyển khoản'}</p>
+            <img src="/static/qr-station.png" alt="QR" class="w-28 h-28 object-contain rounded-lg"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div style="display:none" class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+                <span class="text-3xl">📷</span><span>QR</span>
+            </div>
+            <#if siteConfig??>
+            <#assign homeBank1 = (siteConfig['bank1_name'])!''>
+            <#assign homeAcct1 = (siteConfig['bank1_account'])!''>
+            <#if homeBank1?has_content || homeAcct1?has_content>
+            <div class="mt-2 text-xs text-gray-600">
+                <#if homeBank1?has_content><p class="font-semibold text-green-800">${homeBank1}</p></#if>
+                <#if homeAcct1?has_content><p class="font-mono">${homeAcct1}</p></#if>
+            </div>
+            </#if>
+            </#if>
+        </div>
+    </div>
+</section>
+</#if>
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- STATS SECTION                                                   -->

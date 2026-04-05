@@ -19,11 +19,11 @@ fun Route.configRoutes() {
     val userService = UserService()
     val donationService = DonationService()
 
-    fun buildConfigModel(call: ApplicationCall, tab: String, success: Boolean = false, videoUrlError: Boolean = false): Map<String, Any?> {
+    fun buildConfigModel(call: ApplicationCall, tab: String, success: Boolean = false, videoUrlError: Boolean = false, wishStatus: String? = null): Map<String, Any?> {
         val session = call.sessions.get<UserSession>()
         val config = siteConfigService.getAll()
         val users = if (tab == "users") userService.getAll() else emptyList<Any>()
-        val wishes = if (tab == "wishes") donationService.getAll(null) else emptyList<Any>()
+        val wishes = if (tab == "wishes") donationService.getAll(wishStatus) else emptyList<Any>()
         return mapOf(
             "session" to session,
             "msg" to call.messages(),
@@ -34,13 +34,15 @@ fun Route.configRoutes() {
             "videoUrlError" to videoUrlError,
             "users" to users,
             "wishes" to wishes,
+            "wishStatus" to wishStatus,
             "siteConfig" to call.siteConfig()
         )
     }
 
     get("/config") {
         val tab = call.request.queryParameters["tab"] ?: "system"
-        call.respond(FreeMarkerContent("config/form.ftl", buildConfigModel(call, tab), ""))
+        val wishStatus = call.request.queryParameters["wishStatus"]?.takeIf { it.isNotBlank() }
+        call.respond(FreeMarkerContent("config/form.ftl", buildConfigModel(call, tab, wishStatus = wishStatus), ""))
     }
 
     post("/config") {
