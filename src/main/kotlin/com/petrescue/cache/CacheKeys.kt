@@ -12,4 +12,5 @@ object CacheKeys {
     const val HOME_STATS_TREATED = "home:stats_treated"
     const val HOME_STATS_DONORS = "home:stats_donors"
     const val HOME_SITE_CONFIG = "home:site_config"
+    const val HOME_URGENT_APPEALS = "home:urgent_appeals"
 }

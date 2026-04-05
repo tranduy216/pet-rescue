@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Rescue
 import com.petrescue.services.AuditLogService
 import com.petrescue.services.RescueService
@@ -23,13 +24,13 @@ fun Route.rescueRoutes() {
             val session = call.sessions.get<UserSession>()
             val status = call.request.queryParameters["status"]
             val rescues = service.getAll(status)
-            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status), ""))
+            call.respond(FreeMarkerContent("rescues/list.ftl", mapOf("rescues" to rescues, "session" to session, "msg" to call.messages(), "lang" to call.lang(), "status" to status, "siteConfig" to call.siteConfig()), ""))
         }
 
         get("/new") {
             val session = call.sessions.get<UserSession>() ?: run { call.respondRedirect("/login"); return@get }
             val user = userService.getById(session.userId)
-            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "user" to user, "error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("rescues/form.ftl", mapOf("session" to session, "user" to user, "error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
 
         post("/new") {

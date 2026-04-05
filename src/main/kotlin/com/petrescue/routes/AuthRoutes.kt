@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -18,7 +19,7 @@ fun Route.authRoutes(userService: UserService) {
             call.respondRedirect("/")
             return@get
         }
-        call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to null, "msg" to call.messages(), "lang" to call.lang()), ""))
+        call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to null, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
     }
 
     post("/login") {
@@ -30,13 +31,13 @@ fun Route.authRoutes(userService: UserService) {
             call.sessions.set(UserSession(user.id, user.username, user.role))
             call.respondRedirect("/")
         } else {
-            call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to "Invalid username or password", "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("auth/login.ftl", mapOf("error" to "Invalid username or password", "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
     }
 
     get("/register") {
         val redirect = call.request.queryParameters["redirect"] ?: ""
-        call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to null, "redirect" to redirect, "msg" to call.messages(), "lang" to call.lang()), ""))
+        call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to null, "redirect" to redirect, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
     }
 
     post("/register") {
@@ -52,7 +53,7 @@ fun Route.authRoutes(userService: UserService) {
             call.sessions.set(UserSession(user.id, user.username, user.role))
             call.respondRedirect(redirect)
         } else {
-            call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to "Username or email already exists", "redirect" to redirect, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("auth/register.ftl", mapOf("error" to "Username or email already exists", "redirect" to redirect, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to call.siteConfig()), ""))
         }
     }
 

@@ -51,6 +51,16 @@
                         <span>qr-station.png</span>
                     </div>
                 </div>
+                <#if siteConfig??>
+                <#assign b1name = (siteConfig['bank1_name'])!''>
+                <#assign b1acct = (siteConfig['bank1_account'])!''>
+                <#if b1name?has_content || b1acct?has_content>
+                <div class="mt-3 text-xs text-gray-600 space-y-0.5">
+                    <#if b1name?has_content><p class="font-semibold text-green-800">${b1name}</p></#if>
+                    <#if b1acct?has_content><p class="font-mono tracking-wide">${b1acct}</p></#if>
+                </div>
+                </#if>
+                </#if>
             </div>
             <#-- QR 2: Support web -->
             <div class="flex-1 bg-white rounded-2xl shadow-md p-5 flex flex-col items-center justify-center text-center min-h-48">
@@ -66,6 +76,16 @@
                         <span>qr-web.png</span>
                     </div>
                 </div>
+                <#if siteConfig??>
+                <#assign b2name = (siteConfig['bank2_name'])!''>
+                <#assign b2acct = (siteConfig['bank2_account'])!''>
+                <#if b2name?has_content || b2acct?has_content>
+                <div class="mt-3 text-xs text-gray-600 space-y-0.5">
+                    <#if b2name?has_content><p class="font-semibold text-green-800">${b2name}</p></#if>
+                    <#if b2acct?has_content><p class="font-mono tracking-wide">${b2acct}</p></#if>
+                </div>
+                </#if>
+                </#if>
             </div>
         </div>
     </div>

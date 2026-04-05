@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
+import com.petrescue.i18n.siteConfig
 import com.petrescue.services.UserService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -28,7 +29,8 @@ fun Route.profileRoutes() {
                     "lang" to call.lang(),
                     "user" to user,
                     "success" to false,
-                    "error" to null
+                    "error" to null,
+                    "siteConfig" to call.siteConfig()
                 ), ""
             )
         )
@@ -64,7 +66,8 @@ fun Route.profileRoutes() {
                             "lang" to call.lang(),
                             "user" to existing,
                             "success" to false,
-                            "error" to msg["profile_email_taken"]
+                            "error" to msg["profile_email_taken"],
+                            "siteConfig" to call.siteConfig()
                         ), ""
                     )
                 )
@@ -87,7 +90,8 @@ fun Route.profileRoutes() {
                     "lang" to call.lang(),
                     "user" to updated,
                     "success" to true,
-                    "error" to null
+                    "error" to null,
+                    "siteConfig" to call.siteConfig()
                 ), ""
             )
         )
