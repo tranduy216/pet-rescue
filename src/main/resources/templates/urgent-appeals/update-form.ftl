@@ -43,8 +43,24 @@
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['urgent_appeal_update_field_images']!'Ảnh (tối đa 3)'}</label>
-                <input type="file" name="images" accept="image/*" multiple
-                    class="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                <div class="grid grid-cols-3 gap-3">
+                    <#list 1..3 as i>
+                    <div class="flex flex-col items-center gap-2">
+                        <div id="upd-preview-${i}" class="w-full aspect-square rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 text-xs gap-1 overflow-hidden bg-gray-50 cursor-pointer"
+                            onclick="document.getElementById('upd-image-input-${i}').click()">
+                            <span class="text-2xl">📷</span>
+                            <span>${msg['urgent_appeal_image_label']!'Ảnh'} ${i}</span>
+                        </div>
+                        <input id="upd-image-input-${i}" type="file" name="image${i}" accept="image/*" class="hidden"
+                            onchange="updPreviewImage(this, 'upd-preview-${i}')">
+                        <button type="button"
+                            class="w-full text-xs font-semibold py-1.5 px-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors border border-red-200"
+                            onclick="document.getElementById('upd-image-input-${i}').click()">
+                            ${msg['urgent_appeal_select_image']!'Chọn ảnh'} ${i}
+                        </button>
+                    </div>
+                    </#list>
+                </div>
                 <p class="mt-1 text-xs text-gray-500">Chọn tối đa 3 ảnh (JPG, PNG, WEBP, tối đa 5MB mỗi ảnh)</p>
             </div>
             <div>
@@ -64,4 +80,17 @@
         </form>
     </div>
 </div>
+
+<script>
+function updPreviewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.innerHTML = '<img src="' + e.target.result + '" class="w-full h-full object-cover">';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 </@layout.page>

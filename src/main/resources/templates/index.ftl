@@ -1,4 +1,5 @@
 <#import "layout/base.ftl" as layout>
+<#import "layout/macros.ftl" as macros>
 <@layout.page title="${msg['site_name']!'Pet Rescue'}">
 
 <#-- ═══════════════════════════════════════════════════════════════ -->
@@ -54,6 +55,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <#list urgentAppeals as appeal>
         <#assign prog = appeal.currentProgress>
+        <#assign progText = macros.progressTextColor(prog)>
         <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow block">
             <#if appeal.images?has_content>
             <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
@@ -62,13 +64,11 @@
             </#if>
             <div class="p-4">
                 <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
-                <div class="relative h-6 bg-gray-300 rounded-full overflow-hidden">
-                    <div class="bg-red-500 h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                    <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
-                        ${appeal.amount?string["###,###,###"]} VNĐ
-                    </span>
+                <div class="flex justify-between text-xs mb-1">
+                    <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
+                    <span class="${progText} font-bold">${prog}%</span>
                 </div>
-                <p class="text-xs font-bold text-red-600 mt-1 text-right">${prog}%</p>
+                <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
             </div>
         </a>
         </#list>

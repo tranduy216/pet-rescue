@@ -170,7 +170,7 @@ fun Route.urgentAppealRoutes() {
                         }
                     }
                     is PartData.FileItem -> {
-                        if (part.name == "images" && imagePaths.size < 3) {
+                        if (part.name in setOf("image1", "image2", "image3") && imagePaths.size < 3) {
                             val originalName = part.originalFileName ?: ""
                             if (originalName.isNotBlank()) {
                                 val ext = originalName.substringAfterLast('.', "").lowercase()
