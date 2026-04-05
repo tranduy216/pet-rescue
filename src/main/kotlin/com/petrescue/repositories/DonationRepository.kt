@@ -38,6 +38,10 @@ class DonationRepository {
         donation.copy(id = id.value)
     }
 
+    fun delete(id: Int): Boolean = transaction {
+        Donations.deleteWhere { Donations.id eq id } > 0
+    }
+
     fun updateStatus(id: Int, status: String): Boolean = transaction {
         Donations.update({ Donations.id eq id }) {
             it[Donations.status] = status

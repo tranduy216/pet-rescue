@@ -12,8 +12,8 @@ class DonationService {
     fun getById(id: Int) = repository.findById(id)
     fun create(donation: Donation) = repository.create(donation).also { AppCache.invalidateAll() }
     fun updateStatus(id: Int, status: String) = repository.updateStatus(id, status).also { AppCache.invalidateAll() }
+    fun delete(id: Int) = repository.delete(id).also { AppCache.invalidateAll() }
     fun approve(id: Int) = repository.updateStatus(id, "APPROVED").also { AppCache.invalidateAll() }
-    fun markReceived(id: Int) = repository.updateStatus(id, "RECEIVED").also { AppCache.invalidateAll() }
     fun getTotalConfirmed() = repository.getTotalConfirmed()
     fun countDonors() = repository.countDonors()
 }

@@ -34,15 +34,9 @@ fun Route.wishRoutes() {
             call.respondRedirect("/config?tab=wishes")
         }
 
-        post("/{id}/receive") {
-            val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.markReceived(id)
-            call.respondRedirect("/config?tab=wishes")
-        }
-
         post("/{id}/delete") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
-            service.updateStatus(id, "DELETED")
+            service.delete(id)
             call.respondRedirect("/config?tab=wishes")
         }
     }

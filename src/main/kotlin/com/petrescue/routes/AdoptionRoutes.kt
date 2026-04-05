@@ -22,7 +22,7 @@ fun Route.adoptionRoutes() {
     route("/adoptions") {
         get {
             val session = call.sessions.get<UserSession>() ?: run {
-                call.respondRedirect("/login")
+                call.respondRedirect("/register?redirect=/adoptions")
                 return@get
             }
             val status = call.request.queryParameters["status"]
@@ -36,7 +36,12 @@ fun Route.adoptionRoutes() {
 
         get("/request/{petId}") {
             val session = call.sessions.get<UserSession>() ?: run {
-                call.respondRedirect("/login")
+                val petId = call.parameters["petId"]?.toIntOrNull()
+                if (petId != null) {
+                    call.respondRedirect("/register?redirect=/adoptions/request/$petId")
+                } else {
+                    call.respondRedirect("/register?redirect=/adoptions")
+                }
                 return@get
             }
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@get
@@ -50,7 +55,12 @@ fun Route.adoptionRoutes() {
 
         post("/request/{petId}") {
             val session = call.sessions.get<UserSession>() ?: run {
-                call.respondRedirect("/login")
+                val petId = call.parameters["petId"]?.toIntOrNull()
+                if (petId != null) {
+                    call.respondRedirect("/register?redirect=/adoptions/request/$petId")
+                } else {
+                    call.respondRedirect("/register?redirect=/adoptions")
+                }
                 return@post
             }
             val petId = call.parameters["petId"]?.toIntOrNull() ?: return@post

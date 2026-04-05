@@ -1,19 +1,8 @@
 <#import "../layout/base.ftl" as layout>
+<#import "../layout/macros.ftl" as macros>
 <#assign canManage = session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
 <#assign prog = appeal.currentProgress>
-<#assign borderColor = "border-red-400">
-<#assign bgColor = "bg-red-50">
-<#assign textColor = "text-red-700">
-<#assign barColor = "bg-red-500">
-<#if prog == 100>
-  <#assign borderColor = "border-green-700"><#assign bgColor = "bg-green-50"><#assign textColor = "text-green-800"><#assign barColor = "bg-green-700">
-<#elseif prog <= 90>
-  <#assign borderColor = "border-green-400"><#assign bgColor = "bg-green-50"><#assign textColor = "text-green-700"><#assign barColor = "bg-green-400">
-<#elseif prog <= 75>
-  <#assign borderColor = "border-yellow-400"><#assign bgColor = "bg-yellow-50"><#assign textColor = "text-yellow-700"><#assign barColor = "bg-yellow-400">
-<#elseif prog <= 60>
-  <#assign borderColor = "border-orange-400"><#assign bgColor = "bg-orange-50"><#assign textColor = "text-orange-700"><#assign barColor = "bg-orange-400">
-</#if>
+<#assign textColor = macros.progressTextColor(prog)>
 
 <@layout.page title="${appeal.title?html} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-2 sm:px-4 py-6 max-w-4xl mx-auto">
@@ -30,7 +19,7 @@
     </div>
 
     <#-- Header: QR left, title right -->
-    <div class="bg-white rounded-2xl shadow-md border-2 ${borderColor} p-6 mb-6">
+    <div class="bg-white rounded-2xl shadow-md border-2 border-gray-200 p-6 mb-6">
         <div class="flex flex-col sm:flex-row gap-6">
             <#-- QR code left -->
             <div class="flex-shrink-0 flex flex-col items-center justify-center">
@@ -67,14 +56,7 @@
                         <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
                         <span class="${textColor} font-bold">${prog}%</span>
                     </div>
-                    <div class="border-2 ${borderColor} rounded-full p-0.5">
-                        <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden">
-                            <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                            <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
-                                ${appeal.amount?string["###,###,###"]} VNĐ
-                            </span>
-                        </div>
-                    </div>
+                    <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
                 </div>
 
                 <p class="text-sm text-gray-700 mt-4 leading-relaxed">${appeal.content?html}</p>
@@ -106,32 +88,19 @@
         <div class="space-y-6 pl-10">
             <#list appeal.updates as upd>
             <#assign upProg = upd.progress>
-            <#assign upBorder = "border-red-300">
-            <#assign upBar = "bg-red-400">
-            <#assign upDot = "bg-red-400">
-            <#if upProg == 100>
-              <#assign upBorder = "border-green-600"><#assign upBar = "bg-green-700"><#assign upDot = "bg-green-600">
-            <#elseif upProg <= 90>
-              <#assign upBorder = "border-green-400"><#assign upBar = "bg-green-400"><#assign upDot = "bg-green-400">
-            <#elseif upProg <= 75>
-              <#assign upBorder = "border-yellow-400"><#assign upBar = "bg-yellow-400"><#assign upDot = "bg-yellow-400">
-            <#elseif upProg <= 60>
-              <#assign upBorder = "border-orange-400"><#assign upBar = "bg-orange-400"><#assign upDot = "bg-orange-400">
-            </#if>
+            <#assign upDot  = macros.progressBarColor(upProg)>
+            <#assign upText = macros.progressTextColor(upProg)>
 
             <div class="relative">
                 <div class="absolute -left-6 top-4 w-3 h-3 rounded-full ${upDot} border-2 border-white shadow"></div>
-                <div class="bg-white rounded-xl shadow-sm border ${upBorder} p-4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
                     <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
-                        <span class="text-sm font-semibold text-gray-700">📅 ${upd.updateDate.dayOfMonth?string["00"]}/${upd.updateDate.monthValue?string["00"]}/${upd.updateDate.year}</span>
-                        <span class="text-sm font-bold" style="color: <#if upProg == 100>#15803d<#elseif upProg <= 90>#22c55e<#elseif upProg <= 75>#eab308<#elseif upProg <= 60>#f97316<#else>#ef4444</#if>">${upProg}%</span>
+                        <span class="text-sm font-semibold text-gray-700">📅 ${upd.updateDate.dayOfMonth?string["00"]}/${upd.updateDate.monthValue?string["00"]}/${upd.updateDate.year?c}</span>
+                        <span class="text-sm font-bold ${upText}">${upProg}%</span>
                     </div>
 
                     <#-- Mini progress bar -->
-                    <div class="relative h-4 bg-gray-100 rounded-full overflow-hidden mb-3">
-                        <div class="${upBar} h-full rounded-full" style="width: ${upProg}%"></div>
-                        <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">${upProg}%</span>
-                    </div>
+                    <div class="mb-3"><@macros.progressBar prog=upProg height="h-4"/></div>
 
                     <p class="text-sm text-gray-700 mb-3">${upd.content?html}</p>
 

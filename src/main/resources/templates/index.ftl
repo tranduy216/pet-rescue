@@ -4,9 +4,9 @@
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- HERO SECTION                                                    -->
 <#-- ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden rounded-2xl mx-2 sm:mx-4 mt-4 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl min-h-72">
+<section class="relative overflow-hidden rounded-2xl mx-2 sm:mx-4 mt-4 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl min-h-56">
     <div class="absolute inset-0 opacity-10" style="background-image:url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1400&q=80');background-size:cover;background-position:center;"></div>
-    <div class="relative z-10 flex flex-col items-center justify-center text-center py-10 sm:py-14 px-4 sm:px-8 lg:px-16">
+    <div class="relative z-10 flex flex-col items-center justify-center text-center py-6 sm:py-8 px-4 sm:px-8 lg:px-16">
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
             <#if lang == 'en'>
@@ -15,7 +15,7 @@
                 <#if siteConfig?? && siteConfig['homepage_title_vi']??>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
             </#if>
         </h1>
-        <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-8 sm:mb-10 leading-relaxed">
+        <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-6 sm:mb-8 leading-relaxed">
             <#if lang == 'en'>
                 <#if siteConfig?? && siteConfig['homepage_subtitle_en']??>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
             <#else>
@@ -23,14 +23,11 @@
             </#if>
         </p>
         <div class="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-            <a href="/register" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">
-                🙋 ${msg['home_btn_volunteer']!'Tình Nguyện'}
+            <a href="/pets" class="flex items-center justify-center gap-1 sm:gap-2 bg-emerald-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-emerald-400 transition-all text-sm sm:text-base">
+                🐶 ${msg['home_btn_browse_pets']!'Ngắm Các Bé'}
             </a>
             <a href="/donate" class="flex items-center justify-center gap-1 sm:gap-2 bg-yellow-400 text-green-900 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-yellow-300 transition-all text-sm sm:text-base">
                 💝 ${msg['home_btn_donate']!'Động Viên'}
-            </a>
-            <a href="/pets" class="flex items-center justify-center gap-1 sm:gap-2 bg-emerald-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-emerald-400 transition-all text-sm sm:text-base">
-                🐶 ${msg['home_btn_browse_pets']!'Ngắm Các Bé'}
             </a>
             <#if session??>
             <a href="/rescues/new" class="flex items-center justify-center gap-1 sm:gap-2 bg-red-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-red-400 transition-all text-sm sm:text-base">
@@ -41,6 +38,9 @@
                 🚨 ${msg['home_btn_report_rescue']!'Báo Cứu Hộ'}
             </a>
             </#if>
+            <a href="/register" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">
+                🙋 ${msg['home_btn_volunteer']!'Tình Nguyện'}
+            </a>
         </div>
     </div>
 </section>

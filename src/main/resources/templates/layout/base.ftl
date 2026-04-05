@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} 🐾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
     <link rel="stylesheet" href="/assets/tailwind.min.css">
     ${headContent}
 </head>
@@ -14,7 +15,7 @@
             <div class="flex h-14 sm:h-16 items-center">
                 <#-- Logo (left) -->
                 <a href="/" class="text-white text-lg sm:text-xl font-bold flex-shrink-0">
-                    🌿 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
+                    🐾 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
                 </a>
 
                 <#-- Desktop nav links (left-aligned after logo) -->
@@ -24,8 +25,8 @@
                     <a href="/donate" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                     <#if session?? && session.role != "GUEST">
                         <a href="/rescues" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
-                        <a href="/adoptions" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                     </#if>
+                    <a href="<#if session??>/adoptions<#else>/register?redirect=/adoptions</#if>" class="text-green-100 hover:text-white px-2 lg:px-3 py-2 rounded-md text-sm font-medium whitespace-nowrap">🏠 <#if msg??>${msg['nav_adoptions']!'Nhận Nuôi'}<#else>Nhận Nuôi</#if></a>
                 </div>
 
                 <#-- Right side: social icons + auth + hamburger -->
@@ -117,8 +118,8 @@
                 <a href="/donate" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">💚 <#if msg??>${msg['nav_donate']!'Động Viên'}<#else>Động Viên</#if></a>
                 <#if session?? && session.role != "GUEST">
                     <a href="/rescues" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🚨 <#if msg??>${msg['nav_rescue']!'Rescue'}<#else>Rescue</#if></a>
-                    <a href="/adoptions" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Adoptions'}<#else>Adoptions</#if></a>
                 </#if>
+                <a href="<#if session??>/adoptions<#else>/register?redirect=/adoptions</#if>" class="text-green-100 hover:text-white px-3 py-2 rounded-md text-sm font-medium">🏠 <#if msg??>${msg['nav_adoptions']!'Nhận Nuôi'}<#else>Nhận Nuôi</#if></a>
                 <div class="border-t border-green-700 pt-2 mt-1 flex flex-col space-y-1">
                     <#-- Social links in mobile -->
                     <#if siteConfig??>
