@@ -137,13 +137,15 @@
         <div id="pet-slider" class="flex gap-3 sm:gap-4 transition-transform duration-500 ease-in-out" style="will-change:transform;">
             <#list pets as pet>
             <div class="flex-none w-48 sm:w-56 md:w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow">
+                <div style="aspect-ratio:16/9;" class="overflow-hidden">
                 <#if pet.mediaList?has_content>
-                    <img src="${pet.mediaList[0].fileUrl}" alt="${pet.name}" class="w-full h-36 sm:h-44 md:h-48 object-cover">
+                    <img src="${pet.mediaList[0].fileUrl}" alt="${pet.name}" class="w-full h-full object-cover">
                 <#else>
-                    <div class="w-full h-36 sm:h-44 md:h-48 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+                    <div class="w-full h-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
                         <span class="text-5xl sm:text-7xl"><#if pet.type == "DOG">🐕<#elseif pet.type == "CAT">🐈<#else>🐾</#if></span>
                     </div>
                 </#if>
+                </div>
                 <div class="p-3 sm:p-4">
                     <h3 class="text-base sm:text-lg font-bold text-green-800 truncate">${pet.name}</h3>
                     <p class="text-xs sm:text-sm text-green-600 truncate">${pet.type}<#if pet.breed??> – ${pet.breed}</#if></p>
@@ -219,13 +221,15 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         <#list recentPets as pet>
         <a href="/pets/${pet.id}" class="block bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow group">
+            <div style="aspect-ratio:16/9;" class="overflow-hidden">
             <#if pet.mediaList?has_content>
-                <img src="${pet.mediaList[0].fileUrl}" alt="${pet.name}" class="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300">
+                <img src="${pet.mediaList[0].fileUrl}" alt="${pet.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
             <#else>
-                <div class="w-full h-48 sm:h-56 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+                <div class="w-full h-full bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
                     <span class="text-7xl"><#if pet.type == "DOG">🐕<#elseif pet.type == "CAT">🐈<#else>🐾</#if></span>
                 </div>
             </#if>
+            </div>
             <div class="p-4 sm:p-5">
                 <h3 class="text-lg font-bold text-green-800 mb-1 truncate">${pet.name}</h3>
                 <p class="text-sm text-green-600 mb-2 truncate">${pet.type}<#if pet.breed??> – ${pet.breed}</#if><#if pet.age??> · ${pet.age} ${msg['pet_years_old']!'tuổi'}</#if></p>
@@ -383,7 +387,7 @@
     class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-5 py-2.5 rounded-full shadow-xl z-50 transition-opacity"></div>
 
 <#-- Firebase web push for appeal follow -->
-<#if firebaseConfig?? && (firebaseConfig['apiKey'])!''>
+<#if firebaseConfig?? && (firebaseConfig['apiKey'])?has_content>
 <#include "urgent-appeals/follow-script.ftl">
 </#if>
 </@layout.page>
