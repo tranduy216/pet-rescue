@@ -6,7 +6,6 @@ import com.petrescue.i18n.messages
 import com.petrescue.i18n.siteConfig
 import com.petrescue.models.Donation
 import com.petrescue.services.DonationService
-import com.petrescue.services.SiteConfigService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -18,7 +17,6 @@ import java.math.BigDecimal
 
 fun Route.donateRoutes() {
     val service = DonationService()
-    val siteConfigService = SiteConfigService()
 
     route("/donate") {
         get {
