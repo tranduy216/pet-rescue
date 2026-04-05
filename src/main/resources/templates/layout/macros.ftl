@@ -10,18 +10,18 @@
 
 <#function progressBarColor prog>
   <#if prog == 100><#return "bg-green-700">
-  <#elseif prog >= 75><#return "bg-green-400">
-  <#elseif prog >= 60><#return "bg-yellow-400">
-  <#elseif prog >= 45><#return "bg-orange-400">
+  <#elseif prog gte 75><#return "bg-green-400">
+  <#elseif prog gte 60><#return "bg-yellow-400">
+  <#elseif prog gte 45><#return "bg-orange-400">
   <#else><#return "bg-red-500">
   </#if>
 </#function>
 
 <#function progressTextColor prog>
   <#if prog == 100><#return "text-green-800">
-  <#elseif prog >= 75><#return "text-green-700">
-  <#elseif prog >= 60><#return "text-yellow-700">
-  <#elseif prog >= 45><#return "text-orange-700">
+  <#elseif prog gte 75><#return "text-green-700">
+  <#elseif prog gte 60><#return "text-yellow-700">
+  <#elseif prog gte 45><#return "text-orange-700">
   <#else><#return "text-red-700">
   </#if>
 </#function>
