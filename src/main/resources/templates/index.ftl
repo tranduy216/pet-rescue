@@ -66,7 +66,8 @@
                 <div style="aspect-ratio:16/9;" class="bg-red-50 flex items-center justify-center text-4xl">🆘</div>
                 </#if>
                 <div class="p-4">
-                    <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
+                    <h3 class="font-bold text-gray-800 text-sm mb-1 line-clamp-2">${appeal.title?html}</h3>
+                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">${appeal.content?html}</p>
                     <div class="flex justify-between text-xs mb-1">
                         <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
                         <span class="${progText} font-bold">${prog}%</span>
@@ -85,14 +86,15 @@
         </#list>
 
         <#-- QR box -->
-        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-start text-center">
-            <h3 class="font-bold text-green-800 mb-3 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
-            <img src="/static/qr-station.png" alt="QR" class="w-40 h-40 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-center text-center gap-2">
+            <h3 class="font-bold text-green-800 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
+            <img src="/static/qr-station.png" alt="QR" class="w-full max-w-[220px] object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                 onclick="document.getElementById('qr-popup').style.display='flex'"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div style="display:none" class="w-40 h-40 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+            <div style="display:none" class="w-full max-w-[220px] aspect-square border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                 <span class="text-3xl">📷</span><span>QR</span>
             </div>
+            <p class="text-xs text-gray-400">🔍 ${msg['home_urgent_appeals_qr_zoom']!'Nhấn để phóng to'}</p>
         </div>
     </div>
 </section>
@@ -377,7 +379,7 @@
     <div class="relative" onclick="event.stopPropagation()">
         <button class="absolute -top-3 -right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-gray-600 hover:text-gray-900 text-lg font-bold"
             onclick="document.getElementById('qr-popup').style.display='none'">✕</button>
-        <img src="/static/qr-station.png" alt="QR" class="max-w-xs sm:max-w-sm rounded-2xl shadow-2xl"
+        <img src="/static/qr-station.png" alt="QR" class="max-w-xs sm:max-w-md rounded-2xl shadow-2xl"
             onerror="this.style.display='none'">
     </div>
 </div>
