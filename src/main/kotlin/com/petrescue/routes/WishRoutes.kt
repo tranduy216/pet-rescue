@@ -30,19 +30,19 @@ fun Route.wishRoutes() {
         post("/{id}/approve") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.approve(id)
-            call.respondRedirect("/wishes")
+            call.respondRedirect("/config?tab=wishes")
         }
 
         post("/{id}/receive") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.markReceived(id)
-            call.respondRedirect("/wishes")
+            call.respondRedirect("/config?tab=wishes")
         }
 
         post("/{id}/delete") {
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.updateStatus(id, "DELETED")
-            call.respondRedirect("/wishes")
+            call.respondRedirect("/config?tab=wishes")
         }
     }
 }

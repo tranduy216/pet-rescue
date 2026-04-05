@@ -128,6 +128,7 @@ fun Application.module() {
             staticRootFolder = File("uploads")
             files(".")
         }
+        urgentAppealRoutes()
         authRoutes(userService)
         homeRoutes()
         petRoutes()

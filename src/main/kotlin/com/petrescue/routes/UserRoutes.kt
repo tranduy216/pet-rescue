@@ -38,7 +38,7 @@ fun Route.userRoutes() {
             val user = service.register(username, email, password, fullName)
             if (user != null) {
                 service.update(user.copy(role = role))
-                call.respondRedirect("/users")
+                call.respondRedirect("/config?tab=users")
             } else {
                 call.respond(FreeMarkerContent("users/form.ftl", mapOf("user" to null, "session" to session, "error" to "Username or email already exists", "msg" to call.messages(), "lang" to call.lang()), ""))
             }
@@ -66,14 +66,14 @@ fun Route.userRoutes() {
                     active = params["isActive"] == "true"
                 )
             )
-            call.respondRedirect("/users")
+            call.respondRedirect("/config?tab=users")
         }
 
         post("/{id}/delete") {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             service.delete(id)
-            call.respondRedirect("/users")
+            call.respondRedirect("/config?tab=users")
         }
     }
 }

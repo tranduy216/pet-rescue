@@ -5,6 +5,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Donation
 import com.petrescue.services.DonationService
+import com.petrescue.services.SiteConfigService
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
@@ -16,11 +17,12 @@ import java.math.BigDecimal
 
 fun Route.donateRoutes() {
     val service = DonationService()
+    val siteConfigService = SiteConfigService()
 
     route("/donate") {
         get {
             val session = call.sessions.get<UserSession>()
-            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "msg" to call.messages(), "lang" to call.lang()), ""))
+            call.respond(FreeMarkerContent("donate/form.ftl", mapOf("session" to session, "msg" to call.messages(), "lang" to call.lang(), "siteConfig" to siteConfigService.getAll()), ""))
         }
 
         post {

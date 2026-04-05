@@ -25,7 +25,11 @@ object DatabaseFactory {
                 Donations,
                 RoleResources,
                 SiteConfigs,
-                AuditLogs
+                AuditLogs,
+                UrgentAppeals,
+                UrgentAppealImages,
+                UrgentAppealUpdates,
+                UrgentAppealUpdateImages
             )
         }
         RoleResourceRepository().seed()

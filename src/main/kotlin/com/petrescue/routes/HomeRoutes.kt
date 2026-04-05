@@ -8,6 +8,7 @@ import com.petrescue.i18n.messages
 import com.petrescue.services.DonationService
 import com.petrescue.services.PetService
 import com.petrescue.services.SiteConfigService
+import com.petrescue.services.UrgentAppealService
 import io.ktor.server.application.*
 import io.ktor.server.freemarker.*
 import io.ktor.server.response.*
@@ -18,6 +19,7 @@ fun Route.homeRoutes() {
     val petService = PetService()
     val donationService = DonationService()
     val siteConfigService = SiteConfigService()
+    val urgentAppealService = UrgentAppealService()
 
     get("/") {
         val session = call.sessions.get<UserSession>()
@@ -49,6 +51,10 @@ fun Route.homeRoutes() {
             siteConfigService.getAll()
         }
 
+        val urgentAppeals = AppCache.getOrLoad(CacheKeys.HOME_URGENT_APPEALS) {
+            urgentAppealService.getRecent(2)
+        }
+
         call.respond(
             FreeMarkerContent(
                 "index.ftl", mapOf(
@@ -62,7 +68,8 @@ fun Route.homeRoutes() {
                     "statsDonors" to statsDonors,
                     "msg" to call.messages(),
                     "lang" to call.lang(),
-                    "siteConfig" to siteConfig
+                    "siteConfig" to siteConfig,
+                    "urgentAppeals" to urgentAppeals
                 ), ""
             )
         )
