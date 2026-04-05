@@ -54,14 +54,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <#list urgentAppeals as appeal>
         <#assign prog = appeal.currentProgress>
-        <#assign barColor = "bg-red-500">
-        <#assign borderColor = "border-red-300">
-        <#if prog == 100><#assign barColor = "bg-green-700"><#assign borderColor = "border-green-600">
-        <#elseif prog <= 90><#assign barColor = "bg-green-400"><#assign borderColor = "border-green-400">
-        <#elseif prog <= 75><#assign barColor = "bg-yellow-400"><#assign borderColor = "border-yellow-400">
-        <#elseif prog <= 60><#assign barColor = "bg-orange-400"><#assign borderColor = "border-orange-400">
-        </#if>
-        <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 ${borderColor} overflow-hidden hover:shadow-lg transition-shadow block">
+        <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow block">
             <#if appeal.images?has_content>
             <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
             <#else>
@@ -69,13 +62,13 @@
             </#if>
             <div class="p-4">
                 <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
-                <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
+                <div class="relative h-6 bg-gray-300 rounded-full overflow-hidden">
+                    <div class="bg-red-500 h-full rounded-full transition-all" style="width: ${prog}%"></div>
                     <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
                         ${appeal.amount?string["###,###,###"]} VNĐ
                     </span>
                 </div>
-                <p class="text-xs text-gray-500 mt-1 text-right">${prog}%</p>
+                <p class="text-xs font-bold text-red-600 mt-1 text-right">${prog}%</p>
             </div>
         </a>
         </#list>
