@@ -27,7 +27,7 @@
                 🙋 ${msg['home_btn_volunteer']!'Tình Nguyện'}
             </a>
             <a href="/donate" class="flex items-center justify-center gap-1 sm:gap-2 bg-yellow-400 text-green-900 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-yellow-300 transition-all text-sm sm:text-base">
-                💝 ${msg['home_btn_donate']!'Đóng Góp'}
+                💝 ${msg['home_btn_donate']!'Động Viên'}
             </a>
             <a href="/pets" class="flex items-center justify-center gap-1 sm:gap-2 bg-emerald-500 text-white font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-emerald-400 transition-all text-sm sm:text-base">
                 🐶 ${msg['home_btn_browse_pets']!'Ngắm Các Bé'}
@@ -120,7 +120,7 @@
         <div class="bg-white rounded-2xl shadow-md p-4 sm:p-6 text-center border-t-4 border-red-400 hover:shadow-lg transition-shadow">
             <div class="text-3xl sm:text-4xl mb-1 sm:mb-2">❤️</div>
             <div class="text-3xl sm:text-4xl font-extrabold text-red-500">${statsDonors!0}</div>
-            <div class="text-xs sm:text-sm text-gray-500 mt-1 leading-tight">${msg['stats_donors']!'Người đóng góp'}</div>
+            <div class="text-xs sm:text-sm text-gray-500 mt-1 leading-tight">${msg['stats_donors']!'Người động viên'}</div>
         </div>
     </div>
 </section>
