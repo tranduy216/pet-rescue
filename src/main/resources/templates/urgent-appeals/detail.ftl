@@ -41,25 +41,39 @@
                     <span class="text-3xl">📷</span><span>QR</span>
                 </div>
                 <p class="text-xs text-gray-500 mt-2 text-center">${msg['home_urgent_appeals_qr_subtitle']!'Quét để ủng hộ'}</p>
+                <#if siteConfig??>
+                <#assign qrHolder = (siteConfig['bank1_holder'])!''>
+                <#assign qrName = (siteConfig['bank1_name'])!''>
+                <#assign qrAcct = (siteConfig['bank1_account'])!''>
+                <#if qrHolder?has_content || qrName?has_content || qrAcct?has_content>
+                <div class="mt-1 text-xs text-gray-600 text-center space-y-0.5">
+                    <#if qrHolder?has_content><p class="font-bold text-green-900 uppercase tracking-wide">${qrHolder}</p></#if>
+                    <#if qrName?has_content><p class="font-semibold text-green-800">${qrName}</p></#if>
+                    <#if qrAcct?has_content><p class="font-mono tracking-wide">${qrAcct}</p></#if>
+                </div>
+                </#if>
+                </#if>
             </div>
 
             <#-- Title & info right -->
             <div class="flex-1">
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">${appeal.title?html}</h1>
-                <p class="text-sm text-gray-500 mb-1">📅 ${msg['urgent_appeal_detail_created']!'Ngày tạo'}: ${appeal.createdAt?string("dd/MM/yyyy")}</p>
+                <p class="text-sm text-gray-500 mb-1">📅 ${msg['urgent_appeal_detail_created']!'Ngày tạo'}: ${appeal.createdAt?string?substring(0, 10)}</p>
                 <p class="text-sm text-gray-500 mb-4">💰 ${msg['urgent_appeal_detail_amount']!'Số tiền cần'}: <strong>${appeal.amount?string["###,###,###"]} VNĐ</strong></p>
 
                 <#-- Progress bar with amount text overlay -->
                 <div class="mb-2">
-                    <div class="flex justify-between text-xs text-gray-500 mb-1">
-                        <span>${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
-                        <span class="${textColor} font-semibold">${prog}%</span>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
+                        <span class="${textColor} font-bold">${prog}%</span>
                     </div>
-                    <div class="relative h-7 bg-gray-100 rounded-full overflow-hidden">
-                        <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                        <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
-                            ${appeal.amount?string["###,###,###"]} VNĐ
-                        </span>
+                    <div class="border-2 ${borderColor} rounded-full p-0.5">
+                        <div class="relative h-6 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
+                            <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
+                                ${appeal.amount?string["###,###,###"]} VNĐ
+                            </span>
+                        </div>
                     </div>
                 </div>
 

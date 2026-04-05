@@ -122,6 +122,12 @@
                             placeholder="1234567890"
                             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
                     </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank1_holder']!'Tên Chủ Tài Khoản 1'}</label>
+                        <input type="text" name="bank1_holder" value="${(config['bank1_holder'])!''}"
+                            placeholder="NGUYEN VAN A"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+                    </div>
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_name']!'Tên Ngân Hàng 2'}</label>
                         <input type="text" name="bank2_name" value="${(config['bank2_name'])!''}"
@@ -132,6 +138,12 @@
                         <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_account']!'Số Tài Khoản 2'}</label>
                         <input type="text" name="bank2_account" value="${(config['bank2_account'])!''}"
                             placeholder="9876543210"
+                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_holder']!'Tên Chủ Tài Khoản 2'}</label>
+                        <input type="text" name="bank2_holder" value="${(config['bank2_holder'])!''}"
+                            placeholder="TRAN THI B"
                             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
                     </div>
                 </div>
