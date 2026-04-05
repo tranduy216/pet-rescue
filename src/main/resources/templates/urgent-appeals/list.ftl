@@ -22,7 +22,7 @@
             <div class="flex flex-col sm:flex-row gap-4">
                 <#-- Image -->
                 <#if appeal.images?has_content>
-                <div class="w-full sm:w-32 h-32 flex-shrink-0">
+                <div class="w-full sm:w-40 flex-shrink-0 overflow-hidden rounded-xl" style="aspect-ratio:16/9;">
                     <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-full object-cover rounded-xl">
                 </div>
                 </#if>
@@ -41,11 +41,18 @@
                         <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-5"/>
                     </div>
 
-                    <div class="flex justify-between items-center">
+                    <div class="flex flex-wrap justify-between items-center gap-2">
                         <span class="text-xs text-gray-500">💰 ${appeal.amount?string["###,###,###"]} VNĐ</span>
-                        <a href="/urgent-appeals/${appeal.id}" class="text-sm text-red-600 hover:text-red-800 font-medium">
-                            ${msg['home_urgent_appeals_view']!'Xem Chi Tiết'} →
-                        </a>
+                        <div class="flex items-center gap-2">
+                            <button onclick="followAppeal(${appeal.id}, this)"
+                                    data-appeal-id="${appeal.id}"
+                                    class="follow-btn text-xs px-3 py-1 rounded-lg border border-red-400 text-red-600 hover:bg-red-50 transition-colors">
+                                🔔 ${msg['appeal_follow_btn']!'Theo dõi'}
+                            </button>
+                            <a href="/urgent-appeals/${appeal.id}" class="text-sm text-red-600 hover:text-red-800 font-medium">
+                                ${msg['home_urgent_appeals_view']!'Xem Chi Tiết'} →
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -59,4 +66,11 @@
     </div>
     </#if>
 </div>
+
+<div id="follow-toast" style="display:none"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-5 py-2.5 rounded-full shadow-xl z-50 transition-opacity"></div>
+
+<#if firebaseConfig?? && (firebaseConfig['apiKey'])!''>
+<#include "../urgent-appeals/follow-script.ftl">
+</#if>
 </@layout.page>

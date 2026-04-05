@@ -56,21 +56,32 @@
         <#list urgentAppeals as appeal>
         <#assign prog = appeal.currentProgress>
         <#assign progText = macros.progressTextColor(prog)>
-        <a href="/urgent-appeals/${appeal.id}" class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow block">
-            <#if appeal.images?has_content>
-            <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-40 object-cover">
-            <#else>
-            <div class="w-full h-40 bg-red-50 flex items-center justify-center text-4xl">🆘</div>
-            </#if>
-            <div class="p-4">
-                <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
-                <div class="flex justify-between text-xs mb-1">
-                    <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
-                    <span class="${progText} font-bold">${prog}%</span>
+        <div class="bg-white rounded-2xl shadow-md border-t-4 border-red-400 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+            <a href="/urgent-appeals/${appeal.id}" class="block">
+                <#if appeal.images?has_content>
+                <div style="aspect-ratio:16/9;" class="overflow-hidden">
+                    <img src="${appeal.images[0]}" alt="${appeal.title?html}" class="w-full h-full object-cover">
                 </div>
-                <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
+                <#else>
+                <div style="aspect-ratio:16/9;" class="bg-red-50 flex items-center justify-center text-4xl">🆘</div>
+                </#if>
+                <div class="p-4">
+                    <h3 class="font-bold text-gray-800 text-sm mb-2 line-clamp-2">${appeal.title?html}</h3>
+                    <div class="flex justify-between text-xs mb-1">
+                        <span class="text-gray-500">${msg['urgent_appeal_detail_progress']!'Tiến Độ'}</span>
+                        <span class="${progText} font-bold">${prog}%</span>
+                    </div>
+                    <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-6"/>
+                </div>
+            </a>
+            <div class="px-4 pb-4 mt-auto">
+                <button onclick="followAppeal(${appeal.id}, this)"
+                        data-appeal-id="${appeal.id}"
+                        class="follow-btn w-full py-1.5 text-xs font-medium rounded-lg border border-red-400 text-red-600 hover:bg-red-50 transition-colors">
+                    🔔 ${msg['appeal_follow_btn']!'Theo dõi'}
+                </button>
             </div>
-        </a>
+        </div>
         </#list>
 
         <#-- QR box -->
@@ -366,4 +377,13 @@
             onerror="this.style.display='none'">
     </div>
 </div>
+
+<#-- Follow toast -->
+<div id="follow-toast" style="display:none"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-5 py-2.5 rounded-full shadow-xl z-50 transition-opacity"></div>
+
+<#-- Firebase web push for appeal follow -->
+<#if firebaseConfig?? && (firebaseConfig['apiKey'])!''>
+<#include "urgent-appeals/follow-script.ftl">
+</#if>
 </@layout.page>

@@ -3,6 +3,7 @@ package com.petrescue.routes
 import com.petrescue.UserSession
 import com.petrescue.cache.AppCache
 import com.petrescue.cache.CacheKeys
+import com.petrescue.config.AppConfig
 import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.services.DonationService
@@ -15,7 +16,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
 
-fun Route.homeRoutes() {
+fun Route.homeRoutes(appConfig: AppConfig) {
     val petService = PetService()
     val donationService = DonationService()
     val siteConfigService = SiteConfigService()
@@ -69,7 +70,8 @@ fun Route.homeRoutes() {
                     "msg" to call.messages(),
                     "lang" to call.lang(),
                     "siteConfig" to siteConfig,
-                    "urgentAppeals" to urgentAppeals
+                    "urgentAppeals" to urgentAppeals,
+                    "firebaseConfig" to appConfig.firebaseWebConfig()
                 ), ""
             )
         )
@@ -83,3 +85,14 @@ fun Route.homeRoutes() {
         call.respondRedirect(referer)
     }
 }
+
+/** Convenience extension: extract Firebase client-side config as a map for templates. */
+fun AppConfig.firebaseWebConfig(): Map<String, String> = mapOf(
+    "apiKey" to firebaseApiKey,
+    "authDomain" to firebaseAuthDomain,
+    "projectId" to firebaseProjectId,
+    "storageBucket" to firebaseStorageBucket,
+    "messagingSenderId" to firebaseMessagingSenderId,
+    "appId" to firebaseAppId,
+    "vapidKey" to firebaseVapidKey
+)
