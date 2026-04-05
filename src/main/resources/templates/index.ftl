@@ -38,8 +38,8 @@
                 🚨 ${msg['home_btn_report_rescue']!'Báo Cứu Hộ'}
             </a>
             </#if>
-            <a href="/register" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">
-                🙋 ${msg['home_btn_volunteer']!'Tình Nguyện'}
+            <a href="/adoptions" class="flex items-center justify-center gap-1 sm:gap-2 bg-white text-green-800 font-bold px-4 sm:px-6 py-2.5 sm:py-3 rounded-full shadow hover:bg-green-100 transition-all text-sm sm:text-base">
+                🏠 ${msg['home_btn_adopt']!'Nhận Nuôi'}
             </a>
         </div>
     </div>
