@@ -37,8 +37,13 @@
             ⚠️ ${msg['config_video_url_error']!'URL video không hợp lệ. Chỉ chấp nhận URL nhúng YouTube.'}
         </div>
         </#if>
+        <#if qrError?? && qrError?has_content>
+        <div class="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+            ⚠️ ${qrError}
+        </div>
+        </#if>
 
-        <form method="post" action="/config" class="space-y-6">
+        <form method="post" action="/config" enctype="multipart/form-data" class="space-y-6">
             <#-- Vietnamese content -->
             <div class="border border-gray-200 rounded-xl p-4 space-y-4">
                 <h2 class="text-base font-semibold text-green-700">🇻🇳 ${msg['config_homepage_title_vi']!'Tiêu Đề Tiếng Việt'}</h2>
@@ -128,6 +133,38 @@
                         <input type="text" name="bank2_account" value="${(config['bank2_account'])!''}"
                             placeholder="9876543210"
                             class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
+                    </div>
+                </div>
+            </div>
+
+            <#-- QR Code upload -->
+            <div class="border border-gray-200 rounded-xl p-4 space-y-4">
+                <h2 class="text-base font-semibold text-green-700">📷 ${msg['config_qr_section']!'Ảnh QR Code'}</h2>
+                <p class="text-xs text-gray-500">${msg['config_qr_hint']!'JPG, PNG hoặc WEBP, tối đa 2MB.'}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <#-- QR Station -->
+                    <div class="flex flex-col items-center gap-3">
+                        <p class="text-sm font-medium text-gray-700 self-start">🏥 ${msg['config_qr1_upload']!'Upload QR Ủng Hộ Trạm'}</p>
+                        <img src="/static/qr-station.png" alt="QR Station"
+                            class="w-36 h-36 object-contain rounded-xl border border-gray-200"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+                            <span class="text-3xl">📷</span><span>qr-station.png</span>
+                        </div>
+                        <input type="file" name="qr_station" accept="image/*"
+                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
+                    </div>
+                    <#-- QR Web -->
+                    <div class="flex flex-col items-center gap-3">
+                        <p class="text-sm font-medium text-gray-700 self-start">🌐 ${msg['config_qr2_upload']!'Upload QR Ủng Hộ Website'}</p>
+                        <img src="/static/qr-web.png" alt="QR Web"
+                            class="w-36 h-36 object-contain rounded-xl border border-gray-200"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                        <div style="display:none" class="w-36 h-36 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+                            <span class="text-3xl">📷</span><span>qr-web.png</span>
+                        </div>
+                        <input type="file" name="qr_web" accept="image/*"
+                            class="w-full text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">
                     </div>
                 </div>
             </div>
