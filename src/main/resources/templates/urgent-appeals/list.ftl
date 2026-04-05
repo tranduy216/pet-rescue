@@ -1,4 +1,5 @@
 <#import "../layout/base.ftl" as layout>
+<#import "../layout/macros.ftl" as macros>
 <#assign canManage = session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
 
 <@layout.page title="${msg['urgent_appeal_list_title']!'Khẩn Cầu'} - ${msg['site_name']!'Pet Rescue'}">
@@ -16,17 +17,8 @@
     <div class="space-y-4">
         <#list appeals as appeal>
         <#assign prog = appeal.currentProgress>
-        <#assign borderColor = "border-red-400">
-        <#assign textColor = "text-red-500">
-        <#if prog == 100>
-          <#assign borderColor = "border-green-700"><#assign textColor = "text-green-700">
-        <#elseif prog <= 90>
-          <#assign borderColor = "border-green-400"><#assign textColor = "text-green-600">
-        <#elseif prog <= 75>
-          <#assign borderColor = "border-yellow-400"><#assign textColor = "text-yellow-600">
-        <#elseif prog <= 60>
-          <#assign borderColor = "border-orange-400"><#assign textColor = "text-orange-600">
-        </#if>
+        <#assign borderColor = macros.progressBorderColor(prog)>
+        <#assign textColor = macros.progressTextColor(prog)>
         <div class="bg-white rounded-2xl shadow-md border-l-4 ${borderColor} p-5 hover:shadow-lg transition-shadow">
             <div class="flex flex-col sm:flex-row gap-4">
                 <#-- Image -->
@@ -43,24 +35,11 @@
                     <p class="text-sm text-gray-600 mb-3 line-clamp-2">${appeal.content?html?substring(0, (appeal.content?length > 120)?then(120, appeal.content?length))}<#if appeal.content?length gt 120>...</#if></p>
 
                     <#-- Progress bar -->
-                    <#assign barColor = "bg-red-500">
-                    <#if prog == 100><#assign barColor = "bg-green-700">
-                    <#elseif prog <= 90><#assign barColor = "bg-green-400">
-                    <#elseif prog <= 75><#assign barColor = "bg-yellow-400">
-                    <#elseif prog <= 60><#assign barColor = "bg-orange-400">
-                    </#if>
                     <div class="mb-2">
                         <div class="flex justify-end mb-0.5">
                             <span class="text-xs font-bold ${textColor}">${prog}%</span>
                         </div>
-                        <div class="border-2 ${borderColor} rounded-full p-0.5">
-                            <div class="relative h-5 bg-gray-100 rounded-full overflow-hidden">
-                                <div class="${barColor} h-full rounded-full transition-all" style="width: ${prog}%"></div>
-                                <span class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white drop-shadow">
-                                    ${appeal.amount?string["###,###,###"]} VNĐ
-                                </span>
-                            </div>
-                        </div>
+                        <@macros.progressBar prog=prog label="${appeal.amount?string['###,###,###']} VNĐ" height="h-5"/>
                     </div>
 
                     <div class="flex justify-between items-center">

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} 🐾</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐾</text></svg>">
     <link rel="stylesheet" href="/assets/tailwind.min.css">
     ${headContent}
 </head>
@@ -14,7 +15,7 @@
             <div class="flex h-14 sm:h-16 items-center">
                 <#-- Logo (left) -->
                 <a href="/" class="text-white text-lg sm:text-xl font-bold flex-shrink-0">
-                    🌿 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
+                    🐾 <#if msg??>${msg['site_name']!'Pet Rescue'}<#else>Pet Rescue</#if>
                 </a>
 
                 <#-- Desktop nav links (left-aligned after logo) -->
