@@ -5,7 +5,7 @@
 <#-- ═══════════════════════════════════════════════════════════════ -->
 <#-- HERO SECTION                                                    -->
 <#-- ═══════════════════════════════════════════════════════════════ -->
-<section class="relative overflow-hidden rounded-2xl mx-2 sm:mx-4 mt-4 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl min-h-56">
+<section class="relative overflow-hidden -mt-4 sm:-mt-6 mb-8 sm:mb-10 bg-gradient-to-br from-green-800 via-green-700 to-emerald-600 text-white shadow-2xl min-h-56">
     <div class="absolute inset-0 opacity-10" style="background-image:url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1400&q=80');background-size:cover;background-position:center;"></div>
     <div class="relative z-10 flex flex-col items-center justify-center text-center py-6 sm:py-8 px-4 sm:px-8 lg:px-16">
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
