@@ -11,16 +11,16 @@
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
             <#if lang == 'en'>
-                <#if siteConfig?? && siteConfig['homepage_title_en']??>${siteConfig['homepage_title_en']}<#else>${msg['home_hero_title']!'Love & Protect'}</#if>
+                <#if siteConfig?? && (siteConfig['homepage_title_en'])!''?has_content>${siteConfig['homepage_title_en']}<#else>${msg['home_hero_title']!'Love & Protect'}</#if>
             <#else>
-                <#if siteConfig?? && siteConfig['homepage_title_vi']??>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
+                <#if siteConfig?? && (siteConfig['homepage_title_vi'])!''?has_content>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
             </#if>
         </h1>
         <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-6 sm:mb-8 leading-relaxed">
             <#if lang == 'en'>
-                <#if siteConfig?? && siteConfig['homepage_subtitle_en']??>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
+                <#if siteConfig?? && (siteConfig['homepage_subtitle_en'])!''?has_content>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
             <#else>
-                <#if siteConfig?? && siteConfig['homepage_subtitle_vi']??>${siteConfig['homepage_subtitle_vi']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
+                <#if siteConfig?? && (siteConfig['homepage_subtitle_vi'])!''?has_content>${siteConfig['homepage_subtitle_vi']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
             </#if>
         </p>
         <div class="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full sm:w-auto">
@@ -74,24 +74,14 @@
         </#list>
 
         <#-- QR box -->
-        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-center text-center">
-            <h3 class="font-bold text-green-800 mb-2 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
-            <p class="text-xs text-gray-500 mb-3">${msg['home_urgent_appeals_qr_subtitle']!'Quét mã để chuyển khoản'}</p>
-            <img src="/static/qr-station.png" alt="QR" class="w-28 h-28 object-contain rounded-lg"
+        <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-start text-center">
+            <h3 class="font-bold text-green-800 mb-3 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
+            <img src="/static/qr-station.png" alt="QR" class="w-28 h-28 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                onclick="document.getElementById('qr-popup').style.display='flex'"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
             <div style="display:none" class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                 <span class="text-3xl">📷</span><span>QR</span>
             </div>
-            <#if siteConfig??>
-            <#assign homeBank1 = (siteConfig['bank1_name'])!''>
-            <#assign homeAcct1 = (siteConfig['bank1_account'])!''>
-            <#if homeBank1?has_content || homeAcct1?has_content>
-            <div class="mt-2 text-xs text-gray-600">
-                <#if homeBank1?has_content><p class="font-semibold text-green-800">${homeBank1}</p></#if>
-                <#if homeAcct1?has_content><p class="font-mono">${homeAcct1}</p></#if>
-            </div>
-            </#if>
-            </#if>
         </div>
     </div>
 </section>
@@ -365,4 +355,15 @@
     window.addEventListener('resize', function() { update(); });
 })();
 </script>
+
+<#-- QR Popup Modal -->
+<div id="qr-popup" style="display:none" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+    onclick="this.style.display='none'">
+    <div class="relative" onclick="event.stopPropagation()">
+        <button class="absolute -top-3 -right-3 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-gray-600 hover:text-gray-900 text-lg font-bold"
+            onclick="document.getElementById('qr-popup').style.display='none'">✕</button>
+        <img src="/static/qr-station.png" alt="QR" class="max-w-xs sm:max-w-sm rounded-2xl shadow-2xl"
+            onerror="this.style.display='none'">
+    </div>
+</div>
 </@layout.page>

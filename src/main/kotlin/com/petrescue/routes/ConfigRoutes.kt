@@ -55,8 +55,6 @@ fun Route.configRoutes() {
 
         var titleVi = ""; var titleEn = ""; var subtitleVi = ""; var subtitleEn = ""
         var videoUrl = ""; var facebookUrl = ""; var youtubeUrl = ""
-        var bank1Name = ""; var bank1Account = ""; var bank1Holder = ""
-        var bank2Name = ""; var bank2Account = ""; var bank2Holder = ""
         var qrError: String? = null
 
         parts.forEachPart { part ->
@@ -69,12 +67,6 @@ fun Route.configRoutes() {
                     "homepage_video_url"   -> videoUrl = part.value.trim()
                     "social_facebook_url"  -> facebookUrl = part.value.trim()
                     "social_youtube_url"   -> youtubeUrl = part.value.trim()
-                    "bank1_name"           -> bank1Name = part.value.trim()
-                    "bank1_account"        -> bank1Account = part.value.trim()
-                    "bank1_holder"         -> bank1Holder = part.value.trim()
-                    "bank2_name"           -> bank2Name = part.value.trim()
-                    "bank2_account"        -> bank2Account = part.value.trim()
-                    "bank2_holder"         -> bank2Holder = part.value.trim()
                 }
                 is PartData.FileItem -> {
                     val fieldName = part.name ?: ""
@@ -117,12 +109,6 @@ fun Route.configRoutes() {
             if (videoUrl.isNotBlank()) siteConfigService.set("homepage_video_url", videoUrl)
             if (facebookUrl.isNotBlank()) siteConfigService.set("social_facebook_url", facebookUrl)
             if (youtubeUrl.isNotBlank()) siteConfigService.set("social_youtube_url", youtubeUrl)
-            siteConfigService.set("bank1_name", bank1Name)
-            siteConfigService.set("bank1_account", bank1Account)
-            siteConfigService.set("bank1_holder", bank1Holder)
-            siteConfigService.set("bank2_name", bank2Name)
-            siteConfigService.set("bank2_account", bank2Account)
-            siteConfigService.set("bank2_holder", bank2Holder)
         }
 
         val model = buildConfigModel(call, "system", !videoUrlError && qrError == null, videoUrlError)
