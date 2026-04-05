@@ -17,9 +17,8 @@
     <div class="space-y-4">
         <#list appeals as appeal>
         <#assign prog = appeal.currentProgress>
-        <#assign borderColor = macros.progressBorderColor(prog)>
         <#assign textColor = macros.progressTextColor(prog)>
-        <div class="bg-white rounded-2xl shadow-md border-l-4 ${borderColor} p-5 hover:shadow-lg transition-shadow">
+        <div class="bg-white rounded-2xl shadow-md border-l-4 border-gray-200 p-5 hover:shadow-lg transition-shadow">
             <div class="flex flex-col sm:flex-row gap-4">
                 <#-- Image -->
                 <#if appeal.images?has_content>

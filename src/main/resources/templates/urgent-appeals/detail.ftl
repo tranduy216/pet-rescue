@@ -2,8 +2,7 @@
 <#import "../layout/macros.ftl" as macros>
 <#assign canManage = session?? && (session.role == "ADMIN" || session.role == "VOLUNTEER")>
 <#assign prog = appeal.currentProgress>
-<#assign borderColor = macros.progressBorderColor(prog)>
-<#assign textColor   = macros.progressTextColor(prog)>
+<#assign textColor = macros.progressTextColor(prog)>
 
 <@layout.page title="${appeal.title?html} - ${msg['site_name']!'Pet Rescue'}">
 <div class="px-2 sm:px-4 py-6 max-w-4xl mx-auto">
@@ -20,7 +19,7 @@
     </div>
 
     <#-- Header: QR left, title right -->
-    <div class="bg-white rounded-2xl shadow-md border-2 ${borderColor} p-6 mb-6">
+    <div class="bg-white rounded-2xl shadow-md border-2 border-gray-200 p-6 mb-6">
         <div class="flex flex-col sm:flex-row gap-6">
             <#-- QR code left -->
             <div class="flex-shrink-0 flex flex-col items-center justify-center">
@@ -89,20 +88,19 @@
         <div class="space-y-6 pl-10">
             <#list appeal.updates as upd>
             <#assign upProg = upd.progress>
-            <#assign upBorder = macros.progressBorderColor(upProg)>
-            <#assign upDot    = macros.progressBarColor(upProg)>
-            <#assign upText   = macros.progressTextColor(upProg)>
+            <#assign upDot  = macros.progressBarColor(upProg)>
+            <#assign upText = macros.progressTextColor(upProg)>
 
             <div class="relative">
                 <div class="absolute -left-6 top-4 w-3 h-3 rounded-full ${upDot} border-2 border-white shadow"></div>
-                <div class="bg-white rounded-xl shadow-sm border ${upBorder} p-4">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
                     <div class="flex flex-wrap justify-between items-center gap-2 mb-2">
                         <span class="text-sm font-semibold text-gray-700">📅 ${upd.updateDate.dayOfMonth?string["00"]}/${upd.updateDate.monthValue?string["00"]}/${upd.updateDate.year?c}</span>
                         <span class="text-sm font-bold ${upText}">${upProg}%</span>
                     </div>
 
                     <#-- Mini progress bar -->
-                    <div class="mb-3"><@macros.progressBar prog=upProg height="h-4" showBorder=false/></div>
+                    <div class="mb-3"><@macros.progressBar prog=upProg height="h-4"/></div>
 
                     <p class="text-sm text-gray-700 mb-3">${upd.content?html}</p>
 
