@@ -7,7 +7,10 @@ import com.petrescue.i18n.messages
 import com.petrescue.i18n.siteConfig
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
+import com.petrescue.util.escapeJs
+import com.petrescue.services.AppealSubscriptionService
 import com.petrescue.services.AuditLogService
+import com.petrescue.services.UrgentAppealService
 import com.petrescue.services.UserService
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.http.*
@@ -119,6 +122,38 @@ fun Application.module() {
         }
     }
 
+    // Every-6-hours appeal notification job
+    val appealSubscriptionService = AppealSubscriptionService(appConfig)
+    val urgentAppealService = UrgentAppealService()
+    launch {
+        // Initialise baseline to 6 hours ago so the first run only notifies about
+        // updates that happened within the previous 6-hour window (avoids duplicates on restart).
+        val lastNotifiedAt = mutableMapOf<Int, java.time.LocalDateTime>()
+        val startBaseline = java.time.LocalDateTime.now().minusHours(6)
+
+        while (true) {
+            try {
+                val subscribedAppealIds = appealSubscriptionService.findSubscribedAppealIds()
+                for (appealId in subscribedAppealIds) {
+                    val appeal = urgentAppealService.getById(appealId) ?: continue
+                    val lastNotified = lastNotifiedAt[appealId] ?: startBaseline
+                    val hasNewUpdate = appeal.updates.any { it.createdAt.isAfter(lastNotified) }
+                    if (hasNewUpdate) {
+                        val latestUpdate = appeal.updates.maxByOrNull { it.createdAt }
+                        val title = "📢 ${appeal.title}"
+                        val body = latestUpdate?.content?.take(120) ?: "Có cập nhật mới từ lời khẩn cầu."
+                        val count = appealSubscriptionService.notify(appealId, title, body)
+                        lastNotifiedAt[appealId] = java.time.LocalDateTime.now()
+                        if (count > 0) log.info("Appeal $appealId: notified $count subscribers")
+                    }
+                }
+            } catch (e: Exception) {
+                log.error("Appeal notification job failed", e)
+            }
+            delay(6.hours)
+        }
+    }
+
     routing {
         staticResources("/assets", "assets")
         static("/static") {
@@ -129,9 +164,36 @@ fun Application.module() {
             staticRootFolder = File("uploads")
             files(".")
         }
-        urgentAppealRoutes()
+        // Firebase service worker – served dynamically so Firebase config is injected
+        get("/firebase-messaging-sw.js") {
+            val cfg = appConfig
+            val content = """
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
+
+firebase.initializeApp({
+  apiKey: "${cfg.firebaseApiKey.escapeJs()}",
+  authDomain: "${cfg.firebaseAuthDomain.escapeJs()}",
+  projectId: "${cfg.firebaseProjectId.escapeJs()}",
+  storageBucket: "${cfg.firebaseStorageBucket.escapeJs()}",
+  messagingSenderId: "${cfg.firebaseMessagingSenderId.escapeJs()}",
+  appId: "${cfg.firebaseAppId.escapeJs()}"
+});
+
+const messaging = firebase.messaging();
+messaging.onBackgroundMessage(function(payload) {
+  var n = payload.notification || {};
+  self.registration.showNotification(n.title || 'Pet Rescue', {
+    body: n.body || '',
+    icon: '/static/icon.png'
+  });
+});
+""".trimIndent()
+            call.respondText(content, ContentType.Application.JavaScript)
+        }
+        urgentAppealRoutes(appConfig)
         authRoutes(userService)
-        homeRoutes()
+        homeRoutes(appConfig)
         petRoutes()
         blogRoutes()
         donateRoutes()

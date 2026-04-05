@@ -2,6 +2,7 @@ package com.petrescue.database
 
 import com.petrescue.config.AppConfig
 import com.petrescue.database.tables.*
+import com.petrescue.database.tables.AppealSubscriptions
 import com.petrescue.repositories.RoleResourceRepository
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -29,7 +30,8 @@ object DatabaseFactory {
                 UrgentAppeals,
                 UrgentAppealImages,
                 UrgentAppealUpdates,
-                UrgentAppealUpdateImages
+                UrgentAppealUpdateImages,
+                AppealSubscriptions
             )
         }
         RoleResourceRepository().seed()
