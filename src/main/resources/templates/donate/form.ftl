@@ -35,36 +35,33 @@
             </form>
         </div>
 
-        <#-- Right: QR codes (equal height to left via flex stretch) -->
-        <div class="w-full lg:w-5/12 flex flex-col gap-4">
-            <#-- QR 1: Support station -->
-            <div class="flex-1 bg-white rounded-2xl shadow-md p-5 flex flex-col items-center justify-center text-center min-h-48">
-                <h3 class="text-base font-bold text-green-800 mb-1">🏥 ${msg['donate_qr1_title']!'Ủng Hộ Trạm Cứu Hộ'}</h3>
-                <p class="text-xs text-gray-500 mb-3">${msg['donate_qr1_subtitle']!'Quét mã để chuyển khoản hỗ trợ trạm'}</p>
-                <div class="flex-1 flex items-center justify-center w-full">
-                    <img src="/static/qr-station.png"
-                        alt="${msg['donate_qr1_title']!'QR Ủng Hộ Trạm'}"
-                        class="max-w-full max-h-52 object-contain rounded-lg"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div style="display:none" class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-2 mx-auto">
-                        <span class="text-4xl">📷</span>
-                        <span>qr-station.png</span>
-                    </div>
+        <#-- QR 1: Support station -->
+        <div class="w-full lg:w-56 bg-white rounded-2xl shadow-md p-5 flex flex-col items-center justify-center text-center">
+            <h3 class="text-base font-bold text-green-800 mb-1">🏥 ${msg['donate_qr1_title']!'Ủng Hộ Trạm Cứu Hộ'}</h3>
+            <p class="text-xs text-gray-500 mb-3">${msg['donate_qr1_subtitle']!'Quét mã để chuyển khoản hỗ trợ trạm'}</p>
+            <div class="flex-1 flex items-center justify-center w-full">
+                <img src="/static/qr-station.png"
+                    alt="${msg['donate_qr1_title']!'QR Ủng Hộ Trạm'}"
+                    class="max-w-full max-h-52 object-contain rounded-lg"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div style="display:none" class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-2 mx-auto">
+                    <span class="text-4xl">📷</span>
+                    <span>qr-station.png</span>
                 </div>
             </div>
-            <#-- QR 2: Support web -->
-            <div class="flex-1 bg-white rounded-2xl shadow-md p-5 flex flex-col items-center justify-center text-center min-h-48">
-                <h3 class="text-base font-bold text-green-800 mb-1">🌐 ${msg['donate_qr2_title']!'Ủng Hộ Website'}</h3>
-                <p class="text-xs text-gray-500 mb-3">${msg['donate_qr2_subtitle']!'Quét mã để chuyển khoản duy trì website'}</p>
-                <div class="flex-1 flex items-center justify-center w-full">
-                    <img src="/static/qr-web.png"
-                        alt="${msg['donate_qr2_title']!'QR Ủng Hộ Web'}"
-                        class="max-w-full max-h-52 object-contain rounded-lg"
-                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                    <div style="display:none" class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-2 mx-auto">
-                        <span class="text-4xl">📷</span>
-                        <span>qr-web.png</span>
-                    </div>
+        </div>
+        <#-- QR 2: Support web -->
+        <div class="w-full lg:w-56 bg-white rounded-2xl shadow-md p-5 flex flex-col items-center justify-center text-center">
+            <h3 class="text-base font-bold text-green-800 mb-1">🌐 ${msg['donate_qr2_title']!'Ủng Hộ Website'}</h3>
+            <p class="text-xs text-gray-500 mb-3">${msg['donate_qr2_subtitle']!'Quét mã để chuyển khoản duy trì website'}</p>
+            <div class="flex-1 flex items-center justify-center w-full">
+                <img src="/static/qr-web.png"
+                    alt="${msg['donate_qr2_title']!'QR Ủng Hộ Web'}"
+                    class="max-w-full max-h-52 object-contain rounded-lg"
+                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <div style="display:none" class="w-48 h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-2 mx-auto">
+                    <span class="text-4xl">📷</span>
+                    <span>qr-web.png</span>
                 </div>
             </div>
         </div>
