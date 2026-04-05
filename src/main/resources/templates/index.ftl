@@ -87,10 +87,10 @@
         <#-- QR box -->
         <div class="bg-white rounded-2xl shadow-md border-t-4 border-green-500 p-4 flex flex-col items-center justify-start text-center">
             <h3 class="font-bold text-green-800 mb-3 text-sm">💚 ${msg['home_urgent_appeals_qr_title']!'Ủng Hộ Ngay'}</h3>
-            <img src="/static/qr-station.png" alt="QR" class="w-28 h-28 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+            <img src="/static/qr-station.png" alt="QR" class="w-40 h-40 object-contain rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
                 onclick="document.getElementById('qr-popup').style.display='flex'"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div style="display:none" class="w-28 h-28 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
+            <div style="display:none" class="w-40 h-40 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center text-gray-400 text-xs gap-1">
                 <span class="text-3xl">📷</span><span>QR</span>
             </div>
         </div>
