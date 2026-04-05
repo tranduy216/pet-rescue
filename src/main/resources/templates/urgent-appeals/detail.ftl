@@ -41,6 +41,18 @@
                     <span class="text-3xl">📷</span><span>QR</span>
                 </div>
                 <p class="text-xs text-gray-500 mt-2 text-center">${msg['home_urgent_appeals_qr_subtitle']!'Quét để ủng hộ'}</p>
+                <#if siteConfig??>
+                <#assign qrHolder = (siteConfig['bank1_holder'])!''>
+                <#assign qrName = (siteConfig['bank1_name'])!''>
+                <#assign qrAcct = (siteConfig['bank1_account'])!''>
+                <#if qrHolder?has_content || qrName?has_content || qrAcct?has_content>
+                <div class="mt-1 text-xs text-gray-600 text-center space-y-0.5">
+                    <#if qrHolder?has_content><p class="font-bold text-green-900 uppercase tracking-wide">${qrHolder}</p></#if>
+                    <#if qrName?has_content><p class="font-semibold text-green-800">${qrName}</p></#if>
+                    <#if qrAcct?has_content><p class="font-mono tracking-wide">${qrAcct}</p></#if>
+                </div>
+                </#if>
+                </#if>
             </div>
 
             <#-- Title & info right -->

@@ -54,8 +54,10 @@
                 <#if siteConfig??>
                 <#assign b1name = (siteConfig['bank1_name'])!''>
                 <#assign b1acct = (siteConfig['bank1_account'])!''>
-                <#if b1name?has_content || b1acct?has_content>
+                <#assign b1holder = (siteConfig['bank1_holder'])!''>
+                <#if b1name?has_content || b1acct?has_content || b1holder?has_content>
                 <div class="mt-3 text-xs text-gray-600 space-y-0.5">
+                    <#if b1holder?has_content><p class="font-bold text-green-900 uppercase tracking-wide">${b1holder}</p></#if>
                     <#if b1name?has_content><p class="font-semibold text-green-800">${b1name}</p></#if>
                     <#if b1acct?has_content><p class="font-mono tracking-wide">${b1acct}</p></#if>
                 </div>
@@ -79,8 +81,10 @@
                 <#if siteConfig??>
                 <#assign b2name = (siteConfig['bank2_name'])!''>
                 <#assign b2acct = (siteConfig['bank2_account'])!''>
-                <#if b2name?has_content || b2acct?has_content>
+                <#assign b2holder = (siteConfig['bank2_holder'])!''>
+                <#if b2name?has_content || b2acct?has_content || b2holder?has_content>
                 <div class="mt-3 text-xs text-gray-600 space-y-0.5">
+                    <#if b2holder?has_content><p class="font-bold text-green-900 uppercase tracking-wide">${b2holder}</p></#if>
                     <#if b2name?has_content><p class="font-semibold text-green-800">${b2name}</p></#if>
                     <#if b2acct?has_content><p class="font-mono tracking-wide">${b2acct}</p></#if>
                 </div>
