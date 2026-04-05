@@ -26,9 +26,9 @@
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['urgent_appeal_field_amount']!'Số Tiền Cần'}</label>
                 <div class="space-y-2">
                     <div class="flex items-center justify-between text-sm">
-                        <span class="text-gray-500">5 triệu</span>
-                        <span id="amount-display" class="font-bold text-red-700 text-base">5 triệu đồng</span>
-                        <span class="text-gray-500">50 triệu</span>
+                        <span class="text-gray-500">5 ${msg['urgent_appeal_amount_unit_short']!'triệu'}</span>
+                        <span id="amount-display" class="font-bold text-red-700 text-base">5 ${msg['urgent_appeal_amount_unit']!'triệu đồng'}</span>
+                        <span class="text-gray-500">50 ${msg['urgent_appeal_amount_unit_short']!'triệu'}</span>
                     </div>
                     <input id="amount-slider" type="range" min="5" max="50" step="2" value="5"
                         class="w-full accent-red-600 cursor-pointer"
@@ -44,19 +44,19 @@
                         <div id="preview-${i}" class="w-full aspect-square rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 text-xs gap-1 overflow-hidden bg-gray-50 cursor-pointer"
                             onclick="document.getElementById('image-input-${i}').click()">
                             <span class="text-2xl">📷</span>
-                            <span>Ảnh ${i}</span>
+                            <span>${msg['urgent_appeal_image_label']!'Ảnh'} ${i}</span>
                         </div>
                         <input id="image-input-${i}" type="file" name="image${i}" accept="image/*" class="hidden"
                             onchange="previewImage(this, 'preview-${i}')">
                         <button type="button"
                             class="w-full text-xs font-semibold py-1.5 px-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 transition-colors border border-red-200"
                             onclick="document.getElementById('image-input-${i}').click()">
-                            Chọn ảnh ${i}
+                            ${msg['urgent_appeal_select_image']!'Chọn ảnh'} ${i}
                         </button>
                     </div>
                     </#list>
                 </div>
-                <p class="mt-1 text-xs text-gray-500">JPG, PNG, WEBP — tối đa 5MB mỗi ảnh</p>
+                <p class="mt-1 text-xs text-gray-500">${msg['urgent_appeal_image_hint']!'JPG, PNG, WEBP — tối đa 5MB mỗi ảnh'}</p>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['urgent_appeal_field_video']!'Link Video (tùy chọn)'}</label>
@@ -77,10 +77,11 @@
 </div>
 
 <script>
+var amountUnit = "${msg['urgent_appeal_amount_unit']!'triệu đồng'}";
 function syncAmount(val) {
     var v = parseInt(val, 10);
     document.getElementById('amount-hidden').value = v * 1000000;
-    document.getElementById('amount-display').textContent = v + ' triệu đồng';
+    document.getElementById('amount-display').textContent = v + ' ' + amountUnit;
 }
 function previewImage(input, previewId) {
     var preview = document.getElementById(previewId);
