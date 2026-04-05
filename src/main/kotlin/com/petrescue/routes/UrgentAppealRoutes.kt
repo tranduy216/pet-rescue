@@ -29,6 +29,7 @@ private const val MAX_IMAGE_SIZE_BYTES_UA = 5 * 1024 * 1024
 fun Route.urgentAppealRoutes(appConfig: AppConfig) {
     val service = UrgentAppealService()
     val subscriptionService = AppealSubscriptionService(appConfig)
+    val userRepository = com.petrescue.repositories.UserRepository()
 
     route("/urgent-appeals") {
         get {
@@ -243,8 +244,7 @@ fun Route.urgentAppealRoutes(appConfig: AppConfig) {
             if (fcmToken.isBlank()) return@post call.respond(HttpStatusCode.BadRequest)
 
             val session = call.sessions.get<UserSession>()
-            val userRepo = com.petrescue.repositories.UserRepository()
-            val email = session?.let { userRepo.findById(it.userId)?.email }
+            val email = session?.let { userRepository.findById(it.userId)?.email }
 
             subscriptionService.subscribe(
                 AppealSubscription(

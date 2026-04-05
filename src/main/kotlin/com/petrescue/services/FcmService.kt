@@ -1,6 +1,7 @@
 package com.petrescue.services
 
 import com.petrescue.config.AppConfig
+import com.petrescue.util.escapeJs
 import org.slf4j.LoggerFactory
 import java.net.URI
 import java.net.http.HttpClient
@@ -21,15 +22,15 @@ class FcmService(private val config: AppConfig) {
             return
         }
         val dataJson = if (data.isEmpty()) "" else {
-            val entries = data.entries.joinToString(",") { (k, v) -> "\"$k\":\"${v.escapeJson()}\"" }
+            val entries = data.entries.joinToString(",") { (k, v) -> "\"${k.escapeJs()}\":\"${v.escapeJs()}\"" }
             ",\"data\":{$entries}"
         }
         val payload = """
             {
-              "to": "${fcmToken.escapeJson()}",
+              "to": "${fcmToken.escapeJs()}",
               "notification": {
-                "title": "${title.escapeJson()}",
-                "body": "${body.escapeJson()}"
+                "title": "${title.escapeJs()}",
+                "body": "${body.escapeJs()}"
               }$dataJson
             }
         """.trimIndent()
@@ -53,11 +54,4 @@ class FcmService(private val config: AppConfig) {
             log.error("FCM push error for token …{}: {}", fcmToken.takeLast(8), e.message)
         }
     }
-
-    private fun String.escapeJson(): String = this
-        .replace("\\", "\\\\")
-        .replace("\"", "\\\"")
-        .replace("\n", "\\n")
-        .replace("\r", "\\r")
-        .replace("\t", "\\t")
 }

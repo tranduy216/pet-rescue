@@ -7,6 +7,7 @@ import com.petrescue.i18n.messages
 import com.petrescue.i18n.siteConfig
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
+import com.petrescue.util.escapeJs
 import com.petrescue.services.AppealSubscriptionService
 import com.petrescue.services.AuditLogService
 import com.petrescue.services.UrgentAppealService
@@ -31,12 +32,6 @@ import java.io.File
 import kotlin.time.Duration.Companion.hours
 
 data class UserSession(val userId: Int, val username: String, val role: String) : Principal
-
-private fun String.escapeJs(): String = this
-    .replace("\\", "\\\\")
-    .replace("\"", "\\\"")
-    .replace("\n", "\\n")
-    .replace("\r", "\\r")
 
 fun Application.module() {
     val appConfig = AppConfig(environment.config)
@@ -131,17 +126,18 @@ fun Application.module() {
     val appealSubscriptionService = AppealSubscriptionService(appConfig)
     val urgentAppealService = UrgentAppealService()
     launch {
-        // Track when each appeal was last notified (in-memory; resets on restart)
+        // Initialise baseline to 6 hours ago so the first run only notifies about
+        // updates that happened within the previous 6-hour window (avoids duplicates on restart).
         val lastNotifiedAt = mutableMapOf<Int, java.time.LocalDateTime>()
+        val startBaseline = java.time.LocalDateTime.now().minusHours(6)
+
         while (true) {
-            delay(6.hours)
             try {
                 val subscribedAppealIds = appealSubscriptionService.findSubscribedAppealIds()
                 for (appealId in subscribedAppealIds) {
                     val appeal = urgentAppealService.getById(appealId) ?: continue
-                    val lastNotified = lastNotifiedAt[appealId]
-                    val hasNewUpdate = lastNotified == null ||
-                        appeal.updates.any { it.createdAt.isAfter(lastNotified) }
+                    val lastNotified = lastNotifiedAt[appealId] ?: startBaseline
+                    val hasNewUpdate = appeal.updates.any { it.createdAt.isAfter(lastNotified) }
                     if (hasNewUpdate) {
                         val latestUpdate = appeal.updates.maxByOrNull { it.createdAt }
                         val title = "📢 ${appeal.title}"
@@ -154,6 +150,7 @@ fun Application.module() {
             } catch (e: Exception) {
                 log.error("Appeal notification job failed", e)
             }
+            delay(6.hours)
         }
     }
 

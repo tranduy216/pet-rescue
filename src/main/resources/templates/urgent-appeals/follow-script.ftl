@@ -25,11 +25,16 @@
         }, 3000);
     }
 
+    var swReady = Promise.resolve(null);
+    if ('serviceWorker' in navigator) {
+        swReady = navigator.serviceWorker.register('/firebase-messaging-sw.js');
+    }
+
     window.followAppeal = function(appealId, btn) {
         if (!('Notification' in window)) { showToast('Trình duyệt không hỗ trợ thông báo.'); return; }
         btn.disabled = true;
         btn.textContent = '⏳ Đang đăng ký...';
-        navigator.serviceWorker.register('/firebase-messaging-sw.js').then(function() {
+        swReady.then(function() {
             if (!firebase.apps.length) firebase.initializeApp(fbCfg);
             var messaging = firebase.messaging();
             Notification.requestPermission().then(function(permission) {
