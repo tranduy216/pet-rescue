@@ -119,7 +119,6 @@ class RoleResourceRepository {
             // /wishes – ADMIN only
             RoleResource("ADMIN", "/wishes", "GET"),
             RoleResource("ADMIN", "/wishes/*/approve", "POST"),
-            RoleResource("ADMIN", "/wishes/*/receive", "POST"),
             RoleResource("ADMIN", "/wishes/*/delete", "POST")
         )
         entries.forEach { insert(it) }

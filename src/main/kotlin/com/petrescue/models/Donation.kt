@@ -9,7 +9,7 @@ data class Donation(
     val donorEmail: String,
     val amount: BigDecimal,
     val message: String? = null,
-    val status: String = "PENDING",
+    val status: String = "NEW",
     val transactionId: String? = null,
     val createdAt: LocalDateTime = LocalDateTime.now(),
     val updatedAt: LocalDateTime = LocalDateTime.now()
