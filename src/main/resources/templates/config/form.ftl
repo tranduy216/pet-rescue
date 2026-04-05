@@ -106,49 +106,6 @@
                 </div>
             </div>
 
-            <#-- Bank info -->
-            <div class="border border-gray-200 rounded-xl p-4 space-y-4">
-                <h2 class="text-base font-semibold text-green-700">🏦 Thông Tin Ngân Hàng</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank1_name']!'Tên Ngân Hàng 1'}</label>
-                        <input type="text" name="bank1_name" value="${(config['bank1_name'])!''}"
-                            placeholder="Vietcombank"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank1_account']!'Số Tài Khoản 1'}</label>
-                        <input type="text" name="bank1_account" value="${(config['bank1_account'])!''}"
-                            placeholder="1234567890"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank1_holder']!'Tên Chủ Tài Khoản 1'}</label>
-                        <input type="text" name="bank1_holder" value="${(config['bank1_holder'])!''}"
-                            placeholder="NGUYEN VAN A"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_name']!'Tên Ngân Hàng 2'}</label>
-                        <input type="text" name="bank2_name" value="${(config['bank2_name'])!''}"
-                            placeholder="Techcombank"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_account']!'Số Tài Khoản 2'}</label>
-                        <input type="text" name="bank2_account" value="${(config['bank2_account'])!''}"
-                            placeholder="9876543210"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['config_bank2_holder']!'Tên Chủ Tài Khoản 2'}</label>
-                        <input type="text" name="bank2_holder" value="${(config['bank2_holder'])!''}"
-                            placeholder="TRAN THI B"
-                            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-400">
-                    </div>
-                </div>
-            </div>
-
             <#-- QR Code upload -->
             <div class="border border-gray-200 rounded-xl p-4 space-y-4">
                 <h2 class="text-base font-semibold text-green-700">📷 ${msg['config_qr_section']!'Ảnh QR Code'}</h2>
