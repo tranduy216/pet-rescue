@@ -11,16 +11,16 @@
         <div class="text-5xl sm:text-7xl mb-3 sm:mb-4 drop-shadow-lg">🐾</div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-md leading-tight">
             <#if lang == 'en'>
-                <#if siteConfig?? && (siteConfig['homepage_title_en'])!''?has_content>${siteConfig['homepage_title_en']}<#else>${msg['home_hero_title']!'Love & Protect'}</#if>
+                <#if siteConfig?? && ((siteConfig['homepage_title_en'])!'')?has_content>${siteConfig['homepage_title_en']}<#else>${msg['home_hero_title']!'Love & Protect'}</#if>
             <#else>
-                <#if siteConfig?? && (siteConfig['homepage_title_vi'])!''?has_content>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
+                <#if siteConfig?? && ((siteConfig['homepage_title_vi'])!'')?has_content>${siteConfig['homepage_title_vi']}<#else>${msg['home_hero_title']!'Yêu Thương & Bảo Vệ'}</#if>
             </#if>
         </h1>
         <p class="text-base sm:text-lg lg:text-xl max-w-xs sm:max-w-xl lg:max-w-2xl text-green-100 mb-6 sm:mb-8 leading-relaxed">
             <#if lang == 'en'>
-                <#if siteConfig?? && (siteConfig['homepage_subtitle_en'])!''?has_content>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
+                <#if siteConfig?? && ((siteConfig['homepage_subtitle_en'])!'')?has_content>${siteConfig['homepage_subtitle_en']}<#else>${msg['home_hero_subtitle']!'We rescue, treat, and rehome pets in need.'}</#if>
             <#else>
-                <#if siteConfig?? && (siteConfig['homepage_subtitle_vi'])!''?has_content>${siteConfig['homepage_subtitle_vi']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
+                <#if siteConfig?? && ((siteConfig['homepage_subtitle_vi'])!'')?has_content>${siteConfig['homepage_subtitle_vi']}<#else>${msg['home_hero_subtitle']!'Chúng tôi giải cứu, chữa trị và tìm mái ấm cho những thú cưng cần giúp đỡ.'}</#if>
             </#if>
         </p>
         <div class="grid grid-cols-2 sm:flex sm:flex-wrap justify-center gap-3 sm:gap-4 w-full sm:w-auto">
