@@ -33,7 +33,7 @@
                 <div class="flex-1 min-w-0">
                     <div class="flex flex-wrap justify-between items-start gap-2 mb-2">
                         <h2 class="text-lg font-bold text-gray-800">${appeal.title?html}</h2>
-                        <span class="text-xs text-gray-400">${appeal.createdAt?string("dd/MM/yyyy")}</span>
+                        <span class="text-xs text-gray-400">${appeal.createdAt?string?substring(0, 10)}</span>
                     </div>
                     <p class="text-sm text-gray-600 mb-3 line-clamp-2">${appeal.content?html?substring(0, (appeal.content?length > 120)?then(120, appeal.content?length))}<#if appeal.content?length > 120>...</#if></p>
 

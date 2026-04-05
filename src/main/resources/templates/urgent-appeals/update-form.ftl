@@ -31,10 +31,10 @@
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['urgent_appeal_update_field_date']!'Ngày Cập Nhật'} *</label>
                 <input type="date" name="updateDate" required
-                    min="${appeal.createdAt?string("yyyy-MM-dd")}"
+                    min="${appeal.createdAt?string?substring(0, 10)}"
                     value="${.now?string("yyyy-MM-dd")}"
                     class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
-                <p class="mt-1 text-xs text-gray-500">Ngày phải từ ${appeal.createdAt?string("dd/MM/yyyy")} trở đi</p>
+                <p class="mt-1 text-xs text-gray-500">Ngày phải từ ${appeal.createdAt?string?substring(0, 10)} trở đi</p>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['urgent_appeal_update_field_content']!'Nội Dung Cập Nhật'} *</label>

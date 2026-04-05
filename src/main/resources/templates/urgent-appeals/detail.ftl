@@ -46,7 +46,7 @@
             <#-- Title & info right -->
             <div class="flex-1">
                 <h1 class="text-2xl font-bold text-gray-800 mb-2">${appeal.title?html}</h1>
-                <p class="text-sm text-gray-500 mb-1">📅 ${msg['urgent_appeal_detail_created']!'Ngày tạo'}: ${appeal.createdAt?string("dd/MM/yyyy")}</p>
+                <p class="text-sm text-gray-500 mb-1">📅 ${msg['urgent_appeal_detail_created']!'Ngày tạo'}: ${appeal.createdAt?string?substring(0, 10)}</p>
                 <p class="text-sm text-gray-500 mb-4">💰 ${msg['urgent_appeal_detail_amount']!'Số tiền cần'}: <strong>${appeal.amount?string["###,###,###"]} VNĐ</strong></p>
 
                 <#-- Progress bar with amount text overlay -->
