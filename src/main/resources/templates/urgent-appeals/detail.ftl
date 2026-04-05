@@ -167,7 +167,7 @@
 <div id="follow-toast" style="display:none"
     class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-sm px-5 py-2.5 rounded-full shadow-xl z-50 transition-opacity"></div>
 
-<#if firebaseConfig?? && (firebaseConfig['apiKey'])!''>
+<#if firebaseConfig?? && (firebaseConfig['apiKey'])?has_content>
 <#include "follow-script.ftl">
 </#if>
 
