@@ -1,16 +1,4 @@
--- DML: Seed default users and role-resource permissions
-
--- Default users
--- Passwords are BCrypt-hashed (strength 12):
---   admin     -> admin123
---   volunteer -> volunteer123
---   app_user  -> app_user123
-INSERT INTO m_tbl_users (username, email, password_hash, full_name, role, is_active)
-VALUES
-    ('admin',     'admin@petrescue.com',     '$2b$12$iTBaAW5VMsWqquM4RH/EY.osMKszX3ryo/1/tdX.4VOBHfRKBALsO', 'System Administrator', 'ADMIN',     TRUE),
-    ('volunteer', 'volunteer@petrescue.com', '$2b$12$9oQUVwn9TvfPmYSInf3DOu65D0aKNexmmO0rfejPOrLIpPm6ZSotC', 'Volunteer',            'VOLUNTEER', TRUE),
-    ('app_user',  'app_user@petrescue.com',  '$2b$12$8gpMnP1XcBsKciVLyj.tTelUjIEMy6vW.R3XLeCKprt2Fjz6eODQG', 'App User',             'USER',      TRUE)
-ON CONFLICT (username) DO NOTHING;
+-- DML: Seed role-resource permissions
 
 -- Role-resource permissions
 INSERT INTO m_tbl_role_resource (role, resource, http_method) VALUES
