@@ -1,7 +1,9 @@
 <#import "../layout/base.ftl" as layout>
 <@layout.page title="${msg['profile_title']!'Hồ Sơ Của Tôi'}">
 
-<div class="px-2 sm:px-4 py-6 max-w-lg mx-auto">
+<div class="px-2 sm:px-4 py-6 max-w-lg mx-auto space-y-6">
+
+    <#-- ── Profile info card ── -->
     <div class="bg-white rounded-2xl shadow-md p-6 sm:p-8">
         <div class="flex items-center gap-3 mb-6">
             <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-2xl">👤</div>
@@ -51,6 +53,52 @@
             </div>
         </form>
     </div>
+
+    <#-- ── Change password card ── -->
+    <div class="bg-white rounded-2xl shadow-md p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-2xl">🔒</div>
+            <h2 class="text-lg font-bold text-gray-800">${msg['profile_change_password']!'Đổi Mật Khẩu'}</h2>
+        </div>
+
+        <#if passwordSuccess?? && passwordSuccess>
+        <div class="mb-5 p-4 bg-green-50 border border-green-200 rounded-xl text-green-800 text-sm font-medium">
+            ✅ ${msg['profile_password_changed']!'Đổi mật khẩu thành công!'}
+        </div>
+        </#if>
+        <#if passwordError?? && passwordError?has_content>
+        <div class="mb-5 p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm font-medium">
+            ⚠️ ${passwordError}
+        </div>
+        </#if>
+
+        <form method="post" action="/profile/change-password" class="space-y-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['profile_current_password']!'Mật Khẩu Hiện Tại'}</label>
+                <input type="password" name="currentPassword"
+                    required
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['profile_new_password']!'Mật Khẩu Mới'}</label>
+                <input type="password" name="newPassword"
+                    required minlength="6"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">${msg['profile_confirm_password']!'Xác Nhận Mật Khẩu Mới'}</label>
+                <input type="password" name="confirmPassword"
+                    required minlength="6"
+                    class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400">
+            </div>
+            <div class="pt-1">
+                <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm">
+                    🔑 ${msg['profile_change_password']!'Đổi Mật Khẩu'}
+                </button>
+            </div>
+        </form>
+    </div>
+
 </div>
 
 </@layout.page>

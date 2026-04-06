@@ -14,6 +14,78 @@ import io.ktor.server.sessions.*
 fun Route.profileRoutes() {
     val userService = UserService()
 
+    post("/profile/change-password") {
+        val session = call.sessions.get<UserSession>() ?: run {
+            call.respondRedirect("/login")
+            return@post
+        }
+        val msg = call.messages()
+        val params = call.receiveParameters()
+        val currentPassword = params["currentPassword"] ?: ""
+        val newPassword = params["newPassword"] ?: ""
+        val confirmPassword = params["confirmPassword"] ?: ""
+
+        val user = userService.getById(session.userId)
+        if (user == null) {
+            call.respondRedirect("/login")
+            return@post
+        }
+
+        if (userService.login(user.username, currentPassword) == null) {
+            call.respond(
+                FreeMarkerContent(
+                    "profile/form.ftl", mapOf(
+                        "session" to session, "msg" to msg, "lang" to call.lang(),
+                        "user" to user, "success" to false, "error" to null,
+                        "passwordError" to msg["profile_password_wrong"], "passwordSuccess" to false
+                    ), ""
+                )
+            )
+            return@post
+        }
+        if (newPassword.length < 6) {
+            call.respond(
+                FreeMarkerContent(
+                    "profile/form.ftl", mapOf(
+                        "session" to session, "msg" to msg, "lang" to call.lang(),
+                        "user" to user, "success" to false, "error" to null,
+                        "passwordError" to msg["profile_password_too_short"], "passwordSuccess" to false
+                    ), ""
+                )
+            )
+            return@post
+        }
+        if (newPassword != confirmPassword) {
+            call.respond(
+                FreeMarkerContent(
+                    "profile/form.ftl", mapOf(
+                        "session" to session, "msg" to msg, "lang" to call.lang(),
+                        "user" to user, "success" to false, "error" to null,
+                        "passwordError" to msg["profile_password_mismatch"], "passwordSuccess" to false
+                    ), ""
+                )
+            )
+            return@post
+        }
+
+        userService.changePassword(session.userId, newPassword)
+
+        call.respond(
+            FreeMarkerContent(
+                "profile/form.ftl", mapOf(
+                    "session" to session,
+                    "msg" to msg,
+                    "lang" to call.lang(),
+                    "user" to user,
+                    "success" to false,
+                    "error" to null,
+                    "passwordError" to null,
+                    "passwordSuccess" to true
+                ), ""
+            )
+        )
+    }
+
     get("/profile") {
         val session = call.sessions.get<UserSession>() ?: run {
             call.respondRedirect("/login")
@@ -28,7 +100,9 @@ fun Route.profileRoutes() {
                     "lang" to call.lang(),
                     "user" to user,
                     "success" to false,
-                    "error" to null
+                    "error" to null,
+                    "passwordError" to null,
+                    "passwordSuccess" to false
                 ), ""
             )
         )
@@ -64,7 +138,9 @@ fun Route.profileRoutes() {
                             "lang" to call.lang(),
                             "user" to existing,
                             "success" to false,
-                            "error" to msg["profile_email_taken"]
+                            "error" to msg["profile_email_taken"],
+                            "passwordError" to null,
+                            "passwordSuccess" to false
                         ), ""
                     )
                 )
@@ -87,7 +163,9 @@ fun Route.profileRoutes() {
                     "lang" to call.lang(),
                     "user" to updated,
                     "success" to true,
-                    "error" to null
+                    "error" to null,
+                    "passwordError" to null,
+                    "passwordSuccess" to false
                 ), ""
             )
         )
