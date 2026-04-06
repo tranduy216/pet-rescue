@@ -7,6 +7,9 @@ import com.petrescue.i18n.messages
 import com.petrescue.plugins.AuthorizationPlugin
 import com.petrescue.routes.*
 import com.petrescue.services.UserService
+import com.petrescue.storage.LocalStorageService
+import com.petrescue.storage.R2StorageService
+import com.petrescue.storage.StorageService
 import freemarker.cache.ClassTemplateLoader
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -30,7 +33,20 @@ fun Application.module() {
 
     DatabaseFactory.init(appConfig)
 
-    File(appConfig.storagePath).mkdirs()
+    val storage: StorageService = when (appConfig.storageType.lowercase()) {
+        "r2" -> R2StorageService(
+            endpoint = appConfig.r2Endpoint,
+            bucket = appConfig.r2Bucket,
+            accessKey = appConfig.r2AccessKey,
+            secretKey = appConfig.r2SecretKey,
+            publicUrl = appConfig.r2PublicUrl
+        )
+        else -> {
+            File(appConfig.storagePath).mkdirs()
+            LocalStorageService(appConfig.storagePath)
+        }
+    }
+
     File("data").mkdirs()
     File("static").mkdirs()
 
@@ -106,14 +122,17 @@ fun Application.module() {
             staticRootFolder = File("static")
             files(".")
         }
-        static("/uploads") {
-            staticRootFolder = File("uploads")
-            files(".")
+        // Serve local uploads only when not using R2
+        if (appConfig.storageType.lowercase() != "r2") {
+            static("/uploads") {
+                staticRootFolder = File(appConfig.storagePath)
+                files(".")
+            }
         }
         authRoutes(userService)
         homeRoutes()
-        petRoutes()
-        blogRoutes()
+        petRoutes(storage)
+        blogRoutes(storage)
         donateRoutes()
         userRoutes()
         adoptionRoutes()

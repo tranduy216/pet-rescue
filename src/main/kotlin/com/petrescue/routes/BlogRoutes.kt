@@ -5,6 +5,7 @@ import com.petrescue.i18n.lang
 import com.petrescue.i18n.messages
 import com.petrescue.models.Blog
 import com.petrescue.services.BlogService
+import com.petrescue.storage.StorageService
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -13,10 +14,9 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.sessions.*
-import java.io.File
 import java.util.UUID
 
-fun Route.blogRoutes() {
+fun Route.blogRoutes(storage: StorageService) {
     val service = BlogService()
 
     post("/blog/upload-image") {
@@ -29,11 +29,8 @@ fun Route.blogRoutes() {
                 val ext = rawExt.filter { it.isLetterOrDigit() }.take(10)
                 if (ext in allowedExtensions) {
                     val fileName = "${UUID.randomUUID()}.$ext"
-                    val dir = File("uploads/blog")
-                    dir.mkdirs()
-                    val file = File(dir, fileName)
-                    part.streamProvider().use { input -> file.outputStream().use { input.copyTo(it) } }
-                    url = "/uploads/blog/$fileName"
+                    val bytes = part.streamProvider().readBytes()
+                    url = storage.upload("blog", fileName, bytes, "image/$ext")
                 }
             }
             part.dispose()

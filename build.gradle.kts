@@ -2,6 +2,7 @@ val ktor_version = "2.3.12"
 val kotlin_version = "2.0.21"
 val logback_version = "1.4.14"
 val exposed_version = "0.44.1"
+val aws_sdk_version = "2.34.0"
 
 plugins {
     kotlin("jvm") version "2.0.21"
@@ -43,6 +44,7 @@ dependencies {
     implementation("at.favre.lib:bcrypt:0.10.2")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.11.0")
+    implementation("software.amazon.awssdk:s3:$aws_sdk_version")
     testImplementation("io.ktor:ktor-server-tests-jvm:$ktor_version")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

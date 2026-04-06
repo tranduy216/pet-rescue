@@ -25,6 +25,8 @@ class PetService {
 
     fun deleteMedia(mediaId: Int) = repository.deleteMedia(mediaId).also { AppCache.invalidateAll() }
 
+    fun getMediaById(mediaId: Int) = repository.findMediaById(mediaId)
+
     fun countByStatus(status: String) = repository.countByStatus(status)
 
     fun countAll() = repository.countAll()

@@ -93,6 +93,10 @@ class PetRepository {
         PetMedia.deleteWhere { PetMedia.id eq mediaId } > 0
     }
 
+    fun findMediaById(mediaId: Int): PetMediaModel? = transaction {
+        PetMedia.select { PetMedia.id eq mediaId }.singleOrNull()?.toMedia()
+    }
+
     fun countByStatus(status: String): Long = transaction {
         Pets.select { Pets.status eq status }.count()
     }

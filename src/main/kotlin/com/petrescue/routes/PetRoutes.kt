@@ -6,6 +6,7 @@ import com.petrescue.i18n.messages
 import com.petrescue.models.Pet
 import com.petrescue.models.PetMedia
 import com.petrescue.services.PetService
+import com.petrescue.storage.StorageService
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -22,7 +23,7 @@ private val ALLOWED_IMAGE_EXTENSIONS = setOf("jpg", "jpeg", "png", "gif", "webp"
 
 private data class FileUploadResult(val savedPath: String? = null, val error: String? = null)
 
-private fun processImageUpload(part: PartData.FileItem): FileUploadResult {
+private fun processImageUpload(part: PartData.FileItem, storage: StorageService): FileUploadResult {
     val originalName = part.originalFileName ?: return FileUploadResult()
     val ext = originalName.substringAfterLast('.', "").lowercase()
     if (ext.isEmpty() || ext !in ALLOWED_IMAGE_EXTENSIONS) {
@@ -33,13 +34,11 @@ private fun processImageUpload(part: PartData.FileItem): FileUploadResult {
         return FileUploadResult(error = "File '$originalName' exceeds the 5MB size limit.")
     }
     val fileName = "${UUID.randomUUID()}_$originalName"
-    val file = File("uploads/$fileName")
-    file.parentFile.mkdirs()
-    file.writeBytes(bytes)
-    return FileUploadResult(savedPath = "/uploads/$fileName")
+    val url = storage.upload("pets", fileName, bytes, "image/$ext")
+    return FileUploadResult(savedPath = url)
 }
 
-fun Route.petRoutes() {
+fun Route.petRoutes(storage: StorageService) {
     val service = PetService()
 
     route("/pets") {
@@ -87,7 +86,7 @@ fun Route.petRoutes() {
                     is PartData.FormItem -> params[part.name ?: ""] = part.value
                     is PartData.FileItem -> {
                         if (part.originalFileName?.isNotBlank() == true && uploadError == null) {
-                            val result = processImageUpload(part)
+                            val result = processImageUpload(part, storage)
                             when {
                                 result.error != null -> uploadError = result.error
                                 result.savedPath != null -> mediaFiles.add(result.savedPath)
@@ -148,7 +147,7 @@ fun Route.petRoutes() {
                     is PartData.FormItem -> params[part.name ?: ""] = part.value
                     is PartData.FileItem -> {
                         if (part.originalFileName?.isNotBlank() == true && uploadError == null) {
-                            val result = processImageUpload(part)
+                            val result = processImageUpload(part, storage)
                             when {
                                 result.error != null -> uploadError = result.error
                                 result.savedPath != null -> mediaFiles.add(result.savedPath)
@@ -192,20 +191,13 @@ fun Route.petRoutes() {
             val session = call.sessions.get<UserSession>()
             val id = call.parameters["id"]?.toIntOrNull() ?: return@post
             val mediaId = call.parameters["mediaId"]?.toIntOrNull() ?: return@post
+            val media = service.getMediaById(mediaId)
+            if (media != null) {
+                storage.delete(media.fileUrl)
+            }
             service.deleteMedia(mediaId)
             call.respondRedirect("/pets/$id/edit")
         }
     }
-
-    route("/uploads/{file...}") {
-        get {
-            val path = call.parameters.getAll("file")?.joinToString("/") ?: return@get
-            val file = File("uploads/$path")
-            if (file.exists()) {
-                call.respondFile(file)
-            } else {
-                call.respond(HttpStatusCode.NotFound)
-            }
-        }
-    }
 }
+
